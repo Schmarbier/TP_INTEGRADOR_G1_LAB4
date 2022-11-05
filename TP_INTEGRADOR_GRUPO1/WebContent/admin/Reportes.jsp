@@ -18,7 +18,13 @@
 
 <form method="post" action="ServletHTML">
 <div>
-<span>Prestamos dados desde </span><input type="date" /><span> Hasta </span><input type="date" />
+<span>Prestamos desde </span><input type="date" /><span> Hasta </span><input type="date" />
+<span>Filtrar por: </span>
+<select name="filtroPre">
+				<option value="R">Rechazados</option>
+				<option value="A">Aceptados</option>
+			</select> 
+<br>
 <table class="table">
   <thead>
     <tr>
@@ -32,6 +38,7 @@
             <th scope="col">Monto de pago (por mes)</th>
             <th scope="col">Cantidad de cuotas</th>
             <th scope="col">Fecha de vencimiento de cuota</th>
+            <th scope="col">Estado</th>
     </tr>
   </thead>
   <tbody>
@@ -46,12 +53,21 @@
 	     <td> 1000 </td> 
 	     <td> 12 </td>  
 	     <td> 20/08 </td> 
+	     <td> Rechazado </td> 
     </tr>
     <tr>
   </tbody>
 </table>
 <br>
-<span>Cantidad de movimientos hechos desde: </span><input type="date" /><span> Hasta: </span><input type="date" />
+<span>Movimientos hechos desde: </span><input type="date" /><span> Hasta: </span><input type="date" />
+<span>Filtrar por: </span>
+<select name="filtroMov">
+				<option value="AC">Altas de cuenta</option>
+				<option value="AP">Altas de prestamo</option>
+				<option value="PP">Pagos de prestamo</option>
+				<option value="T">Transferencias</option>
+			</select> 
+<br>
 <table class="table">
   <thead>
     <tr>

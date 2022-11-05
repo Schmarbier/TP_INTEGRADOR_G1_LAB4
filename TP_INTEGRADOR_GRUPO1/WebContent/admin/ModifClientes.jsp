@@ -59,8 +59,6 @@
 			</tr>
 	</table>
 	
-	<input type="submit" name="btnModificarCliente" value="ModificarCliente"></input></p>
-	
 
 </form>
    
