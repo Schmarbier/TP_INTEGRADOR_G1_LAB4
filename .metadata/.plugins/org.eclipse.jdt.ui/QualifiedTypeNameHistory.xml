@@ -1,2 +1,37 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<qualifiedTypeNameHistroy/>
+<qualifiedTypeNameHistroy>
+<fullyQualifiedTypeName name="entidades.Localidad"/>
+<fullyQualifiedTypeName name="entidades.TipoCuenta"/>
+<fullyQualifiedTypeName name="entidades.Usuario"/>
+<fullyQualifiedTypeName name="sun.util.calendar.BaseCalendar.Date"/>
+<fullyQualifiedTypeName name="java.util.Date"/>
+<fullyQualifiedTypeName name="negocio.ClienteNegocio"/>
+<fullyQualifiedTypeName name="negocio.GeneroNegocio"/>
+<fullyQualifiedTypeName name="negocio.LocalidadNegocio"/>
+<fullyQualifiedTypeName name="negocio.NacionalidadNegocio"/>
+<fullyQualifiedTypeName name="negocio.ProvinciaNegocio"/>
+<fullyQualifiedTypeName name="negocio.TipoCuentaNegocio"/>
+<fullyQualifiedTypeName name="negocio.UsuarioNegocio"/>
+<fullyQualifiedTypeName name="dao.ClienteDao"/>
+<fullyQualifiedTypeName name="daoImp.ClienteDaoImp"/>
+<fullyQualifiedTypeName name="dao.GeneroDao"/>
+<fullyQualifiedTypeName name="daoImp.GeneroDaoImp"/>
+<fullyQualifiedTypeName name="dao.LocalidadDao"/>
+<fullyQualifiedTypeName name="daoImp.LocalidadDaoImp"/>
+<fullyQualifiedTypeName name="daoImp.NacionalidadDaoImp"/>
+<fullyQualifiedTypeName name="dao.NacionalidadDao"/>
+<fullyQualifiedTypeName name="dao.ProvinciaDao"/>
+<fullyQualifiedTypeName name="daoImp.ProvinciaDaoImp"/>
+<fullyQualifiedTypeName name="dao.TipoCuentaDao"/>
+<fullyQualifiedTypeName name="daoImp.TipoCuentaDaoImp"/>
+<fullyQualifiedTypeName name="dao.UsuarioDao"/>
+<fullyQualifiedTypeName name="daoImp.UsuarioDaoImp"/>
+<fullyQualifiedTypeName name="negocioImp.GeneroNegocioImp"/>
+<fullyQualifiedTypeName name="entidades.Genero"/>
+<fullyQualifiedTypeName name="java.util.ArrayList"/>
+<fullyQualifiedTypeName name="javax.servlet.RequestDispatcher"/>
+<fullyQualifiedTypeName name="negocioImp.NacionalidadNegocioImp"/>
+<fullyQualifiedTypeName name="entidades.Nacionalidad"/>
+<fullyQualifiedTypeName name="negocioImp.ProvinciaNegocioImp"/>
+<fullyQualifiedTypeName name="entidades.Provincia"/>
+</qualifiedTypeNameHistroy>
