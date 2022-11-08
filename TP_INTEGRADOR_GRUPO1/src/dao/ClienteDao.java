@@ -6,5 +6,8 @@ public interface ClienteDao {
 	
 	public boolean insert(Cliente cli);
 	public boolean delete(Cliente cli);
+	public Integer obtenerProxId();
+	public boolean existeDni(Cliente cli);
+	public boolean existeUsuario(Cliente cli);
 	
 }

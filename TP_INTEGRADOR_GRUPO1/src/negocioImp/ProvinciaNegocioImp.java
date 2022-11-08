@@ -13,8 +13,7 @@ public class ProvinciaNegocioImp implements ProvinciaNegocio{
 	
 	@Override
 	public List<Provincia> readAll() {
-		// TODO Auto-generated method stub
-		return null;
+		return pdao.readAll();
 	}
 
 }

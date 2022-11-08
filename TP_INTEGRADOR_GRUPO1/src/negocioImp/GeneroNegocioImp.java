@@ -13,8 +13,7 @@ public class GeneroNegocioImp implements GeneroNegocio{
 	
 	@Override
 	public List<Genero> readAll() {
-		// TODO Auto-generated method stub
-		return null;
+		return gdao.readAll();
 	}
 
 }
