@@ -13,6 +13,7 @@ import javax.servlet.http.HttpServletResponse;
 import entidades.Genero;
 import entidades.Nacionalidad;
 import entidades.Provincia;
+import negocioImp.ClienteNegocioImp;
 import negocioImp.GeneroNegocioImp;
 import negocioImp.NacionalidadNegocioImp;
 import negocioImp.ProvinciaNegocioImp;
@@ -27,6 +28,10 @@ public class ServletAltaCliente extends HttpServlet {
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		if(request.getParameter("Param")!=null) {
+			ClienteNegocioImp cneg = new ClienteNegocioImp();
+			int maxIdSeguro = cneg.obtenerProxId();
+			request.setAttribute("ncli", maxIdSeguro);
+			
 			GeneroNegocioImp gneg = new GeneroNegocioImp();
 			ArrayList<Genero> listGeneros = (ArrayList<Genero>) gneg.readAll();
 			request.setAttribute("generos", listGeneros);
@@ -44,9 +49,6 @@ public class ServletAltaCliente extends HttpServlet {
 		}
 	}
 
-	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
-	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		doGet(request, response);

@@ -17,13 +17,14 @@ public class Cliente {
     private Localidad Cod_localidad;
     private Provincia Cod_provincia;
     private String Email;
+    private String Telefono;
     private Usuario Usuario;
     private Boolean Estado;
     
     ///CONSTRUCTORES
 	public Cliente() {}
 
-	public Cliente(int nro_Cliente, int dni, int cuil, String nombre, String apellido, Genero cod_Genero, Nacionalidad cod_nacionalidad, Date fecha_nac, String direccion, Localidad cod_localidad, Provincia cod_provincia, String email, entidades.Usuario usuario, Boolean estado) {
+	public Cliente(int nro_Cliente, int dni, int cuil, String nombre, String apellido, Genero cod_Genero, Nacionalidad cod_nacionalidad, Date fecha_nac, String direccion, Localidad cod_localidad, Provincia cod_provincia, String email, String telefono, Usuario usuario, Boolean estado) {
 		super();
 		Nro_Cliente = nro_Cliente;
 		Dni = dni;
@@ -37,6 +38,7 @@ public class Cliente {
 		Cod_localidad = cod_localidad;
 		Cod_provincia = cod_provincia;
 		Email = email;
+		Telefono = telefono;
 		Usuario = usuario;
 		Estado = estado;
 	}
@@ -137,6 +139,14 @@ public class Cliente {
 	public void setEmail(String email) {
 		Email = email;
 	}
+	
+	public String getTelefono() {
+		return Telefono;
+	}
+
+	public void setTelefono(String telefono) {
+		Telefono = telefono;
+	}
 
 	public Usuario getUsuario() {
 		return Usuario;
@@ -160,7 +170,7 @@ public class Cliente {
 		return "Cliente [Nro_Cliente=" + Nro_Cliente + ", Dni=" + Dni + ", Cuil=" + Cuil + ", Nombre=" + Nombre
 				+ ", Apellido=" + Apellido + ", Cod_Genero=" + Cod_Genero + ", Cod_nacionalidad=" + Cod_nacionalidad
 				+ ", Fecha_nac=" + Fecha_nac + ", Direccion=" + Direccion + ", Cod_localidad=" + Cod_localidad
-				+ ", Cod_provincia=" + Cod_provincia + ", Email=" + Email + ", Usuario=" + Usuario + ", Estado="
+				+ ", Cod_provincia=" + Cod_provincia + ", Email=" + Email + ", Telefono=" + Telefono + ", Usuario=" + Usuario + ", Estado="
 				+ Estado + "]";
 	}
     
