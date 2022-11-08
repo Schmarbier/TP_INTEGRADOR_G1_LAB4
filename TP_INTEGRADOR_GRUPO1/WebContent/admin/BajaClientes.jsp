@@ -16,10 +16,18 @@
 <div class="parteDer">
    <h3 class="titulo"> Baja Clientes </h3> 
 
-	<form method="post" action="ServletHTML">
-	<p>  Ingrese el usuario del cliente que desea eliminar: <input type="text" required name="UsuarioEliminado"></input>
+	<form method="get" action="ServletEliminarCliente">
+	<p>  Ingrese el DNI del cliente que desea eliminar: <input type="number" required name="UsuarioEliminado"></input>
 	     <input type="submit" name="btnEliminar" value="Eliminar Cliente"></input></p>
 	</form>
+	<%
+	boolean agregado = false;
+	if(request.getAttribute("exito")!=null)
+		agregado = (boolean)request.getAttribute("exito");	
+%>
+<%  if(agregado==true) {%> Cliente agregado con éxito <%}
+
+    else {%> Error. El cliente NO existe<%}%>
    
 </div>
 

@@ -7,18 +7,23 @@ import negocio.ClienteNegocio;
 
 public class ClienteNegocioImp implements ClienteNegocio{
 
-	ClienteDao pdao = new ClienteDaoImp();
+	ClienteDao cdao = new ClienteDaoImp();
 	
 	@Override
 	public boolean insert(Cliente cli) {
-		// TODO Auto-generated method stub
-		return false;
+		if(cdao.existeDni(cli)==true) return false;
+		if(cdao.existeUsuario(cli)==true) return false;
+		else return cdao.insert(cli);
 	}
 
 	@Override
 	public boolean delete(Cliente cli) {
-		// TODO Auto-generated method stub
-		return false;
+		if(cdao.existeDni(cli)==false) return false;
+		else return cdao.delete(cli);
+	}
+	
+	public Integer obtenerProxId() {
+		return cdao.obtenerProxId();
 	}
 
 }

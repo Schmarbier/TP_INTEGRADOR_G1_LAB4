@@ -13,8 +13,7 @@ public class NacionalidadNegocioImp implements NacionalidadNegocio{
 	
 	@Override
 	public List<Nacionalidad> readAll() {
-		// TODO Auto-generated method stub
-		return null;
+		return ndao.readAll();
 	}
 
 }
