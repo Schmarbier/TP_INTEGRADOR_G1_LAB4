@@ -5,22 +5,21 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <style type="text/css">
-	<jsp:include page="..\css\Plantilla.css"></jsp:include>
+	<jsp:include page="css\Plantilla.css"></jsp:include>
 </style>
-<title>Listar Cuentas</title>
+<title>Modificar Cuentas</title>
 </head>
 <body>
 
-<jsp:include page="../Encabezado.jsp" />  
+<jsp:include page="Encabezado.jsp" />  
+
 
 <div class="parteDer">
-   <h3 class="titulo"> Listar Cuenta </h3> 
+   <h3 class="titulo"> Modificar Cuenta </h3> 
 
 <form method="post" action="ServletHTML">
-    	<p>  Buscar una cuenta en especifico: <input type="text" name="BuscarCuenta"></input>
-	    <input type="submit" name="btnBuscar" value="Buscar"></input></p>
-	    <p>  Filtrar por: <select name="ddlFiltro"></select>
-	    <input type="submit" name="btnFiltrar" value="Filtrar"></input></p>
+<p>  Ingrese el numero de cuenta que desea modificar: <input type="text" name="CuentaModificar"></input>
+	    <input type="submit" name="btnSearch" value="Buscar Cuenta"></input></p>
 	    <table border="1">
 	    <tr>
             <th>Nro Cuenta</th>
@@ -37,10 +36,10 @@
 	     <td> Corriente </td> 
 	     <td> 12312412412412 </td> 
 	     <td> 180.000,00 </td>   
+	     <td> <input type="submit" name="btnModifiar" value="Modificar Cuenta"></input> </td> 
 	</tr>
 
 </table>
-
 
 </form>
    

@@ -5,13 +5,13 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <style type="text/css">
-	<jsp:include page="..\css\Plantilla.css"></jsp:include>
+	<jsp:include page="css\Plantilla.css"></jsp:include>
 </style>
 <title>Cuenta 2</title>
 </head>
 <body>
 
-<jsp:include page="../Encabezado.jsp" />  
+<jsp:include page="Encabezado.jsp" />  
 
 
 

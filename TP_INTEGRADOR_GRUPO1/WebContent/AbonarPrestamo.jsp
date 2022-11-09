@@ -5,18 +5,17 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <style type="text/css">
-	<jsp:include page="..\css\Plantilla.css"></jsp:include>
+	<jsp:include page="css\Plantilla.css"></jsp:include>
 </style>
-<title>Prestamos rechazados</title>
+<title>Abonar Prestamo</title>
 </head>
 <body>
 
-<jsp:include page="../Encabezado.jsp" />  
-
+<jsp:include page="Encabezado.jsp" />  
 
 
 <div class="parteDer">
-   <h3 class="titulo"> Prestamos rechazados </h3> 
+   <h3 class="titulo"> Abonar prestamo </h3> 
 
 <form method="post" action="ServletHTML">
 <br>
@@ -24,18 +23,17 @@
 <table border="1">
      <tr>
          <th> N° de Prestamo </th>
-         <th> Fecha de Solicitud </th>
-         <th> Importe Solicitado </th>
-         <th> Nº de cuenta a depositar </th>
-         <th> Cantidad de Cuotas </th>
+         <th> N° de Cuota </th>
+         <th> Monto a pagar </th>
+         <th> Fecha de vencimiento </th>
      </tr>
      
      <tr>
          <td> 3 </td>
-         <td> 5/12/2022 </td>
-         <td> 12.000 </td>
-         <td> 12414 </td>
-         <td> 12 </td>
+         <td> 1 </td>
+         <td> 1.000 </td>
+         <td> 11/07/2023 </td>
+         <td><input type="submit" name="btnPagar" value="Pagar cuota" /></td>
      </tr>
 
 </table>
