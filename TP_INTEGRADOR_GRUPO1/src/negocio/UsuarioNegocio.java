@@ -6,5 +6,4 @@ public interface UsuarioNegocio {
 
 	public boolean insert(Usuario usu);
 	public boolean delete(Usuario usu);
-	
 }

@@ -35,7 +35,7 @@ public class Nacionalidad {
 	///METODO TOSTRING()
 	@Override
 	public String toString() {
-		return "Nacionalidad [Cod_nacionalidad=" + Cod_nacionalidad + ", Descripcion=" + Descripcion + "]";
+		return "" + Cod_nacionalidad + " - " + Descripcion + "";
 	}
 	
 	

@@ -1,6 +1,5 @@
 package entidades;
 
-import java.util.Date;
 
 public class Cliente {
 	
@@ -12,7 +11,7 @@ public class Cliente {
     private String Apellido;
     private Genero Cod_Genero;
     private Nacionalidad Cod_nacionalidad;
-    private Date Fecha_nac;
+    private String Fecha_nac;
     private String Direccion;
     private Localidad Cod_localidad;
     private Provincia Cod_provincia;
@@ -24,7 +23,7 @@ public class Cliente {
     ///CONSTRUCTORES
 	public Cliente() {}
 
-	public Cliente(int nro_Cliente, int dni, int cuil, String nombre, String apellido, Genero cod_Genero, Nacionalidad cod_nacionalidad, Date fecha_nac, String direccion, Localidad cod_localidad, Provincia cod_provincia, String email, String telefono, Usuario usuario, Boolean estado) {
+	public Cliente(int nro_Cliente, int dni, int cuil, String nombre, String apellido, Genero cod_Genero, Nacionalidad cod_nacionalidad, String fecha_nac, String direccion, Localidad cod_localidad, Provincia cod_provincia, String email, String telefono, Usuario usuario, Boolean estado) {
 		super();
 		Nro_Cliente = nro_Cliente;
 		Dni = dni;
@@ -100,11 +99,11 @@ public class Cliente {
 		Cod_nacionalidad = cod_nacionalidad;
 	}
 
-	public Date getFecha_nac() {
+	public String getFecha_nac() {
 		return Fecha_nac;
 	}
 
-	public void setFecha_nac(Date fecha_nac) {
+	public void setFecha_nac(String fecha_nac) {
 		Fecha_nac = fecha_nac;
 	}
 

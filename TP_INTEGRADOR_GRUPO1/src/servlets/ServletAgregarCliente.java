@@ -34,6 +34,13 @@ public class ServletAgregarCliente extends HttpServlet {
 		if(request.getParameter("btnAgregar")!=null) {
 			
 			boolean alta = false;
+			
+			if(request.getParameter("contraseña").toString().equals(request.getParameter("contraseñaRe"))==false)
+			{
+				request.setAttribute("errorContraseña", alta);
+				RequestDispatcher rd = request.getRequestDispatcher("/AltaClientes.jsp");   
+		        rd.forward(request, response);
+			}
 			Cliente c = new Cliente();
 			Usuario u = new Usuario();
 			c.setNombre(request.getParameter("nombre").toString());
@@ -42,7 +49,7 @@ public class ServletAgregarCliente extends HttpServlet {
 			c.setCuil(Integer.parseInt(request.getParameter("cuil").toString()));
 			c.setCod_Genero(new Genero(Integer.parseInt(request.getParameter("genero")),""));
 			c.setCod_nacionalidad(new Nacionalidad(Integer.parseInt(request.getParameter("nacionalidad")),""));
-			///c.setFecha_nac(request.getParameter("fechaNacimiento").toString());
+			c.setFecha_nac(request.getParameter("fechaNacimiento").toString());
 			c.setDireccion(request.getParameter("direccion").toString());
 			c.setCod_localidad(new Localidad((new Provincia(Integer.parseInt(request.getParameter("provincia")),"")),Integer.parseInt(request.getParameter("localidad")), ""));
 			c.setCod_provincia(new Provincia(Integer.parseInt(request.getParameter("provincia")),""));

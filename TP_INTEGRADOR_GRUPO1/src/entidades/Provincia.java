@@ -35,7 +35,7 @@ public class Provincia {
 	///METODO TOSTRING()
 		@Override
 		public String toString() {
-			return "Provincia [Cod_provincia=" + Cod_provincia + ", Descripcion=" + Descripcion + "]";
+			return "" + Cod_provincia + " - " + Descripcion + "";
 		}
 	   	
 		

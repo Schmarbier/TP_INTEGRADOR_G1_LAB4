@@ -11,14 +11,13 @@ public class UsuarioNegocioImp implements UsuarioNegocio{
 	
 	@Override
 	public boolean insert(Usuario usu) {
-		// TODO Auto-generated method stub
-		return false;
+		if(udao.existeUsuario(usu)==true) return false;
+		else return udao.insert(usu);
 	}
 
 	@Override
 	public boolean delete(Usuario usu) {
-		// TODO Auto-generated method stub
-		return false;
+		return udao.delete(usu);
 	}
 
 }

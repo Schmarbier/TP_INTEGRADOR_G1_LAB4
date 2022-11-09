@@ -14,7 +14,7 @@ public class LocalidadNegocioImp implements LocalidadNegocio{
 	@Override
 	public List<Localidad> readAll() {
 		// TODO Auto-generated method stub
-		return null;
+		return ldao.readAll();
 	}
 
 }

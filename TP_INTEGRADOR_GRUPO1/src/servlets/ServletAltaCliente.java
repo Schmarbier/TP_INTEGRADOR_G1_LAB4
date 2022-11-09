@@ -11,10 +11,12 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import entidades.Genero;
+import entidades.Localidad;
 import entidades.Nacionalidad;
 import entidades.Provincia;
 import negocioImp.ClienteNegocioImp;
 import negocioImp.GeneroNegocioImp;
+import negocioImp.LocalidadNegocioImp;
 import negocioImp.NacionalidadNegocioImp;
 import negocioImp.ProvinciaNegocioImp;
 
@@ -44,7 +46,11 @@ public class ServletAltaCliente extends HttpServlet {
 			ArrayList<Provincia> listProvincias = (ArrayList<Provincia>) pneg.readAll();
 			request.setAttribute("provincias", listProvincias);
 			
-			RequestDispatcher rd = request.getRequestDispatcher("admin/AltaClientes.jsp");
+			LocalidadNegocioImp lneg = new LocalidadNegocioImp();
+			ArrayList<Localidad> listaLocalidad = (ArrayList<Localidad>) lneg.readAll();
+			request.setAttribute("localidades", listaLocalidad);
+			
+			RequestDispatcher rd = request.getRequestDispatcher("../admin/AltaClientes.jsp");
 			rd.forward(request, response);
 		}
 	}

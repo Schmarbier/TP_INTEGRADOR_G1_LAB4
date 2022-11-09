@@ -1,7 +1,6 @@
 package daoImp;
 
 import java.sql.Connection;
-import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -29,7 +28,7 @@ public class ClienteDaoImp implements ClienteDao{
 			statement.setString(4, cli.getApellido());
 			statement.setInt(5, cli.getCod_Genero().getCod_genero());
 			statement.setInt(6, cli.getCod_nacionalidad().getCod_nacionalidad());	
-			statement.setDate(7, (Date) cli.getFecha_nac());
+			statement.setString(7, cli.getFecha_nac());
 			statement.setString(8, cli.getDireccion());
 			statement.setInt(9, cli.getCod_localidad().getCod_localidad());
 			statement.setInt(10, cli.getCod_provincia().getCod_provincia());
@@ -119,26 +118,6 @@ public class ClienteDaoImp implements ClienteDao{
 			e.printStackTrace();
 		}
 		return existeCliente;
-	}
-	
-	@Override
-	public boolean existeUsuario(Cliente cli) {
-		PreparedStatement statement;
-		ResultSet resultSet; 
-		Conexion conexion = Conexion.getConexion();
-		boolean existeUsuario = false;
-		try 
-		{
-			statement = conexion.getSQLConexion().prepareStatement("SELECT * FROM clientes WHERE usuario = ?");
-			statement.setString(1, cli.getUsuario().getUsuario());
-			resultSet = statement.executeQuery();
-			if(resultSet.next()) existeUsuario = true;
-		} 
-		catch (SQLException e) 
-		{
-			e.printStackTrace();
-		}
-		return existeUsuario;
 	}
 	
 }

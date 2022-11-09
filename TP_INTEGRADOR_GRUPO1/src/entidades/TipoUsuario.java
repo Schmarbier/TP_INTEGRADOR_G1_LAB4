@@ -35,7 +35,7 @@ public class TipoUsuario {
 	///METODO TOSTRING()
 	@Override
 	public String toString() {
-		return "TipoUsuario [Tipo_us=" + Tipo_us + ", Descripcion=" + Descripcion + "]";
+		return "" + Tipo_us + " - " + Descripcion + "";
 	}
     
 }

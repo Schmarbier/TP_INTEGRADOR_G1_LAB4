@@ -2,6 +2,7 @@ package daoImp;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import dao.UsuarioDao;
@@ -10,7 +11,7 @@ import entidades.Usuario;
 public class UsuarioDaoImp implements UsuarioDao{
 
 	private static final String insert = "INSERT INTO usuarios (Usuario, Tipo_Us, Contraseña, Estado) VALUES(?, ?, ?, ?)";
-	private static final String delete = "DELETE FROM usuarios WHERE Usuario = ?";
+	private static final String delete = "UPDATE usuarios SET Estado = false  WHERE Usuario = ?";
 
 	@Override
 	public boolean insert(Usuario usu) {
@@ -64,6 +65,26 @@ public class UsuarioDaoImp implements UsuarioDao{
 			e.printStackTrace();
 		}
 		return isdeleteExitoso;
+	}
+	
+	@Override
+	public boolean existeUsuario(Usuario us) {
+		PreparedStatement statement;
+		ResultSet resultSet; 
+		Conexion conexion = Conexion.getConexion();
+		boolean existeUsuario = false;
+		try 
+		{
+			statement = conexion.getSQLConexion().prepareStatement("SELECT * FROM usuarios WHERE usuario = ?");
+			statement.setString(1, us.getUsuario());
+			resultSet = statement.executeQuery();
+			if(resultSet.next()) existeUsuario = true;
+		} 
+		catch (SQLException e) 
+		{
+			e.printStackTrace();
+		}
+		return existeUsuario;
 	}
 
 }

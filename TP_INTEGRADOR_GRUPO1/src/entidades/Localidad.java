@@ -45,8 +45,8 @@ public class Localidad {
 	///METODO TOSTRING()
 	@Override
 	public String toString() {
-		return "Localidad [Cod_provincia=" + Cod_provincia + ", Cod_localidad=" + Cod_localidad + ", Descripcion="
-				+ Descripcion + "]";
+		return "" + Cod_localidad + " - "
+				+ Descripcion + "";
 	}
     
 	

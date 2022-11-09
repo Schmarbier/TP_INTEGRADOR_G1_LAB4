@@ -17,18 +17,12 @@
    <h3 class="titulo"> Baja Clientes </h3> 
 
 	<form method="get" action="ServletEliminarCliente">
-	<p>  Ingrese el DNI del cliente que desea eliminar: <input type="number" required name="UsuarioEliminado"></input>
+	<p>  Ingrese el DNI del cliente que desea eliminar: <input type="text" required name="UsuarioEliminado"></input>
 	     <input type="submit" name="btnEliminar" value="Eliminar Cliente"></input></p>
 	</form>
-	<%
-	boolean agregado = false;
-	if(request.getAttribute("exito")!=null)
-		agregado = (boolean)request.getAttribute("exito");	
-%>
-<%  if(agregado==true) {%> Cliente agregado con éxito <%}
-
-    else {%> Error. El cliente NO existe<%}%>
-   
+	<%  if(request.getAttribute("exito")!=null) {%> Cliente eliminado con éxito <%}%>
+	<%  if(request.getAttribute("error")!=null) {%> Error. El cliente NO existe <%}%>
+    
 </div>
 
 </body>
