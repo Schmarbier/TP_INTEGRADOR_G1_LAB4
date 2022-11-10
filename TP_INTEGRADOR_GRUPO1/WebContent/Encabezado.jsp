@@ -17,7 +17,7 @@
 	  <a class="navbar-brand" href="#">Banquito Fiel</a>
 	  <ul class="navbar-nav w-100">
 	  	<% String usu = (String) session.getAttribute("TipoUsurio");
-	  	   if(session.getAttribute("TipoUsurio")=="admin") {
+	  	   if(request.getAttribute("usuarioAdmin").toString()=="admin") {
 		%>
 		   <li class="nav-item dropdown">
 		      <a class="nav-link dropdown-toggle" href="#" id="navbardrop" data-toggle="dropdown">Clientes</a>
@@ -69,7 +69,7 @@
 		<% }
 		%>
 			<li class="mt-0 mr-0 mb-0 ml-auto d-flex align-items-center" style="gap: 1rem;">
-				<span style="color: white;">Usuario <%=request.getAttribute("nombreUsurio")%></span>
+				<span style="color: white;">Usuario <%=session.getAttribute("nombreUsurio")%></span>
 				<a href="Login.jsp" class="btn btn-danger"> Cerrar sesion</a>
 			</li>
 	  </ul>

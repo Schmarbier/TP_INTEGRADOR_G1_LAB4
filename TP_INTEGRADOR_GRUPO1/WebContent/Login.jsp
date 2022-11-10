@@ -44,21 +44,6 @@
 		         </div>
 			</div>
 		</form>
-		
-		<%
-		if(request.getParameter("sessionTipoUsuario")!=null)
-		{
-			session.setAttribute("nombreUsurio", request.getParameter("sessionNombreUsuario"));
-			if(request.getParameter("sessionTipoUsuario").toString()=="admin"){
-				session.setAttribute("TipoUsurio", "admin");
-				response.sendRedirect("ServletAdmin?Param=1");
-			}
-			else{
-				response.sendRedirect("Cuenta1.jsp");
-			}
-		}
-		%>
-		
 </body>
 
 
