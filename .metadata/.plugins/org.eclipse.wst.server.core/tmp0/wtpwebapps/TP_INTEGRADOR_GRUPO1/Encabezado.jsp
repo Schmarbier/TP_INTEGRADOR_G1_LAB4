@@ -22,10 +22,10 @@
 		   <li class="nav-item dropdown">
 		      <a class="nav-link dropdown-toggle" href="#" id="navbardrop" data-toggle="dropdown">Clientes</a>
 		      <div class="dropdown-menu">
-		        <a class="dropdown-item" href="../Java Resources/src/servlets/ServletAltaCliente.java?Param=1">Alta cliente</a>
-		        <a class="dropdown-item" href="../admin/BajaClientes.jsp">Baja cliente</a>
-		        <a class="dropdown-item" href="../admin/ModifClientes.jsp">Modificacion cliente</a>
-		        <a class="dropdown-item" href="../admin/ListarClientes.jsp">Listado clientes</a>
+		        <a class="dropdown-item" href="ServletAltaCliente?Param=1">Alta cliente</a>
+		        <a class="dropdown-item" href="BajaClientes.jsp">Baja cliente</a>
+		        <a class="dropdown-item" href="ModifClientes.jsp">Modificacion cliente</a>
+		        <a class="dropdown-item" href="ListarClientes.jsp">Listado clientes</a>
 		      </div>
 		    </li>
 		    <li class="nav-item dropdown">
