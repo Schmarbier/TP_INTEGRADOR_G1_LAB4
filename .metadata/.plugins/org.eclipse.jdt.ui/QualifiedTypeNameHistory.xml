@@ -4,10 +4,11 @@
 <fullyQualifiedTypeName name="entidades.Genero"/>
 <fullyQualifiedTypeName name="entidades.Nacionalidad"/>
 <fullyQualifiedTypeName name="java.sql.Date"/>
-<fullyQualifiedTypeName name="entidades.Localidad"/>
 <fullyQualifiedTypeName name="entidades.Provincia"/>
 <fullyQualifiedTypeName name="entidades.Usuario"/>
 <fullyQualifiedTypeName name="entidades.TipoUsuario"/>
 <fullyQualifiedTypeName name="negocioImp.ClienteNegocioImp"/>
 <fullyQualifiedTypeName name="negocioImp.UsuarioNegocioImp"/>
+<fullyQualifiedTypeName name="negocioImp.LocalidadNegocioImp"/>
+<fullyQualifiedTypeName name="entidades.Localidad"/>
 </qualifiedTypeNameHistroy>
