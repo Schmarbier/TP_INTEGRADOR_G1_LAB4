@@ -5,8 +5,8 @@ public class Cliente {
 	
 	///ATRIBUTOS
 	private int Nro_Cliente;
-	private int Dni;
-	private int Cuil;
+	private String Dni;
+	private String Cuil;
     private String Nombre;
     private String Apellido;
     private Genero Cod_Genero;
@@ -23,7 +23,7 @@ public class Cliente {
     ///CONSTRUCTORES
 	public Cliente() {}
 
-	public Cliente(int nro_Cliente, int dni, int cuil, String nombre, String apellido, Genero cod_Genero, Nacionalidad cod_nacionalidad, String fecha_nac, String direccion, Localidad cod_localidad, Provincia cod_provincia, String email, String telefono, Usuario usuario, Boolean estado) {
+	public Cliente(int nro_Cliente, String dni, String cuil, String nombre, String apellido, Genero cod_Genero, Nacionalidad cod_nacionalidad, String fecha_nac, String direccion, Localidad cod_localidad, Provincia cod_provincia, String email, String telefono, Usuario usuario, Boolean estado) {
 		super();
 		Nro_Cliente = nro_Cliente;
 		Dni = dni;
@@ -51,19 +51,19 @@ public class Cliente {
 		Nro_Cliente = nro_Cliente;
 	}
 
-	public int getDni() {
+	public String getDni() {
 		return Dni;
 	}
 
-	public void setDni(int dni) {
+	public void setDni(String dni) {
 		Dni = dni;
 	}
 
-	public int getCuil() {
+	public String getCuil() {
 		return Cuil;
 	}
 
-	public void setCuil(int cuil) {
+	public void setCuil(String cuil) {
 		Cuil = cuil;
 	}
 

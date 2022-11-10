@@ -54,7 +54,7 @@
 		String apellido = request.getParameter("txtPassword");
 		if(usuario.contentEquals("admin")){
 			session.setAttribute("TipoUsurio", "admin");
-			response.sendRedirect("AltaClientes.jsp");
+			response.sendRedirect("ServletAdmin?Param=1");
 		}
 		else{
 			response.sendRedirect("Cuenta1.jsp");

@@ -1,6 +1,7 @@
 package servlets;
 
 import java.io.IOException;
+import java.util.ArrayList;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -17,26 +18,50 @@ import entidades.Provincia;
 import entidades.TipoUsuario;
 import entidades.Usuario;
 import negocioImp.ClienteNegocioImp;
-import negocioImp.UsuarioNegocioImp;
+import negocioImp.GeneroNegocioImp;
+import negocioImp.LocalidadNegocioImp;
+import negocioImp.NacionalidadNegocioImp;
+import negocioImp.ProvinciaNegocioImp;
 
-@WebServlet("/ServletAgregarCliente")
-public class ServletAgregarCliente extends HttpServlet {
+@WebServlet("/ServletAdmin")
+public class ServletAdmin extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
-    public ServletAgregarCliente() {
+    public ServletAdmin() {
         super();
         // TODO Auto-generated constructor stub
     }
 
-
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		
-		/*if(request.getParameter("btnLogin")!=null) {
-			RequestDispatcher rd = request.getRequestDispatcher("Login.jsp");   
+
+	if(request.getParameter("Param")!=null) {
+			/*ClienteNegocioImp cneg = new ClienteNegocioImp();
+			int maxId = cneg.obtenerProxId();
+			request.setAttribute("ncli", maxId);*/
+			
+			GeneroNegocioImp gneg = new GeneroNegocioImp();
+			ArrayList<Genero> listGeneros = (ArrayList<Genero>) gneg.readAll();
+			request.setAttribute("generos", listGeneros);
+			
+			NacionalidadNegocioImp nneg = new NacionalidadNegocioImp();
+			ArrayList<Nacionalidad> listNacionalidades = (ArrayList<Nacionalidad>) nneg.readAll();
+			request.setAttribute("nacionalidades", listNacionalidades);
+			
+			ProvinciaNegocioImp pneg = new ProvinciaNegocioImp();
+			ArrayList<Provincia> listProvincias = (ArrayList<Provincia>) pneg.readAll();
+			request.setAttribute("provincias", listProvincias);
+			
+			LocalidadNegocioImp lneg = new LocalidadNegocioImp();
+			ArrayList<Localidad> listaLocalidad = (ArrayList<Localidad>) lneg.readAll();
+			request.setAttribute("localidades", listaLocalidad);
+			
+			RequestDispatcher rd = request.getRequestDispatcher("AltaClientes.jsp");
 			rd.forward(request, response);
-		}*/
+	}
 		
-		if(request.getParameter("btnAgregar")!=null) {
+    if(request.getParameter("Alta")!=null) {
+			
+            if(request.getParameter("btnAgregar")!=null) {
 			
 			boolean alta = false;
 
@@ -90,8 +115,26 @@ public class ServletAgregarCliente extends HttpServlet {
 			else request.setAttribute("error", alta);
 			RequestDispatcher rd = request.getRequestDispatcher("ServletAltaCliente?Param=1");   
 	        rd.forward(request, response);
+         }
+       }
+    
+    if(request.getParameter("Baja")!=null) {	
+    	
+	 if(request.getParameter("btnEliminar")!=null) {
+			boolean baja = false;
+			Cliente c = new Cliente();
+			c.setDni(request.getParameter("UsuarioEliminado").toString());
+			
+			ClienteNegocioImp cn = new ClienteNegocioImp();
+			baja = cn.delete(c);
+			
+			if(baja==true) request.setAttribute("exito", baja);
+			else request.setAttribute("error", baja);
+			RequestDispatcher rd = request.getRequestDispatcher("/BajaClientes.jsp");   
+	        rd.forward(request, response);
 		}
-	}
+    }
+}
 
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

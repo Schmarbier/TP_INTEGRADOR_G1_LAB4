@@ -21,7 +21,7 @@
 <title>Banquito Fiel - Login</title>
 </head>
 <body style="height: 100vh;" class="bg-light">
-		<form action="Login.jsp" class="h-100 d-flex align-content-center">
+		<form method="get" action="ServletLogin" class="h-100 d-flex align-content-center">
 			<div class="card w-50 m-auto d-flex flex-column shadow">
 				<h5 class="card-header text-center">Login</h5>
 				<div class="w-75 container p-4 border border-0">
@@ -35,7 +35,7 @@
 						<input type="password" name="txtPassword" class="border-top-0 border-right-0 border-left-0" 
 						style="background-color: #efefef;"/>
 					</div>
-					<input type="submit" class="btn btn-primary m-auto w-50 d-block" name="btnAceptar" value="Aceptar">
+					<input type="submit" class="btn btn-primary m-auto w-50 d-block" name="btnLogin" value="Ingresar">
 				</div>
 		         <div style="width:100%;height:50px;float:center">
 		         	<p style="text-align:center;font-size: xx-small"><strong>Para probar ingresar admin o cualquier usuario y la clave no autentica</strong></p>
@@ -48,16 +48,16 @@
 
 <%
 	session.setAttribute("TipoUsurio", "usuario");
-	if(request.getParameter("btnAceptar")!=null)
+	if(request.getParameter("btnLogin")!=null)
 	{
 		String usuario = request.getParameter("txtUsuario");
 		String apellido = request.getParameter("txtPassword");
 		if(usuario.contentEquals("admin")){
 			session.setAttribute("TipoUsurio", "admin");
-			response.sendRedirect("admin/AltaClientes.jsp");
+			response.sendRedirect("ServletAdmin?Param=1");
 		}
 		else{
-			response.sendRedirect("cliente/Cuenta1.jsp");
+			response.sendRedirect("Cuenta1.jsp");
 		}
 		session.setAttribute("nombreUsurio", usuario);
 	}

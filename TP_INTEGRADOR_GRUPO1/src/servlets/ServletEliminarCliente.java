@@ -26,7 +26,7 @@ public class ServletEliminarCliente extends HttpServlet {
 		if(request.getParameter("btnEliminar")!=null) {
 			boolean baja = false;
 			Cliente c = new Cliente();
-			c.setDni(Integer.parseInt(request.getParameter("UsuarioEliminado").toString()));
+			c.setDni(request.getParameter("UsuarioEliminado").toString());
 			
 			ClienteNegocioImp cn = new ClienteNegocioImp();
 			baja = cn.delete(c);

@@ -11,8 +11,8 @@ public class ClienteNegocioImp implements ClienteNegocio{
 	
 	@Override
 	public boolean insert(Cliente cli) {
-		if(cdao.existeDni(cli)==true) return false;
-		else return cdao.insert(cli);
+		/*if(cdao.existeDni(cli)==true) return false;
+		else*/ return cdao.insert(cli);
 	}
 
 	@Override
@@ -21,7 +21,7 @@ public class ClienteNegocioImp implements ClienteNegocio{
 		else return cdao.delete(cli);
 	}
 	
-	public Integer obtenerProxId() {
+	public int obtenerProxId() {
 		return cdao.obtenerProxId();
 	}
 

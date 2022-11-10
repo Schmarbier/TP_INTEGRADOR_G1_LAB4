@@ -20,11 +20,11 @@
 
 <div class="parteDer">
    <h3 class="titulo"> Alta Clientes </h3> 
-
+   
 <form method="get" action="ServletAgregarCliente">
       <%   int nroCli=0;
-           if(request.getAttribute("ncli")!=null) nroCli = (int) request.getAttribute("ncli"); %>
-	  <p>  Cliente nro:  <%= nroCli+1 %> </p>
+           if(request.getAttribute("ncli")!=null) nroCli = Integer.parseInt(request.getParameter("ncli").toString()); %>
+	  <p>  Cliente nro:  <%= nroCli %> </p>
       <p>  Nombre:  <input type="text" name="nombre" placeholder="Ingrese un nombre"
            maxlength="30" required pattern="[A-Za-zñÑ]+" title="Ingrese solo letras" />
            Apellido: <input type="text" name="apellido" placeholder="Ingrese un apellido"
@@ -74,7 +74,7 @@
 	               if(request.getAttribute("localidades")!=null) lList=(ArrayList<Localidad>)request.getAttribute("localidades");
 	               if(lList!=null)
 	               for(Localidad l : lList){ %>
-				    <option value="<%=l.getCod_localidad()%>"><%=l.getCod_provincia().getDescripcion()%>] - <%=l.getDescripcion()%></option>
+				    <option value="<%=l.getCod_localidad()%>"><%= l.getCod_provincia().getDescripcion()%> - <%=l.getDescripcion()%></option>
 				<%}%>
 			</select> 
 
@@ -83,17 +83,17 @@
       
            Teléfono: <input type="tel" required name="telefono" placeholder="Ingrese un numero telefonico" title="Ingrese un numero telefonico valido"></input></p>
 
-      <p>  Usuario:  <input type="text" required name="nombre" placeholder="Usuario"
+      <p>  Usuario:  <input type="text" required name="usuario" placeholder="Usuario"
            maxlength="30" />
 
-	  <p>  Contraseña: <input type="password" required name="contraseña" placeholder="Contraseña"></input></p>
-	  <p>  Confirmar contraseña: <input type="password" required name="contraseñaRe" placeholder="Confirmar contraseña"></input></p>
+	  <p>  Contraseña: <input type="password" required name="contra" placeholder="Contraseña"></input></p>
+	  <p>  Confirmar contraseña: <input type="password" required name="contra2" placeholder="Confirmar contraseña"></input></p>
       <p>  Reset: <input type="reset"></input></p>
 	  <p>  <input type="submit" name="btnAgregar" value="Agregar Cliente"></input></p>
 </form>
-   
+
 	<%  if(request.getAttribute("exito")!=null) {%> Cliente agregado con éxito <%}%>
-	<%  if(request.getAttribute("error")!=null) {%> No se pudo agregar el cliente. Cliente u Usuario ya existente <%}%>
+	<%  if(request.getAttribute("error")!=null) {%> No se pudo agregar el cliente. Cliente ya existente <%}%>
 	<%  if(request.getAttribute("errorContraseña")!=null) {%> Error. Las contraseñas no coinciden <%}%>
 
 </div>

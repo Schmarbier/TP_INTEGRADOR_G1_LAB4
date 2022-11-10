@@ -22,7 +22,7 @@
 		   <li class="nav-item dropdown">
 		      <a class="nav-link dropdown-toggle" href="#" id="navbardrop" data-toggle="dropdown">Clientes</a>
 		      <div class="dropdown-menu">
-		        <a class="dropdown-item" href="ServletAltaCliente?Param=1">Alta cliente</a>
+		        <a class="dropdown-item" href="ServletAdmin?Param=1">Alta cliente</a>
 		        <a class="dropdown-item" href="BajaClientes.jsp">Baja cliente</a>
 		        <a class="dropdown-item" href="ModifClientes.jsp">Modificacion cliente</a>
 		        <a class="dropdown-item" href="ListarClientes.jsp">Listado clientes</a>
@@ -31,17 +31,17 @@
 		    <li class="nav-item dropdown">
 		      <a class="nav-link dropdown-toggle" href="#" id="navbardrop" data-toggle="dropdown">Cuentas</a>
 		      <div class="dropdown-menu">
-		        <a class="dropdown-item" href="../admin/AltaCuenta.jsp">Alta cuenta</a>
-		        <a class="dropdown-item" href="../admin/BajaCuenta.jsp">Baja cuenta</a>
-		        <a class="dropdown-item" href="../admin/ModifCuenta.jsp">Modificacion cuenta</a>
-		        <a class="dropdown-item" href="../admin/ListarCuenta.jsp">Listado cuentas</a>
+		        <a class="dropdown-item" href="AltaCuenta.jsp">Alta cuenta</a>
+		        <a class="dropdown-item" href="BajaCuenta.jsp">Baja cuenta</a>
+		        <a class="dropdown-item" href="ModifCuenta.jsp">Modificacion cuenta</a>
+		        <a class="dropdown-item" href="ListarCuenta.jsp">Listado cuentas</a>
 		      </div>
 		    </li>
 		    <li class="nav-item">
-		      <a class="nav-link" href="../admin/Prestamos.jsp">Prestamos</a>
+		      <a class="nav-link" href="Prestamos.jsp">Prestamos</a>
 		    </li>
 		    <li class="nav-item">
-		      <a class="nav-link" href="../admin/Reportes.jsp">Informes y/o Reportes</a>
+		      <a class="nav-link" href="Reportes.jsp">Informes y/o Reportes</a>
 		    </li>
 		<% }
 		   else {
@@ -49,18 +49,18 @@
 		   <li class="nav-item dropdown">
 		      <a class="nav-link dropdown-toggle" href="#" id="navbardrop" data-toggle="dropdown">Cuentas</a>
 		      <div class="dropdown-menu">
-		        <a class="dropdown-item" href="../cliente/Cuenta1.jsp">Cuenta 1</a>
-		        <a class="dropdown-item" href="../cliente/Cuenta2.jsp">Cuenta 2</a>
-		        <a class="dropdown-item" href="../cliente/Cuenta3.jsp">Cuenta 3</a>
+		        <a class="dropdown-item" href="Cuenta1.jsp">Cuenta 1</a>
+		        <a class="dropdown-item" href="Cuenta2.jsp">Cuenta 2</a>
+		        <a class="dropdown-item" href="Cuenta3.jsp">Cuenta 3</a>
 		      </div>
 		    </li>
 		    <li class="nav-item dropdown">
 		      <a class="nav-link dropdown-toggle" href="#" id="navbardrop" data-toggle="dropdown">Prestamos</a>
 		      <div class="dropdown-menu">
-		        <a class="dropdown-item" href="../cliente/SolicitarPrestamo.jsp">Solicitar prestamo</a>
-		        <a class="dropdown-item" href="../cliente/AbonarPrestamo.jsp">Abonar Prestamo</a>
-		        <a class="dropdown-item" href="../cliente/PrestamosPendientes.jsp">Prestamos Pendientes</a>
-		        <a class="dropdown-item" href="../cliente/PrestamosRechazados.jsp">Prestamos Rechazados</a>
+		        <a class="dropdown-item" href="SolicitarPrestamo.jsp">Solicitar prestamo</a>
+		        <a class="dropdown-item" href="AbonarPrestamo.jsp">Abonar Prestamo</a>
+		        <a class="dropdown-item" href="PrestamosPendientes.jsp">Prestamos Pendientes</a>
+		        <a class="dropdown-item" href="PrestamosRechazados.jsp">Prestamos Rechazados</a>
 		      </div>
 		    </li>
 		    <li class="nav-item">
@@ -70,7 +70,7 @@
 		%>
 			<li class="mt-0 mr-0 mb-0 ml-auto d-flex align-items-center" style="gap: 1rem;">
 				<span style="color: white;">Usuario <%=session.getAttribute("nombreUsurio")%></span>
-				<a href="../Login.jsp" class="btn btn-danger"> Cerrar sesion</a>
+				<a href="Login.jsp" class="btn btn-danger"> Cerrar sesion</a>
 			</li>
 	  </ul>
 	</nav>
