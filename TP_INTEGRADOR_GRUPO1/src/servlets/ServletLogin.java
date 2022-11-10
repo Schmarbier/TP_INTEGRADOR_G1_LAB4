@@ -31,27 +31,35 @@ public class ServletLogin extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		
 		if(request.getParameter("btnLogin")!=null) {
-			if(verificarTextbox()) {
-				String usuario = request.getParameter("txtUsuario");
-				String contraseña = request.getParameter("txtPassword");
-				
-				Usuario usu = new Usuario();
-				usu.setUsuario(usuario);
-				usu.setContraseña(contraseña);
-				
-				UsuarioNegocioImp neg = new UsuarioNegocioImp();
-				if(neg.existeUsuario(usu)) {
-					request.setAttribute("sessionTipoUsuario", "admin");
-					response.sendRedirect("AltaClientes.jsp");
+			String usuario = request.getParameter("txtUsuario");
+			String contraseña = request.getParameter("txtPassword");
+			
+			Usuario usu = new Usuario();
+			usu.setUsuario(usuario);
+			usu.setContraseña(contraseña);
+			
+			UsuarioNegocioImp neg = new UsuarioNegocioImp();
+			
+			if(neg.existeUsuario(usu)) {
+				request.setAttribute("nombreUsurio", usu.getUsuario());
+				if(neg.esAdmin(usu)) {
+					RequestDispatcher rd = request.getRequestDispatcher("ServletAdmin?Param=1");   
+					rd.forward(request, response);   
 				}
 				else {
-					request.setAttribute("error", true);
+					RequestDispatcher rd = request.getRequestDispatcher("Cuenta1.jsp");   
+					rd.forward(request, response); 
 				}
+			}
+			else {
+				request.setAttribute("error", true);
 			}
 			RequestDispatcher rd = request.getRequestDispatcher("Login.jsp");   
 			rd.forward(request, response);   
 		}
+		
 	}
 
 	/**
@@ -63,7 +71,7 @@ public class ServletLogin extends HttpServlet {
 	}
 	
 	private boolean verificarTextbox() {
-		return false;
+		return true;
 	}
 
 }

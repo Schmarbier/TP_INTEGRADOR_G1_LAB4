@@ -12,7 +12,7 @@ public class UsuarioDaoImp implements UsuarioDao{
 
 	private static final String insert = "INSERT INTO usuarios (Usuario, Tipo_Us, Contraseña, Estado) VALUES(?, ?, ?, ?)";
 	private static final String delete = "UPDATE usuarios SET Estado = false  WHERE Usuario = ?";
-
+	
 	@Override
 	public boolean insert(Usuario usu) {
 		PreparedStatement statement;
@@ -78,6 +78,27 @@ public class UsuarioDaoImp implements UsuarioDao{
 			statement = conexion.getSQLConexion().prepareStatement("SELECT * FROM usuarios WHERE usuario = ? AND Contraseña = ?");
 			statement.setString(1, us.getUsuario());
 			statement.setString(2, us.getContraseña());
+			resultSet = statement.executeQuery();
+			if(resultSet.next()) existeUsuario = true;
+		} 
+		catch (SQLException e) 
+		{
+			e.printStackTrace();
+		}
+		return existeUsuario;
+	}
+
+	@Override
+	public boolean esAdmin(Usuario usu) {
+		PreparedStatement statement;
+		ResultSet resultSet; 
+		Conexion conexion = Conexion.getConexion();
+		boolean existeUsuario = false;
+		try 
+		{
+			statement = conexion.getSQLConexion().prepareStatement("SELECT * FROM usuarios WHERE usuario = ? AND Contraseña = ? AND Tipo_Us = 1");
+			statement.setString(1, usu.getUsuario());
+			statement.setString(2, usu.getContraseña());
 			resultSet = statement.executeQuery();
 			if(resultSet.next()) existeUsuario = true;
 		} 

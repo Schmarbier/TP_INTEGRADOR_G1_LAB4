@@ -25,4 +25,9 @@ public class UsuarioNegocioImp implements UsuarioNegocio{
 		return udao.existeUsuario(usu);
 	}
 
+	@Override
+	public boolean esAdmin(Usuario usu) {
+		return udao.esAdmin(usu);
+	}
+
 }
