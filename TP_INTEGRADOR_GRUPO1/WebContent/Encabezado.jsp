@@ -17,7 +17,7 @@
 	  <a class="navbar-brand" href="#">Banquito Fiel</a>
 	  <ul class="navbar-nav w-100">
 	  	<% String usu = (String) session.getAttribute("TipoUsurio");
-	  	   if(request.getAttribute("usuarioAdmin").toString()=="admin") {
+	  	   if(request.getAttribute("usuarioAdmin")=="admin") {
 		%>
 		   <li class="nav-item dropdown">
 		      <a class="nav-link dropdown-toggle" href="#" id="navbardrop" data-toggle="dropdown">Clientes</a>
@@ -34,7 +34,7 @@
 		        <a class="dropdown-item" href="AltaCuenta.jsp">Alta cuenta</a>
 		        <a class="dropdown-item" href="BajaCuenta.jsp">Baja cuenta</a>
 		        <a class="dropdown-item" href="ModifCuenta.jsp">Modificacion cuenta</a>
-		        <a class="dropdown-item" href="ListarCuenta.jsp">Listado cuentas</a>
+		        <a class="dropdown-item" href="ServletListarCuenta?Param=listar">Listado cuentas</a>
 		      </div>
 		    </li>
 		    <li class="nav-item">
