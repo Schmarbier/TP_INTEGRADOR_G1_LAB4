@@ -38,16 +38,31 @@
 					<input type="submit" class="btn btn-primary m-auto w-50 d-block" name="btnLogin" value="Ingresar">
 				</div>
 		         <div style="width:100%;height:50px;float:center">
-		         	<p style="text-align:center;font-size: xx-small"><strong>Para probar ingresar admin o cualquier usuario y la clave no autentica</strong></p>
+		         <% if (request.getAttribute("error")!=null){ %>
+		         	<p style="text-align:center;font-size: xx-small; color: red;"><strong>Ingrese un usuario y contraseña correcta</strong></p>
+		         <%} %>
 		         </div>
 			</div>
 		</form>
-
+		
+		<%
+		if(request.getParameter("sessionTipoUsuario")!=null)
+		{
+			session.setAttribute("nombreUsurio", request.getParameter("sessionNombreUsuario"));
+			if(request.getParameter("sessionTipoUsuario").toString()=="admin"){
+				session.setAttribute("TipoUsurio", "admin");
+				response.sendRedirect("ServletAdmin?Param=1");
+			}
+			else{
+				response.sendRedirect("Cuenta1.jsp");
+			}
+		}
+		%>
 		
 </body>
 
-<%
-	session.setAttribute("TipoUsurio", "usuario");
+
+<!--session.setAttribute("TipoUsurio", "usuario");
 	if(request.getParameter("btnLogin")!=null)
 	{
 		String usuario = request.getParameter("txtUsuario");
@@ -60,7 +75,7 @@
 			response.sendRedirect("Cuenta1.jsp");
 		}
 		session.setAttribute("nombreUsurio", usuario);
-	}
-%>
+	}-->
+
 
 </html>
