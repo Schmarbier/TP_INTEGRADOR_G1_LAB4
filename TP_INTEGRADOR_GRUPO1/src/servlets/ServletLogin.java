@@ -45,12 +45,12 @@ public class ServletLogin extends HttpServlet {
 			if(neg.existeUsuario(usu)) {
 				request.setAttribute("nombreUsurio", usu.getUsuario());
 				if(neg.esAdmin(usu)) {
-					request.setAttribute("usuarioAdmin", new String("admin"));
+					request.setAttribute("usuarioAdmin", true);
 					RequestDispatcher rd = request.getRequestDispatcher("ServletAdmin?Param=1");   
 					rd.forward(request, response);   
 				}
 				else {
-					request.setAttribute("usuarioAdmin", new String("user"));
+					request.setAttribute("usuarioAdmin", false);
 					RequestDispatcher rd = request.getRequestDispatcher("Cuenta1.jsp");   
 					rd.forward(request, response); 
 				}
