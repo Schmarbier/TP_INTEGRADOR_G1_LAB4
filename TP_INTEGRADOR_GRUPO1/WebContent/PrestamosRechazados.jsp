@@ -5,18 +5,18 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <style type="text/css">
-	<jsp:include page="..\css\Plantilla.css"></jsp:include>
+	<jsp:include page="css\Plantilla.css"></jsp:include>
 </style>
-<title>Prestamos pendientes </title>
+<title>Prestamos rechazados</title>
 </head>
 <body>
 
-<jsp:include page="../Encabezado.jsp" />  
+<jsp:include page="Encabezado.jsp" />  
 
 
 
 <div class="parteDer">
-   <h3 class="titulo"> Prestamos pendientes </h3> 
+   <h3 class="titulo"> Prestamos rechazados </h3> 
 
 <form method="post" action="ServletHTML">
 <br>
@@ -31,11 +31,11 @@
      </tr>
      
      <tr>
-         <td> 1 </td>
-         <td> 3/11/2022 </td>
-         <td> 15.000 </td>
-         <td> 1241431 </td>
-         <td> 9 </td>
+         <td> 3 </td>
+         <td> 5/12/2022 </td>
+         <td> 12.000 </td>
+         <td> 12414 </td>
+         <td> 12 </td>
      </tr>
 
 </table>
