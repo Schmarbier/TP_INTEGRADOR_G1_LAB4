@@ -10,8 +10,8 @@ import entidades.Cliente;
 
 public class ClienteDaoImp implements ClienteDao{
 
-	private static final String insert = "INSERT INTO clientes (Nro_Cliente, Dni, Cuil, Nombre, Apellido, Cod_Genero, Cod_nacionalidad, Fecha_nac, Direccion, Cod_localidad, Cod_provincia, Email, Telefono, Usuario, Estado) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
-	private static final String delete = "UPDATE clientes SET Estado = false  WHERE Dni = ?";
+	private static final String insert = "INSERT INTO clientes (Dni, Cuil, Nombre, Apellido, Cod_Genero, Cod_nacionalidad, Fecha_nac, Direccion, Cod_localidad, Cod_provincia, Email, Telefono, Usuario, Estado) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+	private static final String delete = "UPDATE clientes SET Estado = 0  WHERE Dni = ?";
 	
 	@Override
 	public boolean insert(Cliente cli) {
@@ -22,8 +22,8 @@ public class ClienteDaoImp implements ClienteDao{
 		try
 		{
 			statement = conexion.prepareStatement(insert);
-			statement.setInt(1, cli.getDni());
-			statement.setInt(2, cli.getCuil());
+			statement.setString(1, cli.getDni());
+			statement.setString(2, cli.getCuil());
 			statement.setString(3, cli.getNombre());
 			statement.setString(4, cli.getApellido());
 			statement.setInt(5, cli.getCod_Genero().getCod_genero());
@@ -62,7 +62,7 @@ public class ClienteDaoImp implements ClienteDao{
 		try 
 		{
 			statement = conexion.prepareStatement(delete);
-			statement.setInt(1, cli.getDni());
+			statement.setString(1, cli.getDni());
 			if(statement.executeUpdate() > 0)
 			{
 				conexion.commit();
@@ -76,8 +76,8 @@ public class ClienteDaoImp implements ClienteDao{
 		return isdeleteExitoso;
 	}
 	
-	public Integer obtenerProxId() {
-		Integer maxSeguro = -1;
+	public int obtenerProxId() {
+		Integer maxId = 0;
 		Connection conexion = Conexion.getConexion().getSQLConexion();
 		PreparedStatement statement;
 		
@@ -86,7 +86,7 @@ public class ClienteDaoImp implements ClienteDao{
 			statement = conexion.prepareStatement("SELECT MAX (Nro_Cliente) FROM clientes");
 			ResultSet resultado = statement.executeQuery();
 			resultado.next();
-			maxSeguro = resultado.getInt(1);
+			maxId = resultado.getInt(1);
 		} 
 		catch (SQLException e) 
 		{
@@ -97,7 +97,7 @@ public class ClienteDaoImp implements ClienteDao{
 				e1.printStackTrace();
 			}
 		}
-		return maxSeguro;
+		return maxId+1;
 	}
 	
 	@Override
@@ -109,7 +109,7 @@ public class ClienteDaoImp implements ClienteDao{
 		try 
 		{
 			statement = conexion.getSQLConexion().prepareStatement("SELECT * FROM clientes WHERE dni = ?");
-			statement.setInt(1, cli.getDni());
+			statement.setString(1, cli.getDni());
 			resultSet = statement.executeQuery();
 			if(resultSet.next()) existeCliente = true;
 		} 

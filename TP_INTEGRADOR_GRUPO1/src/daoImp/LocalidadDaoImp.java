@@ -12,7 +12,7 @@ import entidades.Provincia;
 
 public class LocalidadDaoImp implements LocalidadDao {
 
-	private static final String readall = "SELECT Cod_provincia, Cod_localidad, Descripcion FROM localidades INNER JOIN provincias ON localidades.Cod_provincia = provincias.Cod_provincia;";
+	private static final String readall = "SELECT localidades.Cod_provincia, provincias.Descripcion, localidades.Cod_localidad, localidades.Descripcion FROM localidades INNER JOIN provincias ON localidades.Cod_provincia = provincias.Cod_provincia";
 	
 	@Override
 	public List<Localidad> readAll() {
@@ -39,9 +39,11 @@ public class LocalidadDaoImp implements LocalidadDao {
 	private Localidad get(ResultSet resultSet) throws SQLException
 	{
 		Localidad loc = new Localidad();
-		loc.setCod_provincia(new Provincia(resultSet.getInt("Cod_provincia"),resultSet.getString("Descripcion")));
-		loc.setCod_localidad(resultSet.getInt("Cod_localidad"));
-		loc.setDescripcion(resultSet.getString("Descripcion"));
+		Provincia prov = new Provincia();
+		loc.setCod_localidad(resultSet.getInt("localidades.Cod_localidad"));
+		prov.setDescripcion(resultSet.getString("provincias.Descripcion"));
+		loc.setCod_provincia(prov);
+		loc.setDescripcion(resultSet.getString("localidades.Descripcion"));
 		return loc;
 	}
 

@@ -1,8 +1,4 @@
 INDEX VERSION 1.130
-C:\Users\usuario\Desktop\Gianluca\UTN\4º cuatrimestre\Laboratorio IV\TP Integrador\TP_INTEGRADOR_G1_LAB4\.metadata\.plugins\org.eclipse.jst.jsp.core\jspsearch\4166095104.index
-\AppWeb_Controles_Validacion\src
-C:\Users\usuario\Desktop\Gianluca\UTN\4º cuatrimestre\Laboratorio IV\TP Integrador\TP_INTEGRADOR_G1_LAB4\.metadata\.plugins\org.eclipse.jst.jsp.core\jspsearch\2687083015.index
-\TP_INTEGRADOR_GRUPO1\src
 C:\Users\usuario\Desktop\Gianluca\UTN\4º cuatrimestre\Laboratorio IV\TP Integrador\TP_INTEGRADOR_G1_LAB4\.metadata\.plugins\org.eclipse.jst.jsp.core\jspsearch\2582818521.index
 \TP_INTEGRADOR_GRUPO1\src
 C:\Users\usuario\Desktop\Gianluca\UTN\4º cuatrimestre\Laboratorio IV\TP Integrador\TP_INTEGRADOR_G1_LAB4\.metadata\.plugins\org.eclipse.jst.jsp.core\jspsearch\2747249833.index

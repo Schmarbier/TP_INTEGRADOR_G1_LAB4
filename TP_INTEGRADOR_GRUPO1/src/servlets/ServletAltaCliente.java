@@ -10,10 +10,13 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import entidades.Cliente;
 import entidades.Genero;
 import entidades.Localidad;
 import entidades.Nacionalidad;
 import entidades.Provincia;
+import entidades.TipoUsuario;
+import entidades.Usuario;
 import negocioImp.ClienteNegocioImp;
 import negocioImp.GeneroNegocioImp;
 import negocioImp.LocalidadNegocioImp;
@@ -29,10 +32,11 @@ public class ServletAltaCliente extends HttpServlet {
     }
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		
 		if(request.getParameter("Param")!=null) {
-			ClienteNegocioImp cneg = new ClienteNegocioImp();
-			int maxIdSeguro = cneg.obtenerProxId();
-			request.setAttribute("ncli", maxIdSeguro);
+			/*ClienteNegocioImp cneg = new ClienteNegocioImp();
+			int maxId = cneg.obtenerProxId();
+			request.setAttribute("ncli", maxId);*/
 			
 			GeneroNegocioImp gneg = new GeneroNegocioImp();
 			ArrayList<Genero> listGeneros = (ArrayList<Genero>) gneg.readAll();
@@ -50,10 +54,10 @@ public class ServletAltaCliente extends HttpServlet {
 			ArrayList<Localidad> listaLocalidad = (ArrayList<Localidad>) lneg.readAll();
 			request.setAttribute("localidades", listaLocalidad);
 			
-			RequestDispatcher rd = request.getRequestDispatcher("../admin/AltaClientes.jsp");
+			RequestDispatcher rd = request.getRequestDispatcher("AltaClientes.jsp");
 			rd.forward(request, response);
 		}
-	}
+}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
