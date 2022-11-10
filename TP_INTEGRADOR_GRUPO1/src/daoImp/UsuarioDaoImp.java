@@ -75,8 +75,9 @@ public class UsuarioDaoImp implements UsuarioDao{
 		boolean existeUsuario = false;
 		try 
 		{
-			statement = conexion.getSQLConexion().prepareStatement("SELECT * FROM usuarios WHERE usuario = ?");
+			statement = conexion.getSQLConexion().prepareStatement("SELECT * FROM usuarios WHERE usuario = ? AND Contraseña = ?");
 			statement.setString(1, us.getUsuario());
+			statement.setString(2, us.getContraseña());
 			resultSet = statement.executeQuery();
 			if(resultSet.next()) existeUsuario = true;
 		} 

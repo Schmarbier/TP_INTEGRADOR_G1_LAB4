@@ -30,7 +30,12 @@ public class ServletAgregarCliente extends HttpServlet {
 
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-  
+		
+		if(request.getParameter("btnLogin")!=null) {
+			RequestDispatcher rd = request.getRequestDispatcher("Login.jsp");   
+			rd.forward(request, response);
+		}
+		
 		if(request.getParameter("btnAgregar")!=null) {
 			
 			boolean alta = false;
