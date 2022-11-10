@@ -20,4 +20,9 @@ public class UsuarioNegocioImp implements UsuarioNegocio{
 		return udao.delete(usu);
 	}
 
+	@Override
+	public boolean existeUsuario(Usuario usu) {
+		return udao.existeUsuario(usu);
+	}
+
 }
