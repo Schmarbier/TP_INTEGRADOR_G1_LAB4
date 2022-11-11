@@ -25,7 +25,7 @@
 		        <a class="dropdown-item" href="ServletAdmin?Param=1">Alta cliente</a>
 		        <a class="dropdown-item" href="BajaClientes.jsp">Baja cliente</a>
 		        <a class="dropdown-item" href="ModifClientes.jsp">Modificacion cliente</a>
-		        <a class="dropdown-item" href="ListarClientes.jsp">Listado clientes</a>
+		        <a class="dropdown-item" href="Servlet_ML_cliente?ParamListar=1">Listado clientes</a>
 		      </div>
 		    </li>
 		    <li class="nav-item dropdown">
