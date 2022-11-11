@@ -8,4 +8,6 @@ public interface CuentaNegocio {
 	
 	public ArrayList<Cuenta> obtenerCuentas();
 	
+	public ArrayList<Cuenta> obtenerCuentaQueryCustom(String consulta, String filtro);
+	
 }

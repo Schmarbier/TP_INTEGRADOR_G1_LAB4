@@ -17,19 +17,21 @@
 
 <div class="parteDer">
    <h3 class="titulo"> Listar Cuenta </h3> 
-<%
-ArrayList<Cuenta> lista = new ArrayList<Cuenta>();
-
-if(request.getAttribute("cuentas")!=null)
-{
-	lista = (ArrayList<Cuenta>) request.getAttribute("cuentas");
-}
-%>
-<form method="post" action="ServletHTML">
-    	<p>  Buscar una cuenta en especifico: <input type="text" name="BuscarCuenta"></input>
-	    <input type="submit" name="btnBuscar" value="Buscar"></input></p>
-	    <p>  Filtrar por: <select name="ddlFiltro"></select>
-	    <input type="submit" name="btnFiltrar" value="Filtrar"></input></p>
+<form method="get" action="servletListarCuenta">
+    	<p>  Buscar </p>
+    	<select name="dllBusqueda">
+		  <option value="todo">Todo</option>
+		  <option value="Nro_cuenta">Numero de Cuenta</option>
+		  <option value="Nro_cliente">Numero de cliente</option>
+		  <option value="Fecha_creacion">Fecha de creacion</option>
+		  <option value="Descripcion">Tipo de cuenta</option>
+		  <option value="Cbu">CBU</option>
+		  <option value="Saldo">Saldo</option>
+		</select>
+		<input type="text" name="txtFiltro"></input>
+	    <input type="submit" name="btnBuscar" value="Buscar"></input>
+	    <input type="submit" name="Param" value="Mostrar todo"></input>
+</form>
 	    <table border="1">
 	    <thead>
 		    <tr>
@@ -42,25 +44,36 @@ if(request.getAttribute("cuentas")!=null)
 	        </tr>
 	    </thead>
 	    <tbody>
-	    	<%  if(lista!=null)
-				for(Cuenta c:lista) 
+
+	    	<%  
+				ArrayList<Cuenta> lista = null;
+				
+				if(request.getAttribute("cuentas")!=null)
 				{
-					%>
-				<tr>  
-					<td><%=c.getNro_cuenta()%>     
-					<td><%=c.getNro_cliente()%></td>   
-					<td><%=c.getFecha_creacion().toString()%></td>
-					<td><%=c.getTipo_cuenta().getDescripcion()%></td>   
-					<td><%=c.getCbu() %></td>
-					<td><%=c.getSaldo() %></td>
-				</tr>
-			<%  } %>
+					lista = (ArrayList<Cuenta>) request.getAttribute("cuentas");
+				}
+	    		if(lista!=null){
+					for(Cuenta c:lista) 
+					{
+						%>
+					<tr>  
+						<td><%=c.getNro_cuenta()%>     
+						<td><%=c.getNro_cliente()%></td>   
+						<td><%=c.getFecha_creacion().toString()%></td>
+						<td><%=c.getTipo_cuenta().getDescripcion()%></td>   
+						<td><%=c.getCbu() %></td>
+						<td><%=c.getSaldo() %></td>
+					</tr>
+				<%  } 
+				}
+				%>
+	    		
 	    </tbody>
 
 </table>
 
 
-</form>
+
    
 </div>
 

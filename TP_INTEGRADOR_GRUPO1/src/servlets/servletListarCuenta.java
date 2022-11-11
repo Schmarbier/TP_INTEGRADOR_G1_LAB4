@@ -1,6 +1,7 @@
 package servlets;
 
 import java.io.IOException;
+import java.util.ArrayList;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -9,6 +10,9 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import dao.CuentaDao;
+import daoImp.CuentaDaoImp;
+import entidades.Cuenta;
 import negocioImp.CuentaNegocioImp;
 
 /**
@@ -31,15 +35,27 @@ public class servletListarCuenta extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
+		CuentaDaoImp neg = new CuentaDaoImp();
+		//CuentaNegocioImp neg = new CuentaNegocioImp();
+		
 		if(request.getParameter("Param")!=null) {
-			CuentaNegocioImp neg = new CuentaNegocioImp();
 			
 			request.setAttribute("cuentas", neg.obtenerCuentas());
 			
-			RequestDispatcher rd = request.getRequestDispatcher("/ListarSeguros.jsp");   
+			RequestDispatcher rd = request.getRequestDispatcher("/ListarCuenta.jsp");   
 	        rd.forward(request, response);
 		}
-		response.getWriter().append("Served at: ").append(request.getContextPath());
+		
+		if(request.getParameter("btnBuscar")!=null) {
+			
+			ArrayList<Cuenta> lista = (ArrayList<Cuenta>) neg.obtenerCuentaQueryCustom(request.getParameter("dllBusqueda").toString(), request.getParameter("txtFiltro").toString());
+			System.out.println(request.getParameter("dllBusqueda").toString());
+			request.removeAttribute("cuentas");
+			request.setAttribute("cuentas", lista);
+			
+			RequestDispatcher rd = request.getRequestDispatcher("/ListarCuenta.jsp");   
+	        rd.forward(request, response);
+		}
 	}
 
 	/**
