@@ -11,8 +11,8 @@ public class ClienteNegocioImp implements ClienteNegocio{
 	
 	@Override
 	public boolean insert(Cliente cli) {
-		/*if(cdao.existeDni(cli)==true) return false;
-		else*/ return cdao.insert(cli);
+		if(cdao.existeCliente(cli)==true) return false;
+		else return cdao.insert(cli);
 	}
 
 	@Override

@@ -101,15 +101,17 @@ public class ClienteDaoImp implements ClienteDao{
 	}
 	
 	@Override
-	public boolean existeDni(Cliente cli) {
+	public boolean existeCliente(Cliente cli) {
 		PreparedStatement statement;
 		ResultSet resultSet; 
 		Conexion conexion = Conexion.getConexion();
 		boolean existeCliente = false;
 		try 
 		{
-			statement = conexion.getSQLConexion().prepareStatement("SELECT * FROM clientes WHERE dni = ?");
+			statement = conexion.getSQLConexion().prepareStatement("SELECT * FROM clientes WHERE Dni = ? OR Cuil = ? OR Email = ?");
 			statement.setString(1, cli.getDni());
+			statement.setString(2, cli.getCuil());
+			statement.setString(3, cli.getEmail());
 			resultSet = statement.executeQuery();
 			if(resultSet.next()) existeCliente = true;
 		} 
@@ -118,6 +120,26 @@ public class ClienteDaoImp implements ClienteDao{
 			e.printStackTrace();
 		}
 		return existeCliente;
+	}
+
+	@Override
+	public boolean existeDni(Cliente cli) {
+		PreparedStatement statement;
+		ResultSet resultSet; 
+		Conexion conexion = Conexion.getConexion();
+		boolean existeDni = false;
+		try 
+		{
+			statement = conexion.getSQLConexion().prepareStatement("SELECT * FROM clientes WHERE Dni = ?");
+			statement.setString(1, cli.getDni());
+			resultSet = statement.executeQuery();
+			if(resultSet.next()) existeDni = true;
+		} 
+		catch (SQLException e) 
+		{
+			e.printStackTrace();
+		}
+		return existeDni;
 	}
 	
 }

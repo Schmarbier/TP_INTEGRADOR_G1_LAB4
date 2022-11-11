@@ -34,9 +34,9 @@ public class ServletAltaCliente extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
 		if(request.getParameter("Param")!=null) {
-			/*ClienteNegocioImp cneg = new ClienteNegocioImp();
+			ClienteNegocioImp cneg = new ClienteNegocioImp();
 			int maxId = cneg.obtenerProxId();
-			request.setAttribute("ncli", maxId);*/
+			request.setAttribute("ncli", maxId);
 			
 			GeneroNegocioImp gneg = new GeneroNegocioImp();
 			ArrayList<Genero> listGeneros = (ArrayList<Genero>) gneg.readAll();
