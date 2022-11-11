@@ -35,13 +35,13 @@ public class ServletLogin extends HttpServlet {
 		
 		if(request.getParameter("btnLogin")!=null) {
 			String usuario = request.getParameter("txtUsuario");
-			String contraseña = request.getParameter("txtPassword");
+			String contraseÃ±a = request.getParameter("txtPassword");
 			
 			HttpSession session = request.getSession();
 
 			Usuario usu = new Usuario();
 			usu.setUsuario(usuario);
-			usu.setContraseña(contraseña);
+			usu.setContraseÃ±a(contraseÃ±a);
 			
 			UsuarioNegocioImp neg = new UsuarioNegocioImp();
 			
@@ -49,11 +49,13 @@ public class ServletLogin extends HttpServlet {
 				session.setAttribute("nombreUsurio", usu.getUsuario());
 				if(neg.esAdmin(usu)) {
 					session.setAttribute("usuarioAdmin", true);
+
 					RequestDispatcher rd = request.getRequestDispatcher("ServletAdmin?Param=1");   
 					rd.forward(request, response);   
 				}
 				else {
 					session.setAttribute("usuarioAdmin", false);
+
 					RequestDispatcher rd = request.getRequestDispatcher("Cuenta1.jsp");   
 					rd.forward(request, response); 
 				}

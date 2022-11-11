@@ -25,7 +25,7 @@
 		        <a class="dropdown-item" href="ServletAdmin?Param=1">Alta cliente</a>
 		        <a class="dropdown-item" href="BajaClientes.jsp">Baja cliente</a>
 		        <a class="dropdown-item" href="ModifClientes.jsp">Modificacion cliente</a>
-		        <a class="dropdown-item" href="ListarClientes.jsp">Listado clientes</a>
+		        <a class="dropdown-item" href="Servlet_ML_cliente?ParamListar=1">Listado clientes</a>
 		      </div>
 		    </li>
 		    <li class="nav-item dropdown">
@@ -69,7 +69,7 @@
 		<% }
 		%>
 			<li class="mt-0 mr-0 mb-0 ml-auto d-flex align-items-center" style="gap: 1rem;">
-				<span style="color: white;">Usuario <%=session.getAttribute("nombreUsurio")%></span>
+				<span style="color: white;">Usuario <%=request.getAttribute("nombreUsurio")%></span>
 				<a href="Login.jsp" class="btn btn-danger"> Cerrar sesion</a>
 			</li>
 	  </ul>
