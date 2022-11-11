@@ -8,6 +8,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import entidades.Usuario;
 import negocioImp.UsuarioNegocioImp;
@@ -34,23 +35,27 @@ public class ServletLogin extends HttpServlet {
 		
 		if(request.getParameter("btnLogin")!=null) {
 			String usuario = request.getParameter("txtUsuario");
-			String contraseña = request.getParameter("txtPassword");
+			String contraseÃ±a = request.getParameter("txtPassword");
 			
+			HttpSession session = request.getSession();
+
 			Usuario usu = new Usuario();
 			usu.setUsuario(usuario);
-			usu.setContraseña(contraseña);
+			usu.setContraseÃ±a(contraseÃ±a);
 			
 			UsuarioNegocioImp neg = new UsuarioNegocioImp();
 			
 			if(neg.existeUsuario(usu)) {
-				request.setAttribute("nombreUsurio", usu.getUsuario());
+				session.setAttribute("nombreUsurio", usu.getUsuario());
 				if(neg.esAdmin(usu)) {
-					request.setAttribute("usuarioAdmin", true);
+					session.setAttribute("usuarioAdmin", true);
+
 					RequestDispatcher rd = request.getRequestDispatcher("ServletAdmin?Param=1");   
 					rd.forward(request, response);   
 				}
 				else {
-					request.setAttribute("usuarioAdmin", false);
+					session.setAttribute("usuarioAdmin", false);
+
 					RequestDispatcher rd = request.getRequestDispatcher("Cuenta1.jsp");   
 					rd.forward(request, response); 
 				}
