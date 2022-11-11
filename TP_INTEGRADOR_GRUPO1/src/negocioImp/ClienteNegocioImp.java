@@ -1,5 +1,7 @@
 package negocioImp;
 
+import java.util.ArrayList;
+
 import dao.ClienteDao;
 import daoImp.ClienteDaoImp;
 import entidades.Cliente;
@@ -23,6 +25,16 @@ public class ClienteNegocioImp implements ClienteNegocio{
 	
 	public int obtenerProxId() {
 		return cdao.obtenerProxId();
+	}
+
+	@Override
+	public ArrayList<Cliente> MostrarTodos() {
+		return cdao.readAll();
+	}
+
+	@Override
+	public ArrayList<Cliente> LeerSegunNombre(String User) {
+		return cdao.LeerSegunNombre(User);
 	}
 
 }

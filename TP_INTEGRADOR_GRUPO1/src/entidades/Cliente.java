@@ -166,11 +166,11 @@ public class Cliente {
 	///METODO TOSTRING()
 	@Override
 	public String toString() {
-		return "Cliente [Nro_Cliente=" + Nro_Cliente + ", Dni=" + Dni + ", Cuil=" + Cuil + ", Nombre=" + Nombre
-				+ ", Apellido=" + Apellido + ", Cod_Genero=" + Cod_Genero + ", Cod_nacionalidad=" + Cod_nacionalidad
-				+ ", Fecha_nac=" + Fecha_nac + ", Direccion=" + Direccion + ", Cod_localidad=" + Cod_localidad
-				+ ", Cod_provincia=" + Cod_provincia + ", Email=" + Email + ", Telefono=" + Telefono + ", Usuario=" + Usuario + ", Estado="
-				+ Estado + "]";
+		return "Nro_Cliente=" + Nro_Cliente + ", Dni=" + Dni + ", Cuil=" + Cuil + ", Nombre=" + Nombre
+				+ ", Apellido=" + Apellido + ", Genero=" + Cod_Genero + ", Nacionalidad=" + Cod_nacionalidad
+				+ ", Fecha Nacimiento=" + Fecha_nac + ", Direccion=" + Direccion + ", Localidad=" + Cod_localidad
+				+ ", Provincia=" + Cod_provincia + ", Email=" + Email + ", Telefono=" + Telefono + ", Usuario=" + Usuario + ", Estado="
+				+ Estado;
 	}
     
 }
