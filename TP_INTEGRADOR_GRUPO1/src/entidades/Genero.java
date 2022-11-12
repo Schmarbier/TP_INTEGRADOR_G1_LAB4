@@ -35,7 +35,7 @@ public class Genero {
 			///METODO TOSTRING()
 			@Override
 			public String toString() {
-				return "" + Cod_genero + " - " + descripcion + "";
+				return descripcion;
 			}
 			
 

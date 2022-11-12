@@ -8,6 +8,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import entidades.Usuario;
 import negocioImp.UsuarioNegocioImp;
@@ -31,27 +32,41 @@ public class ServletLogin extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		
 		if(request.getParameter("btnLogin")!=null) {
-			if(verificarTextbox()) {
-				String usuario = request.getParameter("txtUsuario");
-				String contraseña = request.getParameter("txtPassword");
-				
-				Usuario usu = new Usuario();
-				usu.setUsuario(usuario);
-				usu.setContraseña(contraseña);
-				
-				UsuarioNegocioImp neg = new UsuarioNegocioImp();
-				if(neg.existeUsuario(usu)) {
-					request.setAttribute("sessionTipoUsuario", "admin");
-					response.sendRedirect("AltaClientes.jsp");
+			String usuario = request.getParameter("txtUsuario");
+			String contraseÃ±a = request.getParameter("txtPassword");
+			
+			HttpSession session = request.getSession();
+
+			Usuario usu = new Usuario();
+			usu.setUsuario(usuario);
+			usu.setContraseÃ±a(contraseÃ±a);
+			
+			UsuarioNegocioImp neg = new UsuarioNegocioImp();
+			
+			if(neg.existeUsuario(usu)) {
+				session.setAttribute("nombreUsurio", usu.getUsuario());
+				if(neg.esAdmin(usu)) {
+					session.setAttribute("usuarioAdmin", true);
+
+					RequestDispatcher rd = request.getRequestDispatcher("ServletAdmin?Param=1");   
+					rd.forward(request, response);   
 				}
 				else {
-					request.setAttribute("error", true);
+					session.setAttribute("usuarioAdmin", false);
+
+					RequestDispatcher rd = request.getRequestDispatcher("Cuenta1.jsp");   
+					rd.forward(request, response); 
 				}
+			}
+			else {
+				request.setAttribute("error", true);
 			}
 			RequestDispatcher rd = request.getRequestDispatcher("Login.jsp");   
 			rd.forward(request, response);   
 		}
+		
 	}
 
 	/**
@@ -63,7 +78,7 @@ public class ServletLogin extends HttpServlet {
 	}
 	
 	private boolean verificarTextbox() {
-		return false;
+		return true;
 	}
 
 }

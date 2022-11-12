@@ -67,4 +67,8 @@ public class Cuenta {
 	public void setEstado(boolean estado) {
 		Estado = estado;
 	}
+	
+	public String toString() {
+		return Nro_cuenta + " " + Nro_cliente + " " + Fecha_creacion + " " + Tipo_cuenta + " " + Cbu + " " + Saldo;
+	}
 }

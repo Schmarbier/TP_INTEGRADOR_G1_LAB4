@@ -4,14 +4,31 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 import dao.ClienteDao;
+import entidades.Genero;
+import entidades.Localidad;
+import entidades.Nacionalidad;
+import entidades.Provincia;
+import entidades.Usuario;
 import entidades.Cliente;
 
 public class ClienteDaoImp implements ClienteDao{
 
 	private static final String insert = "INSERT INTO clientes (Dni, Cuil, Nombre, Apellido, Cod_Genero, Cod_nacionalidad, Fecha_nac, Direccion, Cod_localidad, Cod_provincia, Email, Telefono, Usuario, Estado) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
 	private static final String delete = "UPDATE clientes SET Estado = 0  WHERE Dni = ?";
+	
+	private static final String readAll = "SELECT clientes.Nro_Cliente, clientes.Nombre, clientes.Apellido, clientes.Dni,"
+			+ " clientes.Cuil, clientes.Direccion, clientes.Telefono, clientes.Fecha_nac AS Fecha_Nacimiento, "
+			+ "generos.Descripcion AS Genero, nacionalidad.Descripcion AS Nacionalidad, provincias.Descripcion "
+			+ "AS Provincia, localidades.Descripcion AS Localidad, clientes.Email, usuarios.Usuario, usuarios.Contraseña "
+			+ "FROM clientes INNER JOIN generos ON clientes.Cod_Genero = generos.Cod_genero INNER JOIN nacionalidad"
+			+ " ON clientes.Cod_nacionalidad = nacionalidad.Cod_nacionalidad INNER JOIN provincias ON "
+			+ "clientes.Cod_provincia = provincias.Cod_provincia INNER JOIN localidades "
+			+ "ON clientes.Cod_provincia = localidades.Cod_provincia AND clientes.Cod_localidad = localidades.Cod_localidad"
+			+ " INNER JOIN usuarios ON clientes.Usuario = usuarios.Usuario WHERE clientes.Estado=1";
+	
 	
 	@Override
 	public boolean insert(Cliente cli) {
@@ -101,17 +118,15 @@ public class ClienteDaoImp implements ClienteDao{
 	}
 	
 	@Override
-	public boolean existeCliente(Cliente cli) {
+	public boolean existeDni(Cliente cli) {
 		PreparedStatement statement;
 		ResultSet resultSet; 
 		Conexion conexion = Conexion.getConexion();
 		boolean existeCliente = false;
 		try 
 		{
-			statement = conexion.getSQLConexion().prepareStatement("SELECT * FROM clientes WHERE Dni = ? OR Cuil = ? OR Email = ?");
+			statement = conexion.getSQLConexion().prepareStatement("SELECT * FROM clientes WHERE dni = ?");
 			statement.setString(1, cli.getDni());
-			statement.setString(2, cli.getCuil());
-			statement.setString(3, cli.getEmail());
 			resultSet = statement.executeQuery();
 			if(resultSet.next()) existeCliente = true;
 		} 
@@ -122,24 +137,105 @@ public class ClienteDaoImp implements ClienteDao{
 		return existeCliente;
 	}
 
+	
+	
 	@Override
-	public boolean existeDni(Cliente cli) {
-		PreparedStatement statement;
-		ResultSet resultSet; 
+	public ArrayList<Cliente> readAll() {
+		PreparedStatement Statement;
+		ResultSet resultSet;
+		ArrayList<Cliente> ListaClientes = new ArrayList<Cliente>();
 		Conexion conexion = Conexion.getConexion();
-		boolean existeDni = false;
-		try 
-		{
-			statement = conexion.getSQLConexion().prepareStatement("SELECT * FROM clientes WHERE Dni = ?");
-			statement.setString(1, cli.getDni());
-			resultSet = statement.executeQuery();
-			if(resultSet.next()) existeDni = true;
-		} 
-		catch (SQLException e) 
-		{
+		
+		try {
+			Statement = conexion.getSQLConexion().prepareStatement(readAll);
+			resultSet = Statement.executeQuery();
+			while(resultSet.next()) {
+				Genero G = new Genero();
+				Nacionalidad Nac = new Nacionalidad();
+				Provincia Prov = new Provincia();
+				Localidad Loc = new Localidad();
+				Usuario User = new Usuario();
+				
+				int Nro_Cliente = resultSet.getInt(1);
+				String Nombre = resultSet.getString(2);
+				String Apellido = resultSet.getString(3);
+				String Dni = resultSet.getString(4);
+				String Cuil = resultSet.getString(5);
+				String Direccion = resultSet.getString(6);
+				String Telefono = resultSet.getString(7);
+				String FechaNac = resultSet.getString(8);
+				G.setDescripcion(resultSet.getString(9));
+				Nac.setDescripcion(resultSet.getString(10));
+				Prov.setDescripcion(resultSet.getString(11));
+				Loc.setDescripcion(resultSet.getString(12));
+				String Mail = resultSet.getString(13);
+				User.setUsuario(resultSet.getString(14));
+				User.setContraseña(resultSet.getString(15));
+				
+				Cliente cliente = new Cliente(Nro_Cliente,Dni,Cuil,Nombre,Apellido,G,Nac,FechaNac,Direccion,Loc,Prov,Mail,Telefono,User,true);
+			    ListaClientes.add(cliente);
+			}
+		}
+		catch(Exception e) {
 			e.printStackTrace();
 		}
-		return existeDni;
+		return ListaClientes;
+	}
+
+	@Override
+	public ArrayList<Cliente> LeerSegunNombre(String Users) {
+		PreparedStatement Statement;
+		ResultSet resultSet;
+		ArrayList<Cliente> ListaClientes = new ArrayList<Cliente>();
+		Conexion conexion = Conexion.getConexion();
+		
+		try {
+			Statement = conexion.getSQLConexion().prepareStatement("SELECT clientes.Nro_Cliente, clientes.Nombre, clientes.Apellido, clientes.Dni,"
+					+ " clientes.Cuil, clientes.Direccion, clientes.Telefono, clientes.Fecha_nac AS Fecha_Nacimiento, "
+					+ "generos.Descripcion AS Genero, nacionalidad.Descripcion AS Nacionalidad, provincias.Descripcion "
+					+ "AS Provincia, localidades.Descripcion AS Localidad, clientes.Email, usuarios.Usuario, usuarios.Contraseña "
+					+ "FROM clientes INNER JOIN generos ON clientes.Cod_Genero = generos.Cod_genero INNER JOIN nacionalidad"
+					+ " ON clientes.Cod_nacionalidad = nacionalidad.Cod_nacionalidad INNER JOIN provincias ON "
+					+ "clientes.Cod_provincia = provincias.Cod_provincia INNER JOIN localidades "
+					+ "ON clientes.Cod_provincia = localidades.Cod_provincia AND clientes.Cod_localidad = localidades.Cod_localidad"
+					+ " INNER JOIN usuarios ON clientes.Usuario = usuarios.Usuario "
+					+ "WHERE clientes.Estado=1 AND usuarios.Usuario LIKE '%"+Users+"%'");
+			resultSet = Statement.executeQuery();
+			while(resultSet.next()) {
+				Genero G = new Genero();
+				Nacionalidad Nac = new Nacionalidad();
+				Provincia Prov = new Provincia();
+				Localidad Loc = new Localidad();
+				Usuario User = new Usuario();
+				
+				int Nro_Cliente = resultSet.getInt(1);
+				String Nombre = resultSet.getString(2);
+				String Apellido = resultSet.getString(3);
+				String Dni = resultSet.getString(4);
+				String Cuil = resultSet.getString(5);
+				String Direccion = resultSet.getString(6);
+				String Telefono = resultSet.getString(7);
+				String FechaNac = resultSet.getString(8);
+				G.setDescripcion(resultSet.getString(9));
+				Nac.setDescripcion(resultSet.getString(10));
+				Prov.setDescripcion(resultSet.getString(11));
+				Loc.setDescripcion(resultSet.getString(12));
+				String Mail = resultSet.getString(13);
+				User.setUsuario(resultSet.getString(14));
+				User.setContraseña(resultSet.getString(15));
+				
+				Cliente cliente = new Cliente(Nro_Cliente,Dni,Cuil,Nombre,Apellido,G,Nac,FechaNac,Direccion,Loc,Prov,Mail,Telefono,User,true);
+			    ListaClientes.add(cliente);
+			}
+		}
+		catch(Exception e) {
+			e.printStackTrace();
+		}
+		return ListaClientes;
 	}
 	
 }
+
+
+
+

@@ -17,7 +17,7 @@
 	  <a class="navbar-brand" href="#">Banquito Fiel</a>
 	  <ul class="navbar-nav w-100">
 	  	<% String usu = (String) session.getAttribute("TipoUsurio");
-	  	   if(session.getAttribute("TipoUsurio")=="admin") {
+	  	   if(session.getAttribute("usuarioAdmin").equals(true)) {
 		%>
 		   <li class="nav-item dropdown">
 		      <a class="nav-link dropdown-toggle" href="#" id="navbardrop" data-toggle="dropdown">Clientes</a>
@@ -25,7 +25,7 @@
 		        <a class="dropdown-item" href="ServletAdmin?Param=1">Alta cliente</a>
 		        <a class="dropdown-item" href="BajaClientes.jsp">Baja cliente</a>
 		        <a class="dropdown-item" href="ModifClientes.jsp">Modificacion cliente</a>
-		        <a class="dropdown-item" href="ListarClientes.jsp">Listado clientes</a>
+		        <a class="dropdown-item" href="Servlet_ML_cliente?ParamListar=1">Listado clientes</a>
 		      </div>
 		    </li>
 		    <li class="nav-item dropdown">
@@ -34,7 +34,7 @@
 		        <a class="dropdown-item" href="AltaCuenta.jsp">Alta cuenta</a>
 		        <a class="dropdown-item" href="BajaCuenta.jsp">Baja cuenta</a>
 		        <a class="dropdown-item" href="ModifCuenta.jsp">Modificacion cuenta</a>
-		        <a class="dropdown-item" href="ListarCuenta.jsp">Listado cuentas</a>
+		        <a class="dropdown-item" href="servletListarCuenta?Param=listar">Listado cuentas</a>
 		      </div>
 		    </li>
 		    <li class="nav-item">
@@ -69,7 +69,7 @@
 		<% }
 		%>
 			<li class="mt-0 mr-0 mb-0 ml-auto d-flex align-items-center" style="gap: 1rem;">
-				<span style="color: white;">Usuario <%=session.getAttribute("nombreUsurio")%></span>
+				<span style="color: white;">Usuario <%=request.getAttribute("nombreUsurio")%></span>
 				<a href="Login.jsp" class="btn btn-danger"> Cerrar sesion</a>
 			</li>
 	  </ul>
