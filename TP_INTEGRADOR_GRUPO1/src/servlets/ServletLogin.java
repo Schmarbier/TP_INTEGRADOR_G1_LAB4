@@ -1,7 +1,6 @@
 package servlets;
 
 import java.io.IOException;
-
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -35,36 +34,41 @@ public class ServletLogin extends HttpServlet {
 		
 		if(request.getParameter("btnLogin")!=null) {
 			String usuario = request.getParameter("txtUsuario");
-			String contrase√±a = request.getParameter("txtPassword");
-			
-			HttpSession session = request.getSession();
-
+			String contraseÒa = request.getParameter("txtPassword");
 			Usuario usu = new Usuario();
 			usu.setUsuario(usuario);
-			usu.setContrase√±a(contrase√±a);
-			
+			usu.setContrasenia(contraseÒa);
+
 			UsuarioNegocioImp neg = new UsuarioNegocioImp();
+
+			String forwardURL = "Login.jsp"; 
 			
 			if(neg.existeUsuario(usu)) {
-				session.setAttribute("nombreUsurio", usu.getUsuario());
+				
+				request.setAttribute("nombreUsurio", usu.getUsuario());
+				
+				// Verifico si es admin o cliente
+				
+				HttpSession session = request.getSession();
+				session.setAttribute("nombreUsurio", usuario);
+				
 				if(neg.esAdmin(usu)) {
-					session.setAttribute("usuarioAdmin", true);
-
-					RequestDispatcher rd = request.getRequestDispatcher("ServletAdmin?Param=1");   
-					rd.forward(request, response);   
+					request.setAttribute("usuarioAdmin", true);
+					forwardURL = "ServletAdmin?ParamACLI=1";   
 				}
 				else {
-					session.setAttribute("usuarioAdmin", false);
-
-					RequestDispatcher rd = request.getRequestDispatcher("Cuenta1.jsp");   
-					rd.forward(request, response); 
+					request.setAttribute("usuarioAdmin", false);
+					forwardURL = "Cuenta1.jsp";   
 				}
 			}
 			else {
 				request.setAttribute("error", true);
 			}
-			RequestDispatcher rd = request.getRequestDispatcher("Login.jsp");   
+			
+			RequestDispatcher rd = request.getRequestDispatcher(forwardURL);   
 			rd.forward(request, response);   
+
+			request.setAttribute("cad", usu.toString());
 		}
 		
 	}
@@ -75,10 +79,6 @@ public class ServletLogin extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		doGet(request, response);
-	}
-	
-	private boolean verificarTextbox() {
-		return true;
 	}
 
 }

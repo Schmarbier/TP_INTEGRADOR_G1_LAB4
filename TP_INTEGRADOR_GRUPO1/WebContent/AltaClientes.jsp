@@ -21,10 +21,10 @@
 <div class="parteDer">
    <h3 class="titulo"> Alta Clientes </h3> 
    
-<form method="get" action="ServletAgregarCliente">
+<form method="post" action="ServletAdmin">
       <%   int nroCli=0;
            if(request.getAttribute("ncli")!=null) nroCli = Integer.parseInt(request.getAttribute("ncli").toString()); %>
-	  <p>  Cliente nro:  <%= nroCli %> </p>
+	  <p>  Cliente Numero:  <%= nroCli %> </p>
       <p>  Nombre:  <input type="text" name="nombre" placeholder="Ingrese un nombre"
            maxlength="30" required pattern="[A-Za-zñÑ]+" title="Ingrese solo letras" />
            Apellido: <input type="text" name="apellido" placeholder="Ingrese un apellido"

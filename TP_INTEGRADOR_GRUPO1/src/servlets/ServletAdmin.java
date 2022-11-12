@@ -10,7 +10,9 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import daoImp.CuentaDaoImp;
 import entidades.Cliente;
+import entidades.Cuenta;
 import entidades.Genero;
 import entidades.Localidad;
 import entidades.Nacionalidad;
@@ -22,6 +24,7 @@ import negocioImp.GeneroNegocioImp;
 import negocioImp.LocalidadNegocioImp;
 import negocioImp.NacionalidadNegocioImp;
 import negocioImp.ProvinciaNegocioImp;
+import negocioImp.UsuarioNegocioImp;
 
 @WebServlet("/ServletAdmin")
 public class ServletAdmin extends HttpServlet {
@@ -29,46 +32,69 @@ public class ServletAdmin extends HttpServlet {
        
     public ServletAdmin() {
         super();
-        // TODO Auto-generated constructor stub
     }
+
+    ClienteNegocioImp cneg = new ClienteNegocioImp();
+	GeneroNegocioImp gneg = new GeneroNegocioImp();
+	NacionalidadNegocioImp nneg = new NacionalidadNegocioImp();
+	ProvinciaNegocioImp pneg = new ProvinciaNegocioImp();
+	LocalidadNegocioImp lneg = new LocalidadNegocioImp();
+	CuentaDaoImp cuneg = new CuentaDaoImp();
+
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
-	if(request.getParameter("Param")!=null) {
-			/*ClienteNegocioImp cneg = new ClienteNegocioImp();
-			int maxId = cneg.obtenerProxId();
-			request.setAttribute("ncli", maxId);*/
+	if(request.getParameter("ParamACLI")!=null) {
+		    int maxId = cneg.obtenerProxId();
+			request.setAttribute("ncli", maxId);
 			
-			GeneroNegocioImp gneg = new GeneroNegocioImp();
 			ArrayList<Genero> listGeneros = (ArrayList<Genero>) gneg.readAll();
 			request.setAttribute("generos", listGeneros);
 			
-			NacionalidadNegocioImp nneg = new NacionalidadNegocioImp();
 			ArrayList<Nacionalidad> listNacionalidades = (ArrayList<Nacionalidad>) nneg.readAll();
 			request.setAttribute("nacionalidades", listNacionalidades);
 			
-			ProvinciaNegocioImp pneg = new ProvinciaNegocioImp();
 			ArrayList<Provincia> listProvincias = (ArrayList<Provincia>) pneg.readAll();
 			request.setAttribute("provincias", listProvincias);
 			
-			LocalidadNegocioImp lneg = new LocalidadNegocioImp();
 			ArrayList<Localidad> listaLocalidad = (ArrayList<Localidad>) lneg.readAll();
 			request.setAttribute("localidades", listaLocalidad);
 			
 			RequestDispatcher rd = request.getRequestDispatcher("AltaClientes.jsp");
 			rd.forward(request, response);
 	}
+	
+	if(request.getParameter("ParamLCLI")!=null) {
+
+	    ArrayList<Cliente> ListaClientes = cneg.MostrarTodos();
 		
-    if(request.getParameter("Alta")!=null) {
+		request.setAttribute("ListaClientes", ListaClientes);
+		
+		RequestDispatcher rd = request.getRequestDispatcher("/ListarClientes.jsp");
+		rd.forward(request, response);
+	}
+		
+       
+    if(request.getParameter("ParamLCU")!=null) {
 			
+        request.setAttribute("cuentas", cuneg.obtenerCuentas());
+			
+		RequestDispatcher rd = request.getRequestDispatcher("/ListarCuenta.jsp");   
+	    rd.forward(request, response);
+	}
+		
+}
+
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
             if(request.getParameter("btnAgregar")!=null) {
 			
 			boolean alta = false;
+			boolean altaUs = false;
 
 			if(request.getParameter("contra").toString().compareTo(request.getParameter("contra2").toString())!=0)
 			{
 				request.setAttribute("errorContraseña", alta);
-				RequestDispatcher rd = request.getRequestDispatcher("ServletAltaCliente?Param=1");   
+				RequestDispatcher rd = request.getRequestDispatcher("ServletAdmin?Param=1");   
 		        rd.forward(request, response);
 			}
 			
@@ -102,25 +128,25 @@ public class ServletAdmin extends HttpServlet {
 			c.setEstado(true);
 			
 			u.setTipo_Us(new TipoUsuario(2,"Cliente"));
-			u.setContraseña(request.getParameter("contra").toString());
+			u.setContrasenia(request.getParameter("contra").toString());
 			u.setEstado(true);
 			
 			ClienteNegocioImp cn = new ClienteNegocioImp();
 			alta = cn.insert(c);
 			
-			/*UsuarioNegocioImp un = new UsuarioNegocioImp();
-			alta = un.insert(u);*/
+			if(alta==true) {
+				UsuarioNegocioImp un = new UsuarioNegocioImp();
+				altaUs = un.insert(u);
+			}		
 			
-			if(alta==true) request.setAttribute("exito", alta);
+			if(alta==true && altaUs==true) request.setAttribute("exito", alta);
 			else request.setAttribute("error", alta);
-			RequestDispatcher rd = request.getRequestDispatcher("ServletAltaCliente?Param=1");   
+			RequestDispatcher rd = request.getRequestDispatcher("/AltaClientes.jsp");   
 	        rd.forward(request, response);
          }
-       }
+       
     
-    if(request.getParameter("Baja")!=null) {	
-    	
-	 if(request.getParameter("btnEliminar")!=null) {
+       if(request.getParameter("btnEliminar")!=null) {
 			boolean baja = false;
 			Cliente c = new Cliente();
 			c.setDni(request.getParameter("UsuarioEliminado").toString());
@@ -133,13 +159,31 @@ public class ServletAdmin extends HttpServlet {
 			RequestDispatcher rd = request.getRequestDispatcher("/BajaClientes.jsp");   
 	        rd.forward(request, response);
 		}
-    }
-}
-
-
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		doGet(request, response);
+       
+       if(request.getParameter("btnBuscarUser")!=null) {
+			
+			String User=request.getParameter("txtBuscarUsuario").toString();
+			
+			ArrayList<Cliente> ClienteSegunUser = cneg.LeerSegunNombre(User);
+			
+			request.setAttribute("CLIENTE",ClienteSegunUser);
+			
+			RequestDispatcher rd = request.getRequestDispatcher("/ListarClientes.jsp");
+			rd.forward(request, response);
+		}
+       
+       if(request.getParameter("btnBuscar")!=null) {
+			
+			ArrayList<Cuenta> lista = (ArrayList<Cuenta>) cuneg.obtenerCuentaQueryCustom(request.getParameter("dllBusqueda").toString(), request.getParameter("txtFiltro").toString());
+			System.out.println(request.getParameter("dllBusqueda").toString());
+			request.removeAttribute("cuentas");
+			request.setAttribute("cuentas", lista);
+			
+			RequestDispatcher rd = request.getRequestDispatcher("/ListarCuenta.jsp");   
+	        rd.forward(request, response);
+		}
+       
+		///doGet(request, response);
 	}
 
 }
