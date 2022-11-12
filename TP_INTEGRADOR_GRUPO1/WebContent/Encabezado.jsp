@@ -22,10 +22,10 @@
 		   <li class="nav-item dropdown">
 		      <a class="nav-link dropdown-toggle" href="#" id="navbardrop" data-toggle="dropdown">Clientes</a>
 		      <div class="dropdown-menu">
-		        <a class="dropdown-item" href="ServletAdmin?Param=1">Alta cliente</a>
+		        <a class="dropdown-item" href="ServletAdmin?ParamACLI=1">Alta cliente</a>
 		        <a class="dropdown-item" href="BajaClientes.jsp">Baja cliente</a>
 		        <a class="dropdown-item" href="ModifClientes.jsp">Modificacion cliente</a>
-		        <a class="dropdown-item" href="Servlet_ML_cliente?ParamListar=1">Listado clientes</a>
+		        <a class="dropdown-item" href="ServletAdmin?ParamLCLI=1">Listado clientes</a>
 		      </div>
 		    </li>
 		    <li class="nav-item dropdown">
@@ -34,7 +34,7 @@
 		        <a class="dropdown-item" href="AltaCuenta.jsp">Alta cuenta</a>
 		        <a class="dropdown-item" href="BajaCuenta.jsp">Baja cuenta</a>
 		        <a class="dropdown-item" href="ModifCuenta.jsp">Modificacion cuenta</a>
-		        <a class="dropdown-item" href="servletListarCuenta?Param=listar">Listado cuentas</a>
+		        <a class="dropdown-item" href="ServletAdmin?ParamLCU=1">Listado cuentas</a>
 		      </div>
 		    </li>
 		    <li class="nav-item">

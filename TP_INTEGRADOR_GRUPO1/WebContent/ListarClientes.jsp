@@ -19,7 +19,7 @@
 <div class="parteDer">
    <h3 class="titulo"> Listado Clientes </h3> 
 
-<form method="post" action="Servlet_ML_cliente">
+<form method="post" action="ServletAdmin">
 
     	<p>  Buscar usuario en especifico: <input type="text" name="txtBuscarUsuario"></input>
 	    <input type="submit" name="btnBuscarUser" value="Buscar"></input></p>
