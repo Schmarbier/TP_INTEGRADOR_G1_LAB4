@@ -11,7 +11,7 @@ import entidades.Usuario;
 public class UsuarioDaoImp implements UsuarioDao{
 
 	private static final String insert = "INSERT INTO usuarios (Usuario, Tipo_Us, Contraseña, Estado) VALUES(?, ?, ?, ?)";
-	private static final String delete = "UPDATE usuarios SET Estado = false  WHERE Usuario = ?";
+	private static final String delete = "UPDATE usuarios SET Estado = 0  WHERE Usuario = ?";
 	
 	@Override
 	public boolean insert(Usuario usu) {
