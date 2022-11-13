@@ -20,10 +20,6 @@ import entidades.Provincia;
 import entidades.TipoUsuario;
 import entidades.Usuario;
 import negocioImp.ClienteNegocioImp;
-import negocioImp.GeneroNegocioImp;
-import negocioImp.LocalidadNegocioImp;
-import negocioImp.NacionalidadNegocioImp;
-import negocioImp.ProvinciaNegocioImp;
 import negocioImp.UsuarioNegocioImp;
 
 @WebServlet("/ServletAdmin")
@@ -35,34 +31,10 @@ public class ServletAdmin extends HttpServlet {
     }
 
     ClienteNegocioImp cneg = new ClienteNegocioImp();
-	GeneroNegocioImp gneg = new GeneroNegocioImp();
-	NacionalidadNegocioImp nneg = new NacionalidadNegocioImp();
-	ProvinciaNegocioImp pneg = new ProvinciaNegocioImp();
-	LocalidadNegocioImp lneg = new LocalidadNegocioImp();
 	CuentaDaoImp cuneg = new CuentaDaoImp();
 
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
-	if(request.getParameter("ParamACLI")!=null) {
-		    int maxId = cneg.obtenerProxId();
-			request.setAttribute("ncli", maxId);
-			
-			ArrayList<Genero> listGeneros = (ArrayList<Genero>) gneg.readAll();
-			request.setAttribute("generos", listGeneros);
-			
-			ArrayList<Nacionalidad> listNacionalidades = (ArrayList<Nacionalidad>) nneg.readAll();
-			request.setAttribute("nacionalidades", listNacionalidades);
-			
-			ArrayList<Provincia> listProvincias = (ArrayList<Provincia>) pneg.readAll();
-			request.setAttribute("provincias", listProvincias);
-			
-			ArrayList<Localidad> listaLocalidad = (ArrayList<Localidad>) lneg.readAll();
-			request.setAttribute("localidades", listaLocalidad);
-			
-			RequestDispatcher rd = request.getRequestDispatcher("AltaClientes.jsp");
-			rd.forward(request, response);
-	}
 	
 	if(request.getParameter("ParamLCLI")!=null) {
 
@@ -88,8 +60,7 @@ public class ServletAdmin extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
             if(request.getParameter("btnAgregar")!=null) {
 			
-			boolean alta = false;
-			boolean altaUs = false;
+            int alta = 0;
 
 			if(request.getParameter("contra").toString().compareTo(request.getParameter("contra2").toString())!=0)
 			{
@@ -132,16 +103,14 @@ public class ServletAdmin extends HttpServlet {
 			u.setEstado(true);
 			
 			ClienteNegocioImp cn = new ClienteNegocioImp();
-			alta = cn.insert(c);
+			if(cn.insert(c)) alta++;
 			
-			if(alta==true) {
-				UsuarioNegocioImp un = new UsuarioNegocioImp();
-				altaUs = un.insert(u);
-			}		
+			UsuarioNegocioImp un = new UsuarioNegocioImp();
+			if(un.insert(u)) alta++;	
 			
-			if(alta==true && altaUs==true) request.setAttribute("exito", alta);
+			if(alta == 2) request.setAttribute("exito", alta);
 			else request.setAttribute("error", alta);
-			RequestDispatcher rd = request.getRequestDispatcher("/AltaClientes.jsp");   
+			RequestDispatcher rd = request.getRequestDispatcher("ServletDatosAdmin?datosAlta=1");   
 	        rd.forward(request, response);
          }
        
