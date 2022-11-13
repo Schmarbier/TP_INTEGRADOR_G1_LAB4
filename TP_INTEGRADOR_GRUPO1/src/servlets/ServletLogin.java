@@ -54,7 +54,7 @@ public class ServletLogin extends HttpServlet {
 				
 				if(neg.esAdmin(usu)) {
 					request.setAttribute("usuarioAdmin", true);
-					forwardURL = "ServletAdmin?ParamACLI=1";   
+					forwardURL = "ServletDatosAdmin?datosAlta=1";   
 				}
 				else {
 					request.setAttribute("usuarioAdmin", false);
