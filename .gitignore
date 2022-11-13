@@ -2,3 +2,5 @@
 /.recommenders/
 *.component
 TP_INTEGRADOR_GRUPO1/.classpath
+*.log
+.metadata/.plugins/org.eclipse.m2e.logback.configuration/0.log
