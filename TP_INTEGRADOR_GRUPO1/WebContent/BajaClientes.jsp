@@ -16,7 +16,7 @@
 <div class="parteDer">
    <h3 class="titulo"> Baja Clientes </h3> 
 
-	<form method="get" action="ServletEliminarCliente">
+	<form method="post" action="ServletAdmin">
 	<p>  Ingrese el DNI del cliente que desea eliminar: <input type="text" required name="UsuarioEliminado"></input>
 	     <input type="submit" name="btnEliminar" value="Eliminar Cliente"></input></p>
 	</form>
