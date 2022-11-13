@@ -38,13 +38,8 @@
 					<input type="submit" class="btn btn-primary m-auto w-50 d-block" name="btnLogin" value="Ingresar">
 				</div>
 		         <div style="width:100%;height:50px;float:center">
-		         <div style="width:100%;height:50px;float:center">
-		         <div style="width:100%;height:50px;float:center">
 		         <% if (request.getAttribute("error")!=null){ %>
 		         	<p style="text-align:center;font-size: xx-small; color: red;"><strong>Ingrese un usuario y contraseña correcta</strong></p>
-		         <%} %>
-		         <% if (request.getAttribute("cad")!=null){ %>
-		         	<h5><%=request.getAttribute("cad")%></h5>
 		         <%} %>
 		         </div>
 			</div>

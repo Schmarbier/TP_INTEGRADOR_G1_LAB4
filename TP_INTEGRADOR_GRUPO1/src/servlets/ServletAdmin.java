@@ -32,6 +32,13 @@ public class ServletAdmin extends HttpServlet {
 
     ClienteNegocioImp cneg = new ClienteNegocioImp();
 	CuentaDaoImp cuneg = new CuentaDaoImp();
+	UsuarioNegocioImp uneg = new UsuarioNegocioImp();
+	Cliente c = new Cliente();
+	Usuario u = new Usuario();
+	Genero g = new Genero();
+	Nacionalidad n = new Nacionalidad();
+	Provincia p = new Provincia();
+	Localidad l = new Localidad();
 
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -59,30 +66,33 @@ public class ServletAdmin extends HttpServlet {
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
             if(request.getParameter("btnAgregar")!=null) {
-			
-            int alta = 0;
 
+            boolean alta = false;
+            
 			if(request.getParameter("contra").toString().compareTo(request.getParameter("contra2").toString())!=0)
 			{
 				request.setAttribute("errorContraseña", alta);
-				RequestDispatcher rd = request.getRequestDispatcher("ServletAdmin?Param=1");   
+				RequestDispatcher rd = request.getRequestDispatcher("ServletDatosAdmin?datosAlta=1");   
 		        rd.forward(request, response);
 			}
 			
-			Cliente c = new Cliente();
-			Usuario u = new Usuario();
-			Genero g = new Genero();
-			Nacionalidad n = new Nacionalidad();
-			Provincia p = new Provincia();
-			Localidad l = new Localidad();
+			u.setUsuario(request.getParameter("usuario").toString());
+			u.setTipo_Us(new TipoUsuario(2,"Cliente"));
+			u.setContrasenia(request.getParameter("contra").toString());
+			u.setEstado(true);
 			
+			if(uneg.insert(u) == false) {
+				request.setAttribute("usuarioExistente", alta);
+				RequestDispatcher rd = request.getRequestDispatcher("ServletDatosAdmin?datosAlta=1");   
+		        rd.forward(request, response);
+			}
+
 			g.setCod_genero(Integer.parseInt(request.getParameter("genero").toString()));
 			n.setCod_nacionalidad(Integer.parseInt(request.getParameter("nacionalidad").toString()));
 			p.setCod_provincia(Integer.parseInt(request.getParameter("provincia").toString()));
 			l.setCod_localidad(Integer.parseInt(request.getParameter("localidad").toString()));
-			u.setUsuario(request.getParameter("usuario").toString());
 
-			
+				
 			c.setNombre(request.getParameter("nombre").toString());
 			c.setApellido(request.getParameter("apellido").toString());
 			c.setDni(request.getParameter("dni").toString());
@@ -98,20 +108,18 @@ public class ServletAdmin extends HttpServlet {
 			c.setUsuario(u);
 			c.setEstado(true);
 			
-			u.setTipo_Us(new TipoUsuario(2,"Cliente"));
-			u.setContrasenia(request.getParameter("contra").toString());
-			u.setEstado(true);
+			if(cneg.insert(c) == false) {
+				uneg.delete(u);
+				request.setAttribute("error", alta);
+				RequestDispatcher rd = request.getRequestDispatcher("ServletDatosAdmin?datosAlta=1");   
+		        rd.forward(request, response);
+			}
 			
-			ClienteNegocioImp cn = new ClienteNegocioImp();
-			if(cn.insert(c)) alta++;
-			
-			UsuarioNegocioImp un = new UsuarioNegocioImp();
-			if(un.insert(u)) alta++;	
-			
-			if(alta == 2) request.setAttribute("exito", alta);
-			else request.setAttribute("error", alta);
-			RequestDispatcher rd = request.getRequestDispatcher("ServletDatosAdmin?datosAlta=1");   
-	        rd.forward(request, response);
+			else{
+				request.setAttribute("exito", alta);
+				RequestDispatcher rd = request.getRequestDispatcher("ServletDatosAdmin?datosAlta=1");   
+		        rd.forward(request, response);
+			}
          }
        
     

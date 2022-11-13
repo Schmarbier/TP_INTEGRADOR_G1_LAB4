@@ -1,6 +1,7 @@
 package servlets;
 
 import java.io.IOException;
+
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -34,51 +35,43 @@ public class ServletLogin extends HttpServlet {
 		
 		if(request.getParameter("btnLogin")!=null) {
 			String usuario = request.getParameter("txtUsuario");
-			String contraseña = request.getParameter("txtPassword");
+			String contrasena = request.getParameter("txtPassword");
+			
+			HttpSession session = request.getSession();
+
 			Usuario usu = new Usuario();
 			usu.setUsuario(usuario);
-			usu.setContrasenia(contraseña);
-
+			usu.setContrasenia(contrasena);
+			
 			UsuarioNegocioImp neg = new UsuarioNegocioImp();
-
-			String forwardURL = "Login.jsp"; 
 			
 			if(neg.existeUsuario(usu)) {
-				
-				request.setAttribute("nombreUsurio", usu.getUsuario());
-				
-				// Verifico si es admin o cliente
-				
-				HttpSession session = request.getSession();
-				session.setAttribute("nombreUsurio", usuario);
-				
+				session.setAttribute("nombreUsurio", usu.getUsuario());
 				if(neg.esAdmin(usu)) {
-					request.setAttribute("usuarioAdmin", true);
-					forwardURL = "ServletDatosAdmin?datosAlta=1";   
+					session.setAttribute("usuarioAdmin", true);
+
+					RequestDispatcher rd = request.getRequestDispatcher("ServletDatosAdmin?datosAlta=1");   
+					rd.forward(request, response);   
 				}
 				else {
-					request.setAttribute("usuarioAdmin", false);
-					forwardURL = "Cuenta1.jsp";   
+					session.setAttribute("usuarioAdmin", false);
+
+					RequestDispatcher rd = request.getRequestDispatcher("Cuenta1.jsp");   
+					rd.forward(request, response); 
 				}
 			}
 			else {
 				request.setAttribute("error", true);
 			}
-			
-			RequestDispatcher rd = request.getRequestDispatcher(forwardURL);   
+			RequestDispatcher rd = request.getRequestDispatcher("Login.jsp");   
 			rd.forward(request, response);   
-
-			request.setAttribute("cad", usu.toString());
 		}
 		
 	}
 
-	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
-	 */
+
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		doGet(request, response);
 	}
-
 }

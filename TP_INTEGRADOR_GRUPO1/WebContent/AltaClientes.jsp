@@ -95,6 +95,7 @@
 	<%  if(request.getAttribute("exito")!=null) {%> Cliente agregado con éxito <%}%>
 	<%  if(request.getAttribute("error")!=null) {%> No se pudo agregar el cliente. Cliente ya existente <%}%>
 	<%  if(request.getAttribute("errorContraseña")!=null) {%> Error. Las contraseñas no coinciden <%}%>
+	<%  if(request.getAttribute("usuarioExistente")!=null) {%> Error. El usuario ingresado ya existe <%}%>
 
 </div>
 
