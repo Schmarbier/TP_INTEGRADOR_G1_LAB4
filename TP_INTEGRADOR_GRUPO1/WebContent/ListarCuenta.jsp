@@ -18,21 +18,25 @@
 <div class="parteDer">
    <h3 class="titulo"> Listar Cuenta </h3> 
 <form method="post" action="ServletAdmin">
-    	<p>Buscar en:</p>
-    	<select name="dllBusqueda">
-		  <option value="todo">Todo</option>
-		  <option value="Nro_cuenta">Numero de Cuenta</option>
-		  <option value="Nro_cliente">Numero de cliente</option>
-		  <option value="Fecha_creacion">Fecha de creacion</option>
-		  <option value="Descripcion">Tipo de cuenta</option>
-		  <option value="Cbu">CBU</option>
-		  <option value="Saldo">Saldo</option>
-		</select>
-		<input type="text" name="txtFiltro"></input>
-	    <input type="submit" name="btnBuscar" value="Buscar"></input>
-	    <input type="submit" name="ParamLCU" value="Mostrar todo"></input>
+	    <p>Buscar en: </p>
+    	<div class="input-group mb-3">
+		    	<select name="dllBusqueda" class="form-control">
+				  <option value="todo">todo</option>
+				  <option value="Nro_cuenta">Numero de Cuenta</option>
+				  <option value="Nro_cliente">Numero de cliente</option>
+				  <option value="Fecha_creacion">Fecha de creacion</option>
+				  <option value="Descripcion">Tipo de cuenta</option>
+				  <option value="Cbu">CBU</option>
+				  <option value="Saldo">Saldo</option>
+				</select>
+				<input type="text" class="form-control" name="txtFiltro" placehorder="Busqueda">
+    		<div class="input-group-append">
+			    <input type="submit" name="btnModBuscar" value="Buscar" class="btn btn-outline-primary">
+			    <input type="submit" name="ParamLCU" value="Mostrar todo" class="btn btn-outline-primary">
+    		</div>
+    	</div>
 </form>
-	    <table border="1">
+	    <table id="myTable" class="table table-sm">
 	    <thead>
 		    <tr>
 	            <th>Nro Cuenta</th>
@@ -71,11 +75,26 @@
 	    </tbody>
 
 </table>
-
-
-
-   
 </div>
-
+<script>
+$(document).ready( function () {
+    $('#myTable').DataTable({
+    	"searching": false,
+    	"lengthMenu": [5, 10, 15, 30, 60],
+    	"language": {
+            "zeroRecords": "No se encontraron datos",
+            "infoEmpty": "No hay datos para mostrar",
+            "info": "Mostrando del _START_ al _END_, de un total de _TOTAL_ entradas",
+            "lengthMenu": "Mostrar _MENU_ registros",
+            "paginate": {
+                "first": "Primeros",
+                "last": "Ultimos",
+                "next": "Siguiente",
+                "previous": "Anterior"
+            },
+        },
+    });
+} );
+</script>
 </body>
 </html>

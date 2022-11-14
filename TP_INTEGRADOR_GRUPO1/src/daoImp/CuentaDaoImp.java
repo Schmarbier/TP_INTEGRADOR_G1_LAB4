@@ -56,7 +56,7 @@ public class CuentaDaoImp implements CuentaDao {
 		ArrayList<Cuenta> lista = new ArrayList<Cuenta>();
 		String Query = "";
 		
-		if(consulta == "todo") {
+		if(consulta.equals("todo")) {
 			Query = "SELECT a.Nro_cuenta, a.Nro_cliente, a.Fecha_creacion, a.Tipo_cuenta, b.Descripcion, a.Cbu, a.Saldo " + 
 					"from cuentas as a inner join tiposcuentas as b on a.Tipo_cuenta = b.Tipo_cuenta " + 
 					"WHERE " + 
@@ -147,7 +147,7 @@ public class CuentaDaoImp implements CuentaDao {
 			statement.setString(4, c.getCbu());
 			statement.setFloat(5, c.getSaldo());
 			statement.setInt(6, c.getNro_cuenta());	
-			System.out.println(c);
+			
 			if(statement.executeUpdate() > 0)
 			{
 				conexion.commit();
@@ -163,6 +163,7 @@ public class CuentaDaoImp implements CuentaDao {
 				e1.printStackTrace();
 			}
 		}
+		System.out.println(isInsertExitoso);
 		return isInsertExitoso;
 	}
 
