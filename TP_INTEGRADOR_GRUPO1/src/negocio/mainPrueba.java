@@ -16,6 +16,8 @@ public class mainPrueba {
 	
 	public static void main(String[] args) {
 		
+		/* Para pruebas */
+		
 		/*
 		
 		String usuario = "CarlaEyra";
@@ -34,7 +36,6 @@ public class mainPrueba {
 		
 		*/
 		
-
 		TipoCuentaNegocioImp neg = new TipoCuentaNegocioImp();
 		ArrayList<TipoCuenta> lista = (ArrayList<TipoCuenta>) neg.readAll();
 		for(TipoCuenta p:lista) { System.out.println( p.toString()); }
