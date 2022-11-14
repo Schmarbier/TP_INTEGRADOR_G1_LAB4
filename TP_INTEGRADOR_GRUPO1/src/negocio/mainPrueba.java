@@ -33,6 +33,7 @@ public class mainPrueba {
 		for(Cuenta p:listaTs) { System.out.println( p.toString()); }
 		
 		*/
+		
 
 		TipoCuentaNegocioImp neg = new TipoCuentaNegocioImp();
 		ArrayList<TipoCuenta> lista = (ArrayList<TipoCuenta>) neg.readAll();

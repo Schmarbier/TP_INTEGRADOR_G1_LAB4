@@ -13,6 +13,7 @@ public class TipoCuentaNegocioImp implements TipoCuentaNegocio{
 	
 	@Override
 	public List<TipoCuenta> readAll() {
+		
 		return tcdao.readAll();
 	}
 

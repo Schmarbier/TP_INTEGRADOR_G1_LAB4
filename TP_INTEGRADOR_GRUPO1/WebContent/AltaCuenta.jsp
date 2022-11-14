@@ -28,7 +28,8 @@
       <p>  Fecha de alta: </p>
       <p>  Tipo de cuenta: 
       		<select required name="ddlCuentas">
-		  		<% ArrayList <TipoCuenta> tcList = null;
+		  		<% 
+		  		   ArrayList <TipoCuenta> tcList = null;
 		           if(session.getAttribute("TipoCuenta")!=null) tcList=(ArrayList<TipoCuenta>)session.getAttribute("TipoCuenta");
 		           if(tcList!=null)
 		           for(TipoCuenta tc : tcList){ %>

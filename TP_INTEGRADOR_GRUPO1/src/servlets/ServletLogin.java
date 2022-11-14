@@ -100,6 +100,7 @@ public class ServletLogin extends HttpServlet {
 		session.setAttribute("TipoCuenta", listTipoCuenta);
 
 		/*
+		 
 		GeneroNegocioImp gneg = new GeneroNegocioImp();
 		ArrayList<Genero> listGeneros = (ArrayList<Genero>) gneg.readAll();
 		request.setAttribute("generos", listGeneros);
@@ -115,6 +116,7 @@ public class ServletLogin extends HttpServlet {
 		LocalidadNegocioImp lneg = new LocalidadNegocioImp();
 		ArrayList<Localidad> listaLocalidad = (ArrayList<Localidad>) lneg.readAll();
 		request.setAttribute("localidades", listaLocalidad);
+		
 		*/
 	}	
 	
