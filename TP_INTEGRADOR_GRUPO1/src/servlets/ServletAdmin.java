@@ -82,13 +82,15 @@ public class ServletAdmin extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
             if(request.getParameter("btnAgregar")!=null) {
 
-            boolean alta = false;
+            boolean alta = true;
             
 			if(request.getParameter("contra").toString().compareTo(request.getParameter("contra2").toString())!=0)
 			{
+				alta = false;
 				request.setAttribute("errorContraseña", alta);
 				RequestDispatcher rd = request.getRequestDispatcher("ServletDatosAdmin?datosAlta=1");   
 		        rd.forward(request, response);
+		        return;
 			}
 			
 			u.setUsuario(request.getParameter("usuario").toString());
@@ -96,10 +98,12 @@ public class ServletAdmin extends HttpServlet {
 			u.setContrasenia(request.getParameter("contra").toString());
 			u.setEstado(true);
 			
-			if(uneg.insert(u) == false) {
+			if(uneg.existeNombreUsuario(u)) {
+				alta = false;
 				request.setAttribute("usuarioExistente", alta);
 				RequestDispatcher rd = request.getRequestDispatcher("ServletDatosAdmin?datosAlta=1");   
 		        rd.forward(request, response);
+		        return;
 			}
 
 			g.setCod_genero(Integer.parseInt(request.getParameter("genero").toString()));
@@ -124,17 +128,19 @@ public class ServletAdmin extends HttpServlet {
 			c.setEstado(true);
 			
 			if(cneg.insert(c) == false) {
-				uneg.delete(u);
+				alta = false;
 				request.setAttribute("error", alta);
 				RequestDispatcher rd = request.getRequestDispatcher("ServletDatosAdmin?datosAlta=1");   
 		        rd.forward(request, response);
+		        return;
 			}
 			
-			else{
+			if(alta==true) {
 				request.setAttribute("exito", alta);
 				RequestDispatcher rd = request.getRequestDispatcher("ServletDatosAdmin?datosAlta=1");   
-		        rd.forward(request, response);
+			    rd.forward(request, response);
 			}
+		        
          }
        
        if(request.getParameter("btnEliminar")!=null) {
