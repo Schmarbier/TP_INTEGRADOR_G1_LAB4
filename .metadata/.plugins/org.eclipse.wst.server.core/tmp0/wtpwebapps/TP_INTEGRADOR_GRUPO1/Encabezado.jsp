@@ -9,8 +9,7 @@
 	<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
 	
 	<!-- Latest compiled JavaScript -->
-	<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/js/bootstrap.bundle.min.js"></script>	
-	
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/js/bootstrap.bundle.min.js"></script>
 </head>
 
 <div class="w-100">
@@ -34,7 +33,7 @@
 		      <div class="dropdown-menu">
 		        <a class="dropdown-item" href="AltaCuenta.jsp">Alta cuenta</a>
 		        <a class="dropdown-item" href="BajaCuenta.jsp">Baja cuenta</a>
-		        <a class="dropdown-item" href="ServletAdmin?modCuenta=1">Modificacion cuenta</a>
+		        <a class="dropdown-item" href="ModifCuenta.jsp">Modificacion cuenta</a>
 		        <a class="dropdown-item" href="ServletAdmin?ParamLCU=1">Listado cuentas</a>
 		      </div>
 		    </li>

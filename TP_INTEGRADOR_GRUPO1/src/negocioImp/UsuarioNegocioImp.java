@@ -10,8 +10,9 @@ public class UsuarioNegocioImp implements UsuarioNegocio{
 	UsuarioDao udao = new UsuarioDaoImp();
 	
 	@Override
-	public boolean existeNombreUsuario(Usuario usu) {
-        return udao.existeNombreUsuario(usu);
+	public boolean insert(Usuario usu) {
+		if(udao.existeUsuario(usu)==true) return false;
+		else return udao.insert(usu);
 	}
 
 	@Override
