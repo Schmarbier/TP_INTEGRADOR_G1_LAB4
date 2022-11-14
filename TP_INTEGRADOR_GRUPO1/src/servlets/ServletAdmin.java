@@ -90,6 +90,7 @@ public class ServletAdmin extends HttpServlet {
 				request.setAttribute("errorContraseña", alta);
 				RequestDispatcher rd = request.getRequestDispatcher("ServletDatosAdmin?datosAlta=1");   
 		        rd.forward(request, response);
+		        return;
 			}
 			
 			u.setUsuario(request.getParameter("usuario").toString());
@@ -97,11 +98,12 @@ public class ServletAdmin extends HttpServlet {
 			u.setContrasenia(request.getParameter("contra").toString());
 			u.setEstado(true);
 			
-			if(uneg.insert(u) == false) {
+			if(uneg.existeNombreUsuario(u)) {
 				alta = false;
 				request.setAttribute("usuarioExistente", alta);
 				RequestDispatcher rd = request.getRequestDispatcher("ServletDatosAdmin?datosAlta=1");   
 		        rd.forward(request, response);
+		        return;
 			}
 
 			g.setCod_genero(Integer.parseInt(request.getParameter("genero").toString()));
@@ -127,17 +129,18 @@ public class ServletAdmin extends HttpServlet {
 			
 			if(cneg.insert(c) == false) {
 				alta = false;
-				uneg.delete(u);
 				request.setAttribute("error", alta);
 				RequestDispatcher rd = request.getRequestDispatcher("ServletDatosAdmin?datosAlta=1");   
 		        rd.forward(request, response);
+		        return;
 			}
 			
-			if(alta==true){
+			if(alta==true) {
 				request.setAttribute("exito", alta);
 				RequestDispatcher rd = request.getRequestDispatcher("ServletDatosAdmin?datosAlta=1");   
-		        rd.forward(request, response);
+			    rd.forward(request, response);
 			}
+		        
          }
        
        if(request.getParameter("btnEliminar")!=null) {
