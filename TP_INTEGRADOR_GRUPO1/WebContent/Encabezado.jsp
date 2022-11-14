@@ -25,8 +25,11 @@
 		      <div class="dropdown-menu">
 		        <a class="dropdown-item" href="ServletDatosAdmin?datosAlta=1">Alta cliente</a>
 		        <a class="dropdown-item" href="BajaClientes.jsp">Baja cliente</a>
-		        <a class="dropdown-item" href="ModifClientes.jsp">Modificacion cliente</a>
-		        <a class="dropdown-item" href="ServletAdmin?ParamLCLI=1">Listado clientes</a>
+
+		        <a class="dropdown-item" href="ServletAdmin?ParamModifCLI=1">Modificar cliente</a>
+		        <a class="dropdown-item" href="ServletAdmin?ParamListarCLI=1">Listado clientes</a>
+
+		       
 		      </div>
 		    </li>
 		    <li class="nav-item dropdown">

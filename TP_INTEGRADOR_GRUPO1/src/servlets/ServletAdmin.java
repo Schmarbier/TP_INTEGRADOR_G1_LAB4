@@ -25,6 +25,10 @@ import entidades.TipoUsuario;
 import entidades.Usuario;
 import negocioImp.ClienteNegocioImp;
 import negocioImp.CuentaNegocioImp;
+import negocioImp.GeneroNegocioImp;
+import negocioImp.LocalidadNegocioImp;
+import negocioImp.NacionalidadNegocioImp;
+import negocioImp.ProvinciaNegocioImp;
 import negocioImp.UsuarioNegocioImp;
 
 
@@ -50,7 +54,7 @@ public class ServletAdmin extends HttpServlet {
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 	
-	if(request.getParameter("ParamLCLI")!=null) {
+	if(request.getParameter("ParamListarCLI")!=null) {
 
 	    ArrayList<Cliente> ListaClientes = cneg.MostrarTodos();
 		
@@ -76,6 +80,18 @@ public class ServletAdmin extends HttpServlet {
 		RequestDispatcher rd = request.getRequestDispatcher("/ModifCuenta.jsp");
         rd.forward(request, response);
 	}
+    
+    
+    if(request.getParameter("ParamModifCLI")!=null) {
+		
+		ArrayList<Cliente> ListaClientes = cneg.MostrarTodos();
+		request.setAttribute("ListaClientes", ListaClientes);
+		
+		RequestDispatcher rd = request.getRequestDispatcher("/ModifClientes.jsp");
+		rd.forward(request, response);
+		
+	}
+    
 		
 }
 
@@ -161,7 +177,7 @@ public class ServletAdmin extends HttpServlet {
 			
 			String User=request.getParameter("txtBuscarUsuario").toString();
 			
-			ArrayList<Cliente> ClienteSegunUser = cneg.LeerSegunNombre(User);
+			ArrayList<Cliente> ClienteSegunUser = cneg.LeerSegunUsuario(User);
 			
 			request.setAttribute("CLIENTE",ClienteSegunUser);
 			
@@ -229,8 +245,115 @@ public class ServletAdmin extends HttpServlet {
 	        rd.forward(request, response);
 	    }
        
-		doGet(request, response);
-
+		//doGet(request, response);
+	    
+	    
+	    
+	    
+	    
+       if(request.getParameter("btnBuscarUsuario")!=null) {
+			
+			String User=request.getParameter("txtUsuarioModificar").toString();
+			
+			ArrayList<Cliente> ClienteSegunUser = cneg.LeerSegunUsuario(User);
+			
+			request.setAttribute("CLIENTE",ClienteSegunUser);
+			
+			RequestDispatcher rd = request.getRequestDispatcher("/ModifClientes.jsp");
+			rd.forward(request, response);
+		}
+		
+		
+		if(request.getParameter("btnModificarCliente")!=null) {
+			
+           String User1=request.getParameter("hiddenUsuario").toString();
+		   ArrayList<Cliente> ClienteUser = cneg.LeerSegunUsuario(User1);
+		   request.setAttribute("ClienteModificar",ClienteUser);
+			
+			GeneroNegocioImp gneg = new GeneroNegocioImp();
+			ArrayList<Genero> listGeneros = (ArrayList<Genero>) gneg.readAll();
+			request.setAttribute("generos", listGeneros);
+			
+			NacionalidadNegocioImp nneg = new NacionalidadNegocioImp();
+			ArrayList<Nacionalidad> listNacionalidades = (ArrayList<Nacionalidad>) nneg.readAll();
+			request.setAttribute("nacionalidades", listNacionalidades);
+			
+			ProvinciaNegocioImp pneg = new ProvinciaNegocioImp();
+			ArrayList<Provincia> listProvincias = (ArrayList<Provincia>) pneg.readAll();
+			request.setAttribute("provincias", listProvincias);
+			
+			LocalidadNegocioImp lneg = new LocalidadNegocioImp();
+			ArrayList<Localidad> listaLocalidad = (ArrayList<Localidad>) lneg.readAll();
+			request.setAttribute("localidades", listaLocalidad);
+			
+			RequestDispatcher rd = request.getRequestDispatcher("/ModifClientes.jsp");
+			rd.forward(request, response);
+		}
+		
+		
+		
+		if(request.getParameter("btnModificarCancelar")!=null) {
+			ArrayList<Cliente> ListaClientes = cneg.MostrarTodos();
+			request.setAttribute("ListaClientes", ListaClientes);
+			
+			RequestDispatcher rd = request.getRequestDispatcher("/ModifClientes.jsp");
+			rd.forward(request, response);
+		}
+		
+		
+		
+		
+		if(request.getParameter("btnModificarAceptar")!=null) {
+			boolean alta = false;
+			
+			Cliente cliente = new Cliente();
+			Usuario usuario = new Usuario();
+			Genero genero = new Genero();
+			Nacionalidad nac = new Nacionalidad();
+			Provincia prov = new Provincia();
+			Localidad loc = new Localidad();
+			
+			genero.setCod_genero(Integer.parseInt(request.getParameter("ddlGenero").toString()));
+			nac.setCod_nacionalidad(Integer.parseInt(request.getParameter("ddlNacionalidad").toString()));
+			prov.setCod_provincia(Integer.parseInt(request.getParameter("ddlProvincia").toString()));
+			loc.setCod_localidad(Integer.parseInt(request.getParameter("ddlLocalidad").toString()));
+			
+			usuario.setUsuario(request.getParameter("txtUsuario").toString());
+			
+			cliente.setNro_Cliente(Integer.parseInt(request.getParameter("txtNroCliente").toString()));
+			cliente.setNombre(request.getParameter("txtNombre").toString());
+			cliente.setApellido(request.getParameter("txtApellido").toString());
+			cliente.setDni(request.getParameter("txtDNI").toString());
+			cliente.setCuil(request.getParameter("txtCUIL").toString());			
+			cliente.setDireccion(request.getParameter("txtDireccion").toString());
+			cliente.setTelefono(request.getParameter("txtTelefono").toString());
+			cliente.setFecha_nac(request.getParameter("txtFechaNac").toString());
+			cliente.setCod_Genero(genero);
+			cliente.setCod_nacionalidad(nac);
+			cliente.setCod_provincia(prov);
+			cliente.setCod_localidad(loc);
+			cliente.setEmail(request.getParameter("txtEmail").toString());
+			cliente.setEstado(true);
+			cliente.setUsuario(usuario);
+			
+		
+			cneg.update(cliente);
+			
+			UsuarioNegocioImp NegUser = new UsuarioNegocioImp();
+			usuario.setContrasenia(request.getParameter("txtContraseña").toString());
+			
+			NegUser.update(usuario);
+			
+			
+			
+            ArrayList<Cliente> ListaClientes = cneg.MostrarTodos();
+			request.setAttribute("ListaClientes", ListaClientes);
+			
+			RequestDispatcher rd = request.getRequestDispatcher("/ModifClientes.jsp");
+			rd.forward(request, response);
+		}
+	    
+	    
 	}
 
 }

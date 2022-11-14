@@ -13,6 +13,6 @@ public interface ClienteDao {
 	public boolean existeCliente(Cliente cli);
 	
 	public ArrayList<Cliente> readAll();
-	public ArrayList<Cliente> LeerSegunNombre(String User);
-	
+	public ArrayList<Cliente> LeerSegunUsuario(String User);
+	public boolean update(Cliente cli);
 }

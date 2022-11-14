@@ -8,4 +8,5 @@ public interface UsuarioDao {
 	public boolean existeUsuario(Usuario usu);
 	public boolean esAdmin(Usuario usu);
 	
+	public boolean update(Usuario usu);
 }
