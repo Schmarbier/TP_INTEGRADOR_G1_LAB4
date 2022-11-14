@@ -67,10 +67,11 @@ public class ServletAdmin extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
             if(request.getParameter("btnAgregar")!=null) {
 
-            boolean alta = false;
+            boolean alta = true;
             
 			if(request.getParameter("contra").toString().compareTo(request.getParameter("contra2").toString())!=0)
 			{
+				alta = false;
 				request.setAttribute("errorContraseña", alta);
 				RequestDispatcher rd = request.getRequestDispatcher("ServletDatosAdmin?datosAlta=1");   
 		        rd.forward(request, response);
@@ -82,6 +83,7 @@ public class ServletAdmin extends HttpServlet {
 			u.setEstado(true);
 			
 			if(uneg.insert(u) == false) {
+				alta = false;
 				request.setAttribute("usuarioExistente", alta);
 				RequestDispatcher rd = request.getRequestDispatcher("ServletDatosAdmin?datosAlta=1");   
 		        rd.forward(request, response);
@@ -109,13 +111,14 @@ public class ServletAdmin extends HttpServlet {
 			c.setEstado(true);
 			
 			if(cneg.insert(c) == false) {
+				alta = false;
 				uneg.delete(u);
 				request.setAttribute("error", alta);
 				RequestDispatcher rd = request.getRequestDispatcher("ServletDatosAdmin?datosAlta=1");   
 		        rd.forward(request, response);
 			}
 			
-			else{
+			if(alta==true){
 				request.setAttribute("exito", alta);
 				RequestDispatcher rd = request.getRequestDispatcher("ServletDatosAdmin?datosAlta=1");   
 		        rd.forward(request, response);
