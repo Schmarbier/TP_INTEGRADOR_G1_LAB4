@@ -126,79 +126,20 @@ public class ServletAdmin extends HttpServlet {
        }
     
     if(request.getParameter("Baja")!=null) {	
-    	
-	 if(request.getParameter("btnEliminar")!=null) {
-			boolean baja = false;
-			Cliente c = new Cliente();
-			c.setDni(request.getParameter("UsuarioEliminado").toString());
-			
-			ClienteNegocioImp cn = new ClienteNegocioImp();
-			baja = cn.delete(c);
-			
-			if(baja==true) request.setAttribute("exito", baja);
-			else request.setAttribute("error", baja);
-			RequestDispatcher rd = request.getRequestDispatcher("/BajaClientes.jsp");   
-	        rd.forward(request, response);
-		}
-    }
-    
-    if(request.getParameter("modCuenta")!=null) {
-    	CuentaDaoImp neg = new CuentaDaoImp();
-    	
-		request.setAttribute("ModCuentas", neg.obtenerCuentas());
-		
-		RequestDispatcher rd = request.getRequestDispatcher("/ModifCuenta.jsp");
-        rd.forward(request, response);
-	}
-    
-    if(request.getParameter("btnBuscarMod")!=null) {
-    	CuentaDaoImp neg = new CuentaDaoImp();
-    	
-		ArrayList<Cuenta> lista = (ArrayList<Cuenta>) neg.obtenerCuentaQueryCustom(request.getParameter("dllBusqueda").toString(), request.getParameter("txtFiltro").toString());
-		System.out.println(request.getParameter("dllBusqueda").toString());
-		request.removeAttribute("ModCuentas");
-		request.setAttribute("ModCuentas", lista);
-		
-		RequestDispatcher rd = request.getRequestDispatcher("/ModifCuenta.jsp");   
-        rd.forward(request, response);
-	}
-    
-    if(request.getParameter("btnModificarCuenta")!=null) {
-    	CuentaNegocioImp neg = new CuentaNegocioImp();
-    	
-    	ArrayList<Cuenta> lista = (ArrayList<Cuenta>) neg.obtenerCuentaPorNr_cuenta(request.getParameter("nroCuenta"));
-    	
-    	request.setAttribute("ModificarCuenta", lista);
-    	
-    	RequestDispatcher rd = request.getRequestDispatcher("/ModifCuenta.jsp");   
-        rd.forward(request, response);
-    }
-    
-    if(request.getParameter("AceptarModificar")!=null) {
-    	CuentaNegocioImp neg = new CuentaNegocioImp();
-    	System.out.println(request.getParameter("ddlTipoCuenta").toString());
-    	System.out.println(request.getParameter("nroCuentaM").toString());
-    	
-    	Cuenta c = new Cuenta();
-    	c.setNro_cuenta(Integer.parseInt(request.getParameter("nroCuentaM")));
-    	c.setNro_cliente(Integer.parseInt(request.getParameter("nroClienteM")));
-    	c.setFecha_creacion(request.getParameter("fechaCreacionM"));
-    	c.setCbu(request.getParameter("cbuM"));
-    	c.setTipo_cuenta(new TipoCuenta(Integer.parseInt(request.getParameter("ddlTipoCuenta").toString()),"asd"));
-    	c.setSaldo(Float.valueOf(request.getParameter("saldoM")));
-    	neg.modificarCuenta(c);
-    	RequestDispatcher rd = request.getRequestDispatcher("ServletAdmin?modCuenta=1");   
-        rd.forward(request, response);
-    }
-    
-    if(request.getParameter("RechazarModificar")!=null) {
-    	CuentaDaoImp neg = new CuentaDaoImp();
-    	
-    	request.removeAttribute("ModCuentas");
-		request.setAttribute("ModCuentas", neg.obtenerCuentas());
-		
-		RequestDispatcher rd = request.getRequestDispatcher("/ModifCuenta.jsp");
-        rd.forward(request, response);
+
+		 if(request.getParameter("btnEliminar")!=null) {
+				boolean baja = false;
+				Cliente c = new Cliente();
+				c.setDni(request.getParameter("UsuarioEliminado").toString());
+				
+				ClienteNegocioImp cn = new ClienteNegocioImp();
+				baja = cn.delete(c);
+				
+				if(baja==true) request.setAttribute("exito", baja);
+				else request.setAttribute("error", baja);
+				RequestDispatcher rd = request.getRequestDispatcher("/BajaClientes.jsp");   
+		        rd.forward(request, response);
+			}
     }
 }
 

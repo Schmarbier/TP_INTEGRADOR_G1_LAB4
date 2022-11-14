@@ -13,6 +13,7 @@ import javax.servlet.http.HttpServletResponse;
 import dao.CuentaDao;
 import daoImp.CuentaDaoImp;
 import entidades.Cuenta;
+import entidades.TipoCuenta;
 import negocioImp.CuentaNegocioImp;
 
 /**
@@ -35,7 +36,7 @@ public class servletListarCuenta extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		CuentaDaoImp neg = new CuentaDaoImp();
+		CuentaNegocioImp neg = new CuentaNegocioImp();
 		//CuentaNegocioImp neg = new CuentaNegocioImp();
 		
 		if(request.getParameter("Param")!=null) {
@@ -56,6 +57,60 @@ public class servletListarCuenta extends HttpServlet {
 			RequestDispatcher rd = request.getRequestDispatcher("/ListarCuenta.jsp");   
 	        rd.forward(request, response);
 		}
+		
+		if(request.getParameter("modCuenta")!=null) {
+	    	
+			request.setAttribute("ModCuentas", neg.obtenerCuentas());
+			
+			RequestDispatcher rd = request.getRequestDispatcher("/ModifCuenta.jsp");
+	        rd.forward(request, response);
+		}
+	    
+	    if(request.getParameter("btnBuscarMod")!=null) {
+	    	
+			ArrayList<Cuenta> lista = (ArrayList<Cuenta>) neg.obtenerCuentaQueryCustom(request.getParameter("dllBusqueda").toString(), request.getParameter("txtFiltro").toString());
+			System.out.println(request.getParameter("dllBusqueda").toString());
+			request.removeAttribute("ModCuentas");
+			request.setAttribute("ModCuentas", lista);
+			
+			RequestDispatcher rd = request.getRequestDispatcher("/ModifCuenta.jsp");   
+	        rd.forward(request, response);
+		}
+	    
+	    if(request.getParameter("btnModificarCuenta")!=null) {
+	    	
+	    	ArrayList<Cuenta> lista = (ArrayList<Cuenta>) neg.obtenerCuentaPorNr_cuenta(request.getParameter("nroCuenta"));
+	    	
+	    	request.setAttribute("ModificarCuenta", lista);
+	    	
+	    	RequestDispatcher rd = request.getRequestDispatcher("/ModifCuenta.jsp");   
+	        rd.forward(request, response);
+	    }
+	    
+	    if(request.getParameter("AceptarModificar")!=null) {
+	    	System.out.println(request.getParameter("ddlTipoCuenta").toString());
+	    	System.out.println(request.getParameter("nroCuentaM").toString());
+	    	
+	    	Cuenta c = new Cuenta();
+	    	c.setNro_cuenta(Integer.parseInt(request.getParameter("nroCuentaM")));
+	    	c.setNro_cliente(Integer.parseInt(request.getParameter("nroClienteM")));
+	    	c.setFecha_creacion(request.getParameter("fechaCreacionM"));
+	    	c.setCbu(request.getParameter("cbuM"));
+	    	c.setTipo_cuenta(new TipoCuenta(Integer.parseInt(request.getParameter("ddlTipoCuenta").toString()),"asd"));
+	    	c.setSaldo(Float.valueOf(request.getParameter("saldoM")));
+	    	neg.modificarCuenta(c);
+	    	RequestDispatcher rd = request.getRequestDispatcher("ServletListarCuenta?modCuenta=1");   
+	        rd.forward(request, response);
+	    }
+	    
+	    if(request.getParameter("RechazarModificar")!=null) {
+	    	
+	    	request.removeAttribute("ModCuentas");
+			request.setAttribute("ModCuentas", neg.obtenerCuentas());
+			
+			RequestDispatcher rd = request.getRequestDispatcher("/ModifCuenta.jsp");
+	        rd.forward(request, response);
+	    }
 	}
 
 	/**

@@ -34,7 +34,7 @@
 		      <div class="dropdown-menu">
 		        <a class="dropdown-item" href="AltaCuenta.jsp">Alta cuenta</a>
 		        <a class="dropdown-item" href="BajaCuenta.jsp">Baja cuenta</a>
-		        <a class="dropdown-item" href="ServletAdmin?modCuenta=1">Modificacion cuenta</a>
+		        <a class="dropdown-item" href="ServletListarCuenta?modCuenta=1">Modificacion cuenta</a>
 		        <a class="dropdown-item" href="servletListarCuenta?Param=listar">Listado cuentas</a>
 		      </div>
 		    </li>
