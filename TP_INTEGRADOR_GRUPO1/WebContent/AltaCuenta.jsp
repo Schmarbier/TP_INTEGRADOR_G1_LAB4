@@ -1,3 +1,7 @@
+<%@ page import="entidades.Genero"%>
+<%@ page import="entidades.TipoCuenta"%>
+<%@page import="java.util.ArrayList"%>
+
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
@@ -22,7 +26,16 @@
 	  <p>  Nro Cuenta:  1 </p>
       <p>  Nro Cliente: <input type="number" required name="Cliente"></input></p>
       <p>  Fecha de alta: </p>
-      <p>  Tipo de cuenta: <select required name="ddlCuentas"></select></p>
+      <p>  Tipo de cuenta: 
+      		<select required name="ddlCuentas">
+		  		<% ArrayList <TipoCuenta> tcList = null;
+		           if(session.getAttribute("TipoCuenta")!=null) tcList=(ArrayList<TipoCuenta>)session.getAttribute("TipoCuenta");
+		           if(tcList!=null)
+		           for(TipoCuenta tc : tcList){ %>
+					<option value="<%=tc.getTipo_cuenta()%>"><%=tc.getDescripcion()%></option>
+					<%}%>
+      		</select></p>
+      
 	  <p>  Cbu: <input type="number"  required name="Cbu"></input></p>
 	  <p>  Saldo inicial: $10.000</p>
 	  <p>  <input type="submit" name="btnAsignar" value="Asignar Cuenta"></input></p>
