@@ -21,11 +21,9 @@
 <div class="parteDer">
    <h3 class="titulo"> Alta Cuenta </h3> 
 
-<form method="post" action="ServletHTML">
+<form method="post" action="ServletAdmin">
 
-	  <p>  Nro Cuenta:  1 </p>
-      <p>  Nro Cliente: <input type="number" required name="Cliente"></input></p>
-      <p>  Fecha de alta: </p>
+      <p>  Nro Cliente: <input type="number" required name="NroCliente"></input></p>
       <p>  Tipo de cuenta: 
       		<select required name="ddlCuentas">
 		  		<% 
@@ -39,7 +37,7 @@
       
 	  <p>  Cbu: <input type="number"  required name="Cbu"></input></p>
 	  <p>  Saldo inicial: $10.000</p>
-	  <p>  <input type="submit" name="btnAsignar" value="Asignar Cuenta"></input></p>
+	  <p>  <input type="submit" name="btnAltaCuenta" value="Alta Cuenta"></input></p>
 
 
 </form>

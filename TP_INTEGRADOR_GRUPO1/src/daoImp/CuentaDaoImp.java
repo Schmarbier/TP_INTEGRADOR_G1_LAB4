@@ -2,8 +2,11 @@ package daoImp;
 
 import java.sql.Connection;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+
+import java.sql.CallableStatement;
 
 import dao.CuentaDao;
 import entidades.Cuenta;
@@ -92,6 +95,58 @@ public class CuentaDaoImp implements CuentaDao {
 		}
 		
 		return lista;
+	}
+
+	@Override
+	public int insert(Cuenta cu) {
+		int nroCuenta = -1;
+        String QUERY = "{CALL spAltaCuenta(?,?,?,?,?)}";
+
+		try(
+			Connection conexion = Conexion.getConexion().getSQLConexion();
+			CallableStatement statement = conexion.prepareCall(QUERY);
+		)
+		{
+			statement.setInt(1, cu.getNro_cliente());
+			statement.setInt(2, cu.getTipo_cuenta().getTipo_cuenta());
+			statement.setString(3, cu.getCbu());
+			statement.setFloat(4, cu.getSaldo());
+			statement.setBoolean(5, cu.getEstado());
+
+			// statement.execute();
+
+			// En lugar de execute uso executeQuery para obtener el resulset 
+			// que me devuelve el nroCuenta asignado o -1 en caso que falle
+			ResultSet rs1 = statement.executeQuery();
+			
+			// Si devolvio algun mensaje de error entonces retorno falso
+		    while(rs1.next()) {
+		    	nroCuenta = rs1.getInt("NRO");
+		    }			
+		} 
+		catch (SQLException e) 
+		{
+			e.printStackTrace();
+		}
+		return nroCuenta;
+	}
+
+	@Override
+	public boolean delete(Cuenta cu) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public boolean update(Cuenta cu) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public Cuenta get(Cuenta cu) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }
