@@ -1,12 +1,10 @@
 package entidades;
 
-import java.sql.Date;
-
 public class Cuenta {
 
 	private int Nro_cuenta;
 	private int Nro_cliente;
-	private Date Fecha_creacion;
+	private String Fecha_creacion;
 	private TipoCuenta Tipo_cuenta;
 	private String Cbu;
 	private float Saldo;
@@ -15,7 +13,7 @@ public class Cuenta {
 	public Cuenta () {
 	}
 	
-	public Cuenta(int nro_cuenta, int nro_cliente, Date fecha_creacion, TipoCuenta tipo_cuenta, String cbu, float saldo, boolean estado) {
+	public Cuenta(int nro_cuenta, int nro_cliente, String fecha_creacion, TipoCuenta tipo_cuenta, String cbu, float saldo, boolean estado) {
 		super();
 		nro_cuenta = Nro_cuenta;
 		Nro_cliente = nro_cliente;
@@ -43,11 +41,11 @@ public class Cuenta {
 	public void setNro_cliente(int nro_cliente) {
 		Nro_cliente = nro_cliente;
 	}
-	public Date getFecha_creacion() {
+	public String getFecha_creacion() {
 		return Fecha_creacion;
 	}
-	public void setFecha_creacion(Date fecha_creacion) {
-		Fecha_creacion = fecha_creacion;
+	public void setFecha_creacion(String fecha) {
+		Fecha_creacion = fecha;
 	}
 	public TipoCuenta getTipo_cuenta() {
 		return Tipo_cuenta;

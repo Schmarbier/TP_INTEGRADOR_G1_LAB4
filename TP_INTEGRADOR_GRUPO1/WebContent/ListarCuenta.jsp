@@ -18,7 +18,7 @@
 <div class="parteDer">
    <h3 class="titulo"> Listar Cuenta </h3> 
 <form method="post" action="ServletAdmin">
-    	<p>  Buscar </p>
+    	<p>Buscar en:</p>
     	<select name="dllBusqueda">
 		  <option value="todo">Todo</option>
 		  <option value="Nro_cuenta">Numero de Cuenta</option>
@@ -30,7 +30,7 @@
 		</select>
 		<input type="text" name="txtFiltro"></input>
 	    <input type="submit" name="btnBuscar" value="Buscar"></input>
-	    <input type="submit" name="Param" value="Mostrar todo"></input>
+	    <input type="submit" name="ParamLCU" value="Mostrar todo"></input>
 </form>
 	    <table border="1">
 	    <thead>
@@ -57,9 +57,9 @@
 					{
 						%>
 					<tr>  
-						<td><%=c.getNro_cuenta()%>     
+						<td><%=c.getNro_cuenta()%></td>     
 						<td><%=c.getNro_cliente()%></td>   
-						<td><%=c.getFecha_creacion().toString()%></td>
+						<td><%=c.getFecha_creacion()%></td>
 						<td><%=c.getTipo_cuenta().getDescripcion()%></td>   
 						<td><%=c.getCbu() %></td>
 						<td><%=c.getSaldo() %></td>
