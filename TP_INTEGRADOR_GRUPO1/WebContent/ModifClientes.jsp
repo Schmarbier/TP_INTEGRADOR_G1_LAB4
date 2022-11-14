@@ -15,6 +15,9 @@
 	<jsp:include page="css\Plantilla.css"></jsp:include>
 </style>
 <title>Modificación Clientes</title>
+
+
+
 </head>
 <body>
 
@@ -31,24 +34,24 @@
   
    </form>
 	    
-	    <table border="1">
+	    <table class="table" >
 		    <tr>
-	            <th>Nro Cliente</th>
-	            <th>Nombre</th>
-	            <th>Apellido</th>
-	            <th>Dni</th>
-	            <th>Cuil</th>
-	            <th>Direccion</th>
-	            <th>Telefono</th>
-	            <th>Fecha de nacimiento</th>
-	            <th>Genero</th>
-	            <th>Nacionalidad</th>
-	            <th>Provincia</th>
-	            <th>Localidad</th>
-	            <th>Email</th>
-	            <th>Usuario</th>
-	            <th>Contraseña</th>
-	            <th></th>
+	            <th class="th">Nro Cliente</th>
+	            <th class="th">Nombre</th>
+	            <th class="th">Apellido</th>
+	            <th class="th">Dni</th>
+	            <th class="th">Cuil</th>
+	            <th class="th">Direccion</th>
+	            <th class="th">Telefono</th>
+	            <th class="th">Fecha de nacimiento</th>
+	            <th class="th">Genero</th>
+	            <th class="th">Nacionalidad</th>
+	            <th class="th">Provincia</th>
+	            <th class="th">Localidad</th>
+	            <th class="th">Email</th>
+	            <th class="th">Usuario</th>
+	            <th class="th">Contraseña</th>
+	            <th class="th"></th>
 	        </tr>
 	        
 	    <%ArrayList<Cliente>ListaClienteTodos = null;
@@ -63,24 +66,24 @@
         
         <!-- CARGA LA LISTA CON TODOS LOS CLIENTES -->
         
-    <tr>  
+    <tr class="tr">  
          <form action="ServletAdmin" method="post">
-	     <td> <%=CLI.getNro_Cliente() %> </td>    
-	     <td> <%=CLI.getNombre() %>  </td>
-	     <td> <%=CLI.getApellido() %> </td> 
-	     <td> <%=CLI.getDni() %> </td> 
-	     <td> <%=CLI.getCuil() %> </td> 
-	     <td> <%=CLI.getDireccion() %> </td> 
-	     <td> <%=CLI.getTelefono() %> </td> 
-	     <td> <%=CLI.getFecha_nac() %> </td> 
-	     <td> <%=CLI.getCod_Genero() %> </td> 
-	     <td> <%=CLI.getCod_nacionalidad() %> </td> 
-	     <td> <%=CLI.getCod_provincia() %> </td> 
-	     <td> <%=CLI.getCod_localidad() %> </td> 
-	     <td> <%=CLI.getEmail() %> </td> 
-	     <td> <%=CLI.getUsuario()%> <input type="hidden" name="hiddenUsuario" value="<%=CLI.getUsuario()%>"> </td> 
-	     <td> <%=CLI.getUsuario().getContraseña() %> </td> 
-	     <td> <input type="submit" name="btnModificarCliente" value="Modificar"></input> </td>
+	     <td class="td" > <%=CLI.getNro_Cliente() %> </td>    
+	     <td class="td" > <%=CLI.getNombre() %>  </td>
+	     <td class="td" > <%=CLI.getApellido() %> </td> 
+	     <td class="td" > <%=CLI.getDni() %> </td> 
+	     <td class="td" > <%=CLI.getCuil() %> </td> 
+	     <td class="td" > <%=CLI.getDireccion() %> </td> 
+	     <td class="td" > <%=CLI.getTelefono() %> </td> 
+	     <td class="td" > <%=CLI.getFecha_nac() %> </td> 
+	     <td class="td" > <%=CLI.getCod_Genero() %> </td> 
+	     <td class="td" > <%=CLI.getCod_nacionalidad() %> </td> 
+	     <td class="td" > <%=CLI.getCod_provincia() %> </td> 
+	     <td class="td" > <%=CLI.getCod_localidad() %> </td> 
+	     <td class="td" > <%=CLI.getEmail() %> </td> 
+	     <td class="td" > <%=CLI.getUsuario()%> <input type="hidden" name="hiddenUsuario" value="<%=CLI.getUsuario()%>"> </td> 
+	     <td class="td" > <%=CLI.getUsuario().getContraseña() %> </td> 
+	     <td class="td" > <input type="submit" name="btnModificarCliente" value="Modificar"></input> </td>
 	     </form>
 	</tr>
 	<% }
@@ -138,14 +141,14 @@
 		<!-- CARGA LA LISTA CON EL CLIENTE A MODIFICAR -->
 	<tr>  <form action="ServletAdmin" method="post">
 	
-	     <td> <input type="text" name="txtNroCliente" readonly value="<%=CL.getNro_Cliente() %>">  </td>    
-	     <td> <input type="text" name="txtNombre" required pattern="[A-Za-zñÑ]+" title="Ingrese solo letras" value="<%=CL.getNombre() %>">  </td>
-	     <td> <input type="text" name="txtApellido" required pattern="[A-Za-zñÑ]+" title="Ingrese solo letras" value="<%=CL.getApellido() %>"> </td> 
-	     <td> <input type="number" name="txtDNI" required pattern = "[0-9]{8}" title="Ingrese un DNI valido" value="<%=CL.getDni() %>"> </td> 
-	     <td> <input type="number" name="txtCUIL" required pattern = "[0-9]{11}" title="Ingrese un CUIL valido" value="<%=CL.getCuil() %>"> </td> 
-	     <td> <input type="text" name="txtDireccion" required value="<%=CL.getDireccion() %>"> </td> 
-	     <td> <input type="tel" name="txtTelefono" required title="Ingrese un numero telefonico valido" value="<%=CL.getTelefono() %>"> </td> 
-	     <td> <input type="text" name="txtFechaNac" required pattern="\d{1,2}/\d{1,2}/\d{4}" title="La fecha no es valida" value="<%=CL.getFecha_nac() %>"> </td> 
+	     <td> <input class="Tam" type="text" name="txtNroCliente" readonly value="<%=CL.getNro_Cliente() %>">  </td>    
+	     <td> <input class="Tam" type="text" name="txtNombre" required pattern="[A-Za-zñÑ]+" title="Ingrese solo letras" value="<%=CL.getNombre() %>">  </td>
+	     <td> <input class="Tam" type="text" name="txtApellido" required pattern="[A-Za-zñÑ]+" title="Ingrese solo letras" value="<%=CL.getApellido() %>"> </td> 
+	     <td> <input class="Tam" type="number" name="txtDNI" required pattern = "[0-9]{8}" title="Ingrese un DNI valido" value="<%=CL.getDni() %>"> </td> 
+	     <td> <input class="Tam" type="number" name="txtCUIL" required pattern = "[0-9]{11}" title="Ingrese un CUIL valido" value="<%=CL.getCuil() %>"> </td> 
+	     <td> <input  type="text" name="txtDireccion" required value="<%=CL.getDireccion() %>"> </td> 
+	     <td> <input class="Tam" type="tel" name="txtTelefono" required title="Ingrese un numero telefonico valido" value="<%=CL.getTelefono() %>"> </td> 
+	     <td> <input class="Tam" type="text" name="txtFechaNac" required pattern="\d{1,2}/\d{1,2}/\d{4}" title="La fecha no es valida" value="<%=CL.getFecha_nac() %>"> </td> 
 	    
 	     <td> <select name="ddlGenero">
 	  		<% ArrayList <Genero> gList = null;
@@ -184,10 +187,10 @@
 			</select>  </td> 
 	     
 	     <td> <input type="email" name="txtEmail" title="Ingrese un EMAIL valido" value="<%=CL.getEmail() %>"> </td> 
-	     <td> <input type="text" name="txtUsuario" readonly value="<%=CL.getUsuario()%>"> </td> 
-	     <td> <input type="text" name="txtContraseña" required value="<%=CL.getUsuario().getContraseña() %>"> </td>
-	     <td> <input type="submit" name="btnModificarAceptar" value="Aceptar">
-	          <input type="submit" name="btnModificarCancelar" value="Cancelar"> </td>   
+	     <td> <input class="Tam" type="text" name="txtUsuario" readonly value="<%=CL.getUsuario()%>"> </td> 
+	     <td> <input class="Tam" type="text" name="txtContraseña" required value="<%=CL.getUsuario().getContraseña() %>"> </td>
+	     <td> <input type="submit"  class="button buttonACEPTAR" name="btnModificarAceptar" value="Aceptar">
+	          <input type="submit"  class="button buttonCANCELAR" name="btnModificarCancelar" value="Cancelar"> </td>   
 	          </form>
 	</tr>
 		<%} %>
