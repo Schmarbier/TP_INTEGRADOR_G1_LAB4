@@ -13,8 +13,8 @@ public class TipoCuentaNegocioImp implements TipoCuentaNegocio{
 	
 	@Override
 	public List<TipoCuenta> readAll() {
-		// TODO Auto-generated method stub
-		return null;
+		
+		return tcdao.readAll();
 	}
 
 }

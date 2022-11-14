@@ -62,6 +62,9 @@ public class Cuenta {
 	public boolean isEstado() {
 		return Estado;
 	}
+	public boolean getEstado() {
+		return Estado;
+	}
 	public void setEstado(boolean estado) {
 		Estado = estado;
 	}
