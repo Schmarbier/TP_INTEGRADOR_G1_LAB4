@@ -19,10 +19,16 @@
 <div class="parteDer">
    <h3 class="titulo"> Listado Clientes </h3> 
 
+
 <form method="post" action="ServletAdmin">
 
-    	<p>  Buscar usuario en especifico: <input type="text" name="txtBuscarUsuario"></input>
+<form method="get" action="Servlet_ML_cliente">
+
+
+         <form method="get" action="Servlet_ML_cliente">
+    	<p>  Buscar usuario en especifico: <input type="text" required name="txtBuscarUsuario"></input>
 	    <input type="submit" name="btnBuscarUser" value="Buscar"></input></p>
+	    </form>
 	    
 	    <p>  Filtrar por: <select name="ddlFiltro"></select>
 	    <input type="submit" name="btnFiltrar" value="Filtrar"></input></p>

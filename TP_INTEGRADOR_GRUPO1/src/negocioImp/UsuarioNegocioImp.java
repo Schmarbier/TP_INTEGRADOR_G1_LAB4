@@ -7,7 +7,7 @@ import negocio.UsuarioNegocio;
 
 public class UsuarioNegocioImp implements UsuarioNegocio{
 
-	UsuarioDao udao = new UsuarioDaoImp();
+	UsuarioDaoImp udao = new UsuarioDaoImp();
 	
 	@Override
 	public boolean existeNombreUsuario(Usuario usu) {
@@ -22,6 +22,11 @@ public class UsuarioNegocioImp implements UsuarioNegocio{
 	@Override
 	public boolean esAdmin(Usuario usu) {
 		return udao.esAdmin(usu);
+	}
+
+	@Override
+	public boolean update(Usuario usu) {
+		return udao.update(usu);
 	}
 
 }

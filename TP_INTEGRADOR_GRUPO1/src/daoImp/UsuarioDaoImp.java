@@ -4,10 +4,15 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+import com.mysql.jdbc.Connection;
+
 import dao.UsuarioDao;
 import entidades.Usuario;
 
 public class UsuarioDaoImp implements UsuarioDao{
+	
+	private static final String update = "UPDATE usuarios SET Contraseña = ? WHERE Usuario = ?";
+	
 	
 	@Override
 	public boolean existeNombreUsuario(Usuario usu) {
@@ -70,5 +75,30 @@ public class UsuarioDaoImp implements UsuarioDao{
 		}
 		return existeUsuario;
 	}
+	
+	
+
+	@Override
+	public boolean update(Usuario usu) {
+		PreparedStatement statement;
+		Connection conexion = (Connection) Conexion.getConexion().getSQLConexion();
+		boolean updateExitoso = false;
+		
+		try {
+			statement = conexion.prepareStatement(update);
+			statement.setString(1, usu.getContraseña());
+			statement.setString(2, usu.getUsuario());
+			if(statement.executeUpdate()>0) {
+				conexion.commit();
+				updateExitoso = true;
+			}
+		}
+		catch(SQLException e) {
+			e.printStackTrace();
+		}
+		
+		return updateExitoso;
+	}
+	
 
 }

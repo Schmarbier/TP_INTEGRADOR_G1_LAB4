@@ -32,6 +32,8 @@ public class ClienteDaoImp implements ClienteDao{
 			+ " INNER JOIN usuarios ON clientes.Usuario = usuarios.Usuario WHERE clientes.Estado=1";
 	
 	
+	private static final String update = "UPDATE clientes SET Nombre=?, Apellido=?, Dni=?, Cuil=?, Direccion=?, Telefono=?, Fecha_nac=?, Cod_Genero=?, Cod_nacionalidad=?, Cod_provincia=?, Cod_localidad=?, Email=? WHERE Nro_Cliente = ?";
+	
 	@Override
 	public boolean insert(Cliente cli) {
         String QUERY = insert;
@@ -216,7 +218,7 @@ public class ClienteDaoImp implements ClienteDao{
 	}
 
 	@Override
-	public ArrayList<Cliente> LeerSegunNombre(String Users) {
+	public ArrayList<Cliente> LeerSegunUsuario(String Users) {
 		PreparedStatement Statement;
 		ResultSet resultSet;
 		ArrayList<Cliente> ListaClientes = new ArrayList<Cliente>();
@@ -265,6 +267,44 @@ public class ClienteDaoImp implements ClienteDao{
 			e.printStackTrace();
 		}
 		return ListaClientes;
+	}
+
+	
+	
+  
+	@Override
+	public boolean update(Cliente cli) {
+		PreparedStatement statement;
+		Connection conexion = Conexion.getConexion().getSQLConexion();
+		boolean UpDateExitoso = false;
+		
+		try {
+			statement = conexion.prepareStatement(update);
+			statement.setString(1, cli.getNombre());
+			statement.setString(2, cli.getApellido());
+			statement.setString(3, cli.getDni());
+			statement.setString(4, cli.getCuil());
+			statement.setString(5, cli.getDireccion());
+			statement.setString(6, cli.getTelefono());
+			statement.setString(7, cli.getFecha_nac());
+            statement.setInt(8, cli.getCod_Genero().getCod_genero());
+			statement.setInt(9, cli.getCod_nacionalidad().getCod_nacionalidad());	
+			statement.setInt(10, cli.getCod_provincia().getCod_provincia());
+			statement.setInt(11, cli.getCod_localidad().getCod_localidad());
+			statement.setString(12, cli.getEmail());
+			statement.setInt(13, cli.getNro_Cliente());
+			
+			if(statement.executeUpdate()>0){
+				
+				conexion.commit();
+				UpDateExitoso = true;
+			}
+		}
+		catch( SQLException e) {
+			e.printStackTrace();
+		}
+		
+		return UpDateExitoso;
 	}
 	
 }

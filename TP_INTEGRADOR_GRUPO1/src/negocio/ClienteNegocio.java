@@ -11,7 +11,7 @@ public interface ClienteNegocio {
 	public int obtenerProxId();
 	
     public ArrayList<Cliente> MostrarTodos();
-	public ArrayList<Cliente> LeerSegunNombre(String User);
-
+	public ArrayList<Cliente> LeerSegunUsuario(String User);
+    public boolean update(Cliente cli);
 	
 }
