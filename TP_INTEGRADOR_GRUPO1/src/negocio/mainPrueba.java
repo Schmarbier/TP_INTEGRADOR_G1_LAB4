@@ -3,20 +3,18 @@ package negocio;
 import java.io.Console;
 import java.util.ArrayList;
 
-import daoImp.CuentaDaoImp;
 import entidades.Cuenta;
 import entidades.TipoCuenta;
 import entidades.Usuario;
 import negocioImp.CuentaNegocioImp;
 import negocioImp.TipoCuentaNegocioImp;
 import daoImp.TipoCuentaDaoImp;
+import daoImp.CuentaDaoImp;
 import negocioImp.UsuarioNegocioImp;
 
 public class mainPrueba {
 	
 	public static void main(String[] args) {
-		
-		/* Para pruebas */
 		
 		/*
 		
@@ -34,11 +32,25 @@ public class mainPrueba {
 		ArrayList<Cuenta> listaTs = (ArrayList<Cuenta>) neg.obtenerCuentas();
 		for(Cuenta p:listaTs) { System.out.println( p.toString()); }
 		
-		*/
 		
 		TipoCuentaNegocioImp neg = new TipoCuentaNegocioImp();
 		ArrayList<TipoCuenta> lista = (ArrayList<TipoCuenta>) neg.readAll();
 		for(TipoCuenta p:lista) { System.out.println( p.toString()); }
+		
+		*/
+
+		Cuenta obj = new Cuenta();
+		obj.setNro_cliente(8);
+		obj.setTipo_cuenta(new TipoCuenta(2,""));
+		obj.setCbu("000221949978");
+		obj.setSaldo(7000);
+		obj.setEstado(true);
+		
+		CuentaNegocioImp cn = new CuentaNegocioImp();
+		int Nro = cn.insert(obj);
+		if(Nro>0) System.out.print("Cliente agregado - Nro="+ Nro +"-"+obj.toString());
+		else System.out.print("Cliente no agregado");
+		
 
 	}
 }

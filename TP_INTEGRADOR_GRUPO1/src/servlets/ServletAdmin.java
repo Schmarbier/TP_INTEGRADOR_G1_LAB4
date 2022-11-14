@@ -9,6 +9,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import daoImp.CuentaDaoImp;
 import entidades.Cliente;
@@ -17,10 +18,12 @@ import entidades.Genero;
 import entidades.Localidad;
 import entidades.Nacionalidad;
 import entidades.Provincia;
+import entidades.TipoCuenta;
 import entidades.TipoUsuario;
 import entidades.Usuario;
 import negocioImp.ClienteNegocioImp;
 import negocioImp.UsuarioNegocioImp;
+import negocioImp.CuentaNegocioImp;
 
 @WebServlet("/ServletAdmin")
 public class ServletAdmin extends HttpServlet {
@@ -160,7 +163,32 @@ public class ServletAdmin extends HttpServlet {
 	        rd.forward(request, response);
 		}
        
-		///doGet(request, response);
+       if(request.getParameter("btnAltaCuenta")!=null) {
+
+    	   Cuenta c = new Cuenta();
+    	   c.setNro_cliente(Integer.parseInt(request.getParameter("NroCliente").toString()));
+    	   c.setTipo_cuenta(new TipoCuenta(Integer.parseInt(request.getParameter("ddlCuentas").toString()),""));
+    	   c.setCbu(request.getParameter("Cbu").toString());
+    	   c.setSaldo(10000);
+    	   c.setEstado(true);
+    	   
+    	   CuentaNegocioImp cn = new CuentaNegocioImp();
+    	   int nroCuenta = cn.insert(c);
+    	   request.setAttribute("NRO", nroCuenta);
+			
+    	   if(nroCuenta>0) {
+				c.setNro_cuenta(nroCuenta);
+				request.setAttribute("cuenta", c);
+   			    request.setAttribute("resultadoAlta", "ok");
+    	   }
+    	   else {
+				request.setAttribute("cliente", c);
+   			    request.setAttribute("resultadoAlta", "error");
+    	   }
+    	   RequestDispatcher rd = request.getRequestDispatcher("MostrarCuenta.jsp");   
+    	   rd.forward(request, response);
+       }
+       
 	}
 
 }
