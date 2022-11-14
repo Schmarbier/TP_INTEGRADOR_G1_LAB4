@@ -1,9 +1,6 @@
 package servlets;
 
 import java.io.IOException;
-import java.sql.Date;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 
 import javax.servlet.RequestDispatcher;
@@ -80,7 +77,8 @@ public class ServletAdmin extends HttpServlet {
 }
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-            if(request.getParameter("btnAgregar")!=null) {
+           
+		if(request.getParameter("btnAgregar")!=null) {
 
             boolean alta = true;
             
@@ -97,7 +95,7 @@ public class ServletAdmin extends HttpServlet {
 			u.setContrasenia(request.getParameter("contra").toString());
 			u.setEstado(true);
 			
-			if(uneg.insert(u) == false) {
+			if(uneg.existeNombreUsuario(u)) {
 				alta = false;
 				request.setAttribute("usuarioExistente", alta);
 				RequestDispatcher rd = request.getRequestDispatcher("ServletDatosAdmin?datosAlta=1");   
@@ -125,16 +123,14 @@ public class ServletAdmin extends HttpServlet {
 			c.setUsuario(u);
 			c.setEstado(true);
 			
-			if(cneg.insert(c) == false) {
-				alta = false;
-				uneg.delete(u);
-				request.setAttribute("error", alta);
+			if(cneg.insert(c)) {
+				request.setAttribute("exito", alta);
 				RequestDispatcher rd = request.getRequestDispatcher("ServletDatosAdmin?datosAlta=1");   
 		        rd.forward(request, response);
-			}
-			
-			if(alta==true){
-				request.setAttribute("exito", alta);
+			} else {
+				alta = false;
+				///uneg.delete(u);
+				request.setAttribute("error", alta);
 				RequestDispatcher rd = request.getRequestDispatcher("ServletDatosAdmin?datosAlta=1");   
 		        rd.forward(request, response);
 			}

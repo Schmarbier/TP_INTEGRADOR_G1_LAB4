@@ -5,8 +5,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-
-import com.mysql.jdbc.CallableStatement;
+import java.sql.CallableStatement;
 
 import dao.ClienteDao;
 import entidades.Genero;
@@ -34,12 +33,11 @@ public class ClienteDaoImp implements ClienteDao{
 	
 	@Override
 	public boolean insert(Cliente cli) {
-        String QUERY = insert;
 
 		boolean isInsertExitoso = false;
 		try(
 			Connection conexion = Conexion.getConexion().getSQLConexion();
-			CallableStatement statement = (CallableStatement) conexion.prepareCall(QUERY);
+			CallableStatement statement = conexion.prepareCall(insert);
 		)
 		{
 			statement.setString(1, cli.getDni());
