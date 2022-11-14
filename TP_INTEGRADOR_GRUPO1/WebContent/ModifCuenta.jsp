@@ -25,7 +25,7 @@
 <div class="parteDer">
    <h3 class="titulo"> Modificar Cuenta </h3> 
  <% if(request.getAttribute("ModificarCuenta")!=null){%>
-<form method="get" action="ServletAdmin">
+<form method="post" action="ServletAdmin">
 	<table border="1">
 		    <thead>
 			    <tr>
@@ -82,7 +82,7 @@
 </form>
 <%}%>
 <% if(request.getAttribute("ModCuentas")!=null){%>
-<form method="get" action="ServletAdmin">
+<form method="post" action="ServletAdmin">
     	<p>Buscar en: </p>
     	<select name="dllBusqueda">
 		  <option value="todo">todo</option>
@@ -93,9 +93,9 @@
 		  <option value="Cbu">CBU</option>
 		  <option value="Saldo">Saldo</option>
 		</select>
-		<input type="text" name="txtFiltro"></input>
-	    <input type="submit" name="btnBuscarMod" value="Buscar"></input>
-	    <input type="submit" name="modCuenta" value="Mostrar todo"></input>
+		<input type="text" name="txtFiltro">
+	    <input type="submit" name="btnModBuscar" value="Buscar">
+	    <input type="submit" name="modCuenta" value="Mostrar todo">
 </form>
 	    <table border="1" id="mytable">
 		    <thead>
@@ -123,7 +123,7 @@
 						{
 							%>
 						<tr>  
-							<form action="ServletAdmin" method="get">
+							<form action="ServletAdmin" method="post">
 								<td><%=c.getNro_cuenta()%><input type="hidden" name="nroCuenta" value="<%=c.getNro_cuenta()%>"></td>    
 								<td><%=c.getNro_cliente()%><input type="hidden" name="nroCliente" value="<%=c.getNro_cliente()%>"></td>   
 								<td><%=c.getFecha_creacion()%><input type="hidden" name="fechaCreacion" value="<%=c.getFecha_creacion()%>"></td>

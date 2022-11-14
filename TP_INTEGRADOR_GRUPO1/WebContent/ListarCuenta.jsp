@@ -30,7 +30,7 @@
 		</select>
 		<input type="text" name="txtFiltro"></input>
 	    <input type="submit" name="btnBuscar" value="Buscar"></input>
-	    <input type="submit" name="Param" value="Mostrar todo"></input>
+	    <input type="submit" name="ParamLCU" value="Mostrar todo"></input>
 </form>
 	    <table border="1">
 	    <thead>
