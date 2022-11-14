@@ -197,7 +197,6 @@ public class ServletAdmin extends HttpServlet {
 		}
 	    
 	    if(request.getParameter("btnModBuscar")!=null) {
-	    	System.out.println("ENTROOOOOOOOOO");
 			ArrayList<Cuenta> lista = (ArrayList<Cuenta>) neg.obtenerCuentaQueryCustom(request.getParameter("dllBusqueda").toString(), request.getParameter("txtFiltro").toString());
 			System.out.println(request.getParameter("dllBusqueda").toString());
 			request.removeAttribute("ModCuentas");
@@ -228,13 +227,44 @@ public class ServletAdmin extends HttpServlet {
 	    	c.setCbu(request.getParameter("cbuM"));
 	    	c.setTipo_cuenta(new TipoCuenta(Integer.parseInt(request.getParameter("ddlTipoCuenta").toString()),"asd"));
 	    	c.setSaldo(Float.valueOf(request.getParameter("saldoM")));
-	    	neg.modificarCuenta(c);
 	    	
-	    	request.setAttribute("ModCuentas", neg.obtenerCuentas());
+	    	if(neg.modificarCuenta(c)){
+	    		request.setAttribute("infoModify", true);
+	    		
+	    		request.setAttribute("ModCuentas", neg.obtenerCuentas());
+				
+				RequestDispatcher rd = request.getRequestDispatcher("/ModifCuenta.jsp");
+		        rd.forward(request, response);
+	    	}
+	    	else {
+	    		request.setAttribute("infoModify", false);
+	    		
+	    		ArrayList<Cuenta> lista = (ArrayList<Cuenta>) neg.obtenerCuentaPorNr_cuenta(request.getParameter("nroCuentaM"));
+		    	
+		    	request.setAttribute("ModificarCuenta", lista);
+		    	
+		    	RequestDispatcher rd = request.getRequestDispatcher("/ModifCuenta.jsp");   
+		        rd.forward(request, response);
+	    	}
+	    	
+	    	
+	    }
+	    
+	    if(request.getParameter("modCuenta")!=null) {
+	    	
+			request.setAttribute("ModCuentas", neg.obtenerCuentas());
 			
 			RequestDispatcher rd = request.getRequestDispatcher("/ModifCuenta.jsp");
 	        rd.forward(request, response);
-	    }
+		}
+	    
+	    if(request.getParameter("ParamLCU")!=null) {
+			
+	        request.setAttribute("cuentas", cuneg.obtenerCuentas());
+				
+			RequestDispatcher rd = request.getRequestDispatcher("/ListarCuenta.jsp");   
+		    rd.forward(request, response);
+		}
 	    
 	    if(request.getParameter("RechazarModificar")!=null) {
 	    	
@@ -246,11 +276,7 @@ public class ServletAdmin extends HttpServlet {
 	    }
        
 		//doGet(request, response);
-	    
-	    
-	    
-	    
-	    
+
        if(request.getParameter("btnBuscarUsuario")!=null) {
 			
 			String User=request.getParameter("txtUsuarioModificar").toString();
