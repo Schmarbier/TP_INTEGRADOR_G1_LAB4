@@ -1,6 +1,9 @@
 package servlets;
 
 import java.io.IOException;
+import java.sql.Date;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 
 import javax.servlet.RequestDispatcher;
@@ -22,8 +25,14 @@ import entidades.TipoCuenta;
 import entidades.TipoUsuario;
 import entidades.Usuario;
 import negocioImp.ClienteNegocioImp;
+import negocioImp.CuentaNegocioImp;
+import negocioImp.GeneroNegocioImp;
+import negocioImp.LocalidadNegocioImp;
+import negocioImp.NacionalidadNegocioImp;
+import negocioImp.ProvinciaNegocioImp;
 import negocioImp.UsuarioNegocioImp;
 import negocioImp.CuentaNegocioImp;
+
 
 @WebServlet("/ServletAdmin")
 public class ServletAdmin extends HttpServlet {
@@ -35,6 +44,7 @@ public class ServletAdmin extends HttpServlet {
 
     ClienteNegocioImp cneg = new ClienteNegocioImp();
 	CuentaDaoImp cuneg = new CuentaDaoImp();
+	CuentaNegocioImp neg = new CuentaNegocioImp();
 	UsuarioNegocioImp uneg = new UsuarioNegocioImp();
 	Cliente c = new Cliente();
 	Usuario u = new Usuario();
@@ -46,37 +56,59 @@ public class ServletAdmin extends HttpServlet {
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 	
-	if(request.getParameter("ParamLCLI")!=null) {
-
-	    ArrayList<Cliente> ListaClientes = cneg.MostrarTodos();
-		
-		request.setAttribute("ListaClientes", ListaClientes);
-		
-		RequestDispatcher rd = request.getRequestDispatcher("/ListarClientes.jsp");
-		rd.forward(request, response);
-	}
-		
-       
-    if(request.getParameter("ParamLCU")!=null) {
+		if(request.getParameter("ParamListarCLI")!=null) {
+	
+		    ArrayList<Cliente> ListaClientes = cneg.MostrarTodos();
 			
-        request.setAttribute("cuentas", cuneg.obtenerCuentas());
+			request.setAttribute("ListaClientes", ListaClientes);
 			
-		RequestDispatcher rd = request.getRequestDispatcher("/ListarCuenta.jsp");   
-	    rd.forward(request, response);
-	}
+			RequestDispatcher rd = request.getRequestDispatcher("/ListarClientes.jsp");
+			rd.forward(request, response);
+		}
+			
+	       
+	    if(request.getParameter("ParamLCU")!=null) {
+				
+	        request.setAttribute("cuentas", cuneg.obtenerCuentas());
+				
+			RequestDispatcher rd = request.getRequestDispatcher("/ListarCuenta.jsp");   
+		    rd.forward(request, response);
+		}
+	    
+	    if(request.getParameter("modCuenta")!=null) {
+	    	
+			request.setAttribute("ModCuentas", neg.obtenerCuentas());
+			
+			RequestDispatcher rd = request.getRequestDispatcher("/ModifCuenta.jsp");
+	        rd.forward(request, response);
+		}
+	    
+	    
+	    if(request.getParameter("ParamModifCLI")!=null) {
+			
+			ArrayList<Cliente> ListaClientes = cneg.MostrarTodos();
+			request.setAttribute("ListaClientes", ListaClientes);
+			
+			RequestDispatcher rd = request.getRequestDispatcher("/ModifClientes.jsp");
+			rd.forward(request, response);
+			
+		}
+    
 		
-}
+	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
             if(request.getParameter("btnAgregar")!=null) {
 
-            boolean alta = false;
+            boolean alta = true;
             
 			if(request.getParameter("contra").toString().compareTo(request.getParameter("contra2").toString())!=0)
 			{
+				alta = false;
 				request.setAttribute("errorContraseña", alta);
 				RequestDispatcher rd = request.getRequestDispatcher("ServletDatosAdmin?datosAlta=1");   
 		        rd.forward(request, response);
+		        return;
 			}
 			
 			u.setUsuario(request.getParameter("usuario").toString());
@@ -84,10 +116,12 @@ public class ServletAdmin extends HttpServlet {
 			u.setContrasenia(request.getParameter("contra").toString());
 			u.setEstado(true);
 			
-			if(uneg.insert(u) == false) {
+			if(uneg.existeNombreUsuario(u)) {
+				alta = false;
 				request.setAttribute("usuarioExistente", alta);
 				RequestDispatcher rd = request.getRequestDispatcher("ServletDatosAdmin?datosAlta=1");   
 		        rd.forward(request, response);
+		        return;
 			}
 
 			g.setCod_genero(Integer.parseInt(request.getParameter("genero").toString()));
@@ -112,20 +146,21 @@ public class ServletAdmin extends HttpServlet {
 			c.setEstado(true);
 			
 			if(cneg.insert(c) == false) {
-				uneg.delete(u);
+				alta = false;
 				request.setAttribute("error", alta);
 				RequestDispatcher rd = request.getRequestDispatcher("ServletDatosAdmin?datosAlta=1");   
 		        rd.forward(request, response);
+		        return;
 			}
 			
-			else{
+			if(alta==true) {
 				request.setAttribute("exito", alta);
 				RequestDispatcher rd = request.getRequestDispatcher("ServletDatosAdmin?datosAlta=1");   
-		        rd.forward(request, response);
+			    rd.forward(request, response);
 			}
+		        
          }
        
-    
        if(request.getParameter("btnEliminar")!=null) {
 			boolean baja = false;
 			Cliente c = new Cliente();
@@ -144,7 +179,7 @@ public class ServletAdmin extends HttpServlet {
 			
 			String User=request.getParameter("txtBuscarUsuario").toString();
 			
-			ArrayList<Cliente> ClienteSegunUser = cneg.LeerSegunNombre(User);
+			ArrayList<Cliente> ClienteSegunUser = cneg.LeerSegunUsuario(User);
 			
 			request.setAttribute("CLIENTE",ClienteSegunUser);
 			
@@ -162,7 +197,86 @@ public class ServletAdmin extends HttpServlet {
 			RequestDispatcher rd = request.getRequestDispatcher("/ListarCuenta.jsp");   
 	        rd.forward(request, response);
 		}
-       
+	    
+	    if(request.getParameter("btnModBuscar")!=null) {
+			ArrayList<Cuenta> lista = (ArrayList<Cuenta>) neg.obtenerCuentaQueryCustom(request.getParameter("dllBusqueda").toString(), request.getParameter("txtFiltro").toString());
+			System.out.println(request.getParameter("dllBusqueda").toString());
+			request.removeAttribute("ModCuentas");
+			request.setAttribute("ModCuentas", lista);
+			
+			RequestDispatcher rd = request.getRequestDispatcher("/ModifCuenta.jsp");   
+	        rd.forward(request, response);
+		}
+	    
+	    if(request.getParameter("btnModificarCuenta")!=null) {
+	    	
+	    	ArrayList<Cuenta> lista = (ArrayList<Cuenta>) neg.obtenerCuentaPorNr_cuenta(request.getParameter("nroCuenta"));
+	    	
+	    	request.setAttribute("ModificarCuenta", lista);
+	    	
+	    	RequestDispatcher rd = request.getRequestDispatcher("/ModifCuenta.jsp");   
+	        rd.forward(request, response);
+	    }
+	    
+	    if(request.getParameter("AceptarModificar")!=null) {
+	    	System.out.println(request.getParameter("ddlTipoCuenta").toString());
+	    	System.out.println(request.getParameter("nroCuentaM").toString());
+	    	
+	    	Cuenta c = new Cuenta();
+	    	c.setNro_cuenta(Integer.parseInt(request.getParameter("nroCuentaM")));
+	    	c.setNro_cliente(Integer.parseInt(request.getParameter("nroClienteM")));
+	    	c.setFecha_creacion(request.getParameter("fechaCreacionM"));
+	    	c.setCbu(request.getParameter("cbuM"));
+	    	c.setTipo_cuenta(new TipoCuenta(Integer.parseInt(request.getParameter("ddlTipoCuenta").toString()),"asd"));
+	    	c.setSaldo(Float.valueOf(request.getParameter("saldoM")));
+	    	
+	    	if(neg.modificarCuenta(c)){
+	    		request.setAttribute("infoModify", true);
+	    		
+	    		request.setAttribute("ModCuentas", neg.obtenerCuentas());
+				
+				RequestDispatcher rd = request.getRequestDispatcher("/ModifCuenta.jsp");
+		        rd.forward(request, response);
+	    	}
+	    	else {
+	    		request.setAttribute("infoModify", false);
+	    		
+	    		ArrayList<Cuenta> lista = (ArrayList<Cuenta>) neg.obtenerCuentaPorNr_cuenta(request.getParameter("nroCuentaM"));
+		    	
+		    	request.setAttribute("ModificarCuenta", lista);
+		    	
+		    	RequestDispatcher rd = request.getRequestDispatcher("/ModifCuenta.jsp");   
+		        rd.forward(request, response);
+	    	}
+	    	
+	    	
+	    }
+	    
+	    if(request.getParameter("modCuenta")!=null) {
+	    	
+			request.setAttribute("ModCuentas", neg.obtenerCuentas());
+			
+			RequestDispatcher rd = request.getRequestDispatcher("/ModifCuenta.jsp");
+	        rd.forward(request, response);
+		}
+	    
+	    if(request.getParameter("ParamLCU")!=null) {
+			
+	        request.setAttribute("cuentas", cuneg.obtenerCuentas());
+				
+			RequestDispatcher rd = request.getRequestDispatcher("/ListarCuenta.jsp");   
+		    rd.forward(request, response);
+		}
+	    
+	    if(request.getParameter("RechazarModificar")!=null) {
+	    	
+	    	request.removeAttribute("ModCuentas");
+			request.setAttribute("ModCuentas", neg.obtenerCuentas());
+			
+			RequestDispatcher rd = request.getRequestDispatcher("/ModifCuenta.jsp");
+	        rd.forward(request, response);
+	    }
+
        if(request.getParameter("btnAltaCuenta")!=null) {
 
     	   Cuenta c = new Cuenta();
@@ -188,7 +302,105 @@ public class ServletAdmin extends HttpServlet {
     	   RequestDispatcher rd = request.getRequestDispatcher("MostrarCuenta.jsp");   
     	   rd.forward(request, response);
        }
-       
+
+		//doGet(request, response);
+
+       if(request.getParameter("btnBuscarUsuario")!=null) {
+			
+			String User=request.getParameter("txtUsuarioModificar").toString();
+			
+			ArrayList<Cliente> ClienteSegunUser = cneg.LeerSegunUsuario(User);
+			
+			request.setAttribute("CLIENTE",ClienteSegunUser);
+			
+			RequestDispatcher rd = request.getRequestDispatcher("/ModifClientes.jsp");
+			rd.forward(request, response);
+		}
+		
+		
+		if(request.getParameter("btnModificarCliente")!=null) {
+			
+           String User1=request.getParameter("hiddenUsuario").toString();
+		   ArrayList<Cliente> ClienteUser = cneg.LeerSegunUsuario(User1);
+		   request.setAttribute("ClienteModificar",ClienteUser);
+			
+			GeneroNegocioImp gneg = new GeneroNegocioImp();
+			ArrayList<Genero> listGeneros = (ArrayList<Genero>) gneg.readAll();
+			request.setAttribute("generos", listGeneros);
+			
+			NacionalidadNegocioImp nneg = new NacionalidadNegocioImp();
+			ArrayList<Nacionalidad> listNacionalidades = (ArrayList<Nacionalidad>) nneg.readAll();
+			request.setAttribute("nacionalidades", listNacionalidades);
+			
+			ProvinciaNegocioImp pneg = new ProvinciaNegocioImp();
+			ArrayList<Provincia> listProvincias = (ArrayList<Provincia>) pneg.readAll();
+			request.setAttribute("provincias", listProvincias);
+			
+			LocalidadNegocioImp lneg = new LocalidadNegocioImp();
+			ArrayList<Localidad> listaLocalidad = (ArrayList<Localidad>) lneg.readAll();
+			request.setAttribute("localidades", listaLocalidad);
+			
+			RequestDispatcher rd = request.getRequestDispatcher("/ModifClientes.jsp");
+			rd.forward(request, response);
+		}
+		
+		
+		
+		if(request.getParameter("btnModificarCancelar")!=null) {
+			ArrayList<Cliente> ListaClientes = cneg.MostrarTodos();
+			request.setAttribute("ListaClientes", ListaClientes);
+			
+			RequestDispatcher rd = request.getRequestDispatcher("/ModifClientes.jsp");
+			rd.forward(request, response);
+		}
+		
+		if(request.getParameter("btnModificarAceptar")!=null) {
+			boolean alta = false;
+			
+			Cliente cliente = new Cliente();
+			Usuario usuario = new Usuario();
+			Genero genero = new Genero();
+			Nacionalidad nac = new Nacionalidad();
+			Provincia prov = new Provincia();
+			Localidad loc = new Localidad();
+			
+			genero.setCod_genero(Integer.parseInt(request.getParameter("ddlGenero").toString()));
+			nac.setCod_nacionalidad(Integer.parseInt(request.getParameter("ddlNacionalidad").toString()));
+			prov.setCod_provincia(Integer.parseInt(request.getParameter("ddlProvincia").toString()));
+			loc.setCod_localidad(Integer.parseInt(request.getParameter("ddlLocalidad").toString()));
+			
+			usuario.setUsuario(request.getParameter("txtUsuario").toString());
+			
+			cliente.setNro_Cliente(Integer.parseInt(request.getParameter("txtNroCliente").toString()));
+			cliente.setNombre(request.getParameter("txtNombre").toString());
+			cliente.setApellido(request.getParameter("txtApellido").toString());
+			cliente.setDni(request.getParameter("txtDNI").toString());
+			cliente.setCuil(request.getParameter("txtCUIL").toString());			
+			cliente.setDireccion(request.getParameter("txtDireccion").toString());
+			cliente.setTelefono(request.getParameter("txtTelefono").toString());
+			cliente.setFecha_nac(request.getParameter("txtFechaNac").toString());
+			cliente.setCod_Genero(genero);
+			cliente.setCod_nacionalidad(nac);
+			cliente.setCod_provincia(prov);
+			cliente.setCod_localidad(loc);
+			cliente.setEmail(request.getParameter("txtEmail").toString());
+			cliente.setEstado(true);
+			cliente.setUsuario(usuario);
+			
+		
+			cneg.update(cliente);
+			
+			UsuarioNegocioImp NegUser = new UsuarioNegocioImp();
+			usuario.setContrasenia(request.getParameter("txtContraseña").toString());
+			
+			NegUser.update(usuario);
+			
+            ArrayList<Cliente> ListaClientes = cneg.MostrarTodos();
+			request.setAttribute("ListaClientes", ListaClientes);
+			
+			RequestDispatcher rd = request.getRequestDispatcher("/ModifClientes.jsp");
+			rd.forward(request, response);
+		}
 	}
 
 }

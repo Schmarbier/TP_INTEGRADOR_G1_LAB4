@@ -1,70 +1,37 @@
 package daoImp;
 
-import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+
+import com.mysql.jdbc.Connection;
 
 import dao.UsuarioDao;
 import entidades.Usuario;
 
 public class UsuarioDaoImp implements UsuarioDao{
-
-	private static final String insert = "INSERT INTO usuarios (Usuario, Tipo_Us, Contraseña, Estado) VALUES(?, ?, ?, ?)";
-	private static final String delete = "UPDATE usuarios SET Estado = 0  WHERE Usuario = ?";
+	
+	private static final String update = "UPDATE usuarios SET Contraseña = ? WHERE Usuario = ?";
+	
 	
 	@Override
-	public boolean insert(Usuario usu) {
+	public boolean existeNombreUsuario(Usuario usu) {
 		PreparedStatement statement;
-		Connection conexion = Conexion.getConexion().getSQLConexion();
-		
-		boolean isInsertExitoso = false;
-		try
-		{
-			statement = conexion.prepareStatement(insert);
-			statement.setString(1, usu.getUsuario());
-			statement.setInt (2, usu.getTipo_Us().getTipo_us());
-			statement.setString(3, usu.getContraseña());
-			statement.setBoolean(4, usu.getEstado());
-			if(statement.executeUpdate() > 0)
-			{
-				conexion.commit();
-				isInsertExitoso = true;
-			}
-		} 
-		catch (SQLException e) 
-		{
-			e.printStackTrace();
-			try {
-				conexion.rollback();
-			} catch (SQLException e1) {
-				e1.printStackTrace();
-			}
-		}
-		
-		return isInsertExitoso;
-	}
-
-	@Override
-	public boolean delete(Usuario usu) {
-		PreparedStatement statement;
-		Connection conexion = Conexion.getConexion().getSQLConexion();
-		boolean isdeleteExitoso = false;
+		ResultSet resultSet; 
+		Conexion conexion = Conexion.getConexion();
+		boolean existeUsuario = false;
 		try 
 		{
-			statement = conexion.prepareStatement(delete);
+			statement = conexion.getSQLConexion().prepareStatement("SELECT * FROM usuarios WHERE usuario = ?");
 			statement.setString(1, usu.getUsuario());
-			if(statement.executeUpdate() > 0)
-			{
-				conexion.commit();
-				isdeleteExitoso = true;
-			}
+			resultSet = statement.executeQuery();
+			if(resultSet.next()) existeUsuario = true;
 		} 
 		catch (SQLException e) 
 		{
 			e.printStackTrace();
 		}
-		return isdeleteExitoso;
+		return existeUsuario;
 	}
 	
 	@Override
@@ -108,5 +75,30 @@ public class UsuarioDaoImp implements UsuarioDao{
 		}
 		return existeUsuario;
 	}
+	
+	
+
+	@Override
+	public boolean update(Usuario usu) {
+		PreparedStatement statement;
+		Connection conexion = (Connection) Conexion.getConexion().getSQLConexion();
+		boolean updateExitoso = false;
+		
+		try {
+			statement = conexion.prepareStatement(update);
+			statement.setString(1, usu.getContraseña());
+			statement.setString(2, usu.getUsuario());
+			if(statement.executeUpdate()>0) {
+				conexion.commit();
+				updateExitoso = true;
+			}
+		}
+		catch(SQLException e) {
+			e.printStackTrace();
+		}
+		
+		return updateExitoso;
+	}
+	
 
 }

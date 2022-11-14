@@ -11,19 +11,17 @@ import negocio.CuentaNegocio;
 
 public class CuentaNegocioImp implements CuentaNegocio{
 
-	private CuentaDaoImp dao;
-
-	CuentaDao cdao = new CuentaDaoImp();	
+	private CuentaDao cdao = new CuentaDaoImp();	
 	
 	@Override
 	public ArrayList<Cuenta> obtenerCuentas() {
-		ArrayList <Cuenta> lista = dao.obtenerCuentas();
+		ArrayList <Cuenta> lista = cdao.obtenerCuentas();
 		return lista;
 	}
 
 	@Override
 	public ArrayList<Cuenta> obtenerCuentaQueryCustom(String consulta, String filtro) {
-		return dao.obtenerCuentaQueryCustom(consulta, filtro);
+		return cdao.obtenerCuentaQueryCustom(consulta, filtro);
 	}
 
 	@Override
@@ -49,4 +47,12 @@ public class CuentaNegocioImp implements CuentaNegocio{
 		return null;
 	}
 
+	public ArrayList<Cuenta> obtenerCuentaPorNr_cuenta(String numero) {
+		return cdao.obtenerCuentaPorNr_cuenta(numero);
+	}
+
+	@Override
+	public boolean modificarCuenta(Cuenta c) {
+		return cdao.modificarCuenta(c);
+	}
 }

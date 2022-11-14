@@ -33,8 +33,13 @@ public class ClienteNegocioImp implements ClienteNegocio{
 	}
 
 	@Override
-	public ArrayList<Cliente> LeerSegunNombre(String User) {
-		return cdao.LeerSegunNombre(User);
+	public ArrayList<Cliente> LeerSegunUsuario(String User) {
+		return cdao.LeerSegunUsuario(User);
+	}
+
+	@Override
+	public boolean update(Cliente cli) {
+		return cdao.update(cli);
 	}
 
 }
