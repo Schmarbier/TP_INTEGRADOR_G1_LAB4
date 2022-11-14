@@ -8,7 +8,7 @@ import negocio.CuentaNegocio;
 
 public class CuentaNegocioImp implements CuentaNegocio{
 
-	private CuentaDaoImp dao;
+	private CuentaDaoImp dao = new CuentaDaoImp();
 	
 	@Override
 	public ArrayList<Cuenta> obtenerCuentas() {
@@ -19,6 +19,16 @@ public class CuentaNegocioImp implements CuentaNegocio{
 	@Override
 	public ArrayList<Cuenta> obtenerCuentaQueryCustom(String consulta, String filtro) {
 		return dao.obtenerCuentaQueryCustom(consulta, filtro);
+	}
+
+	@Override
+	public ArrayList<Cuenta> obtenerCuentaPorNr_cuenta(String numero) {
+		return dao.obtenerCuentaPorNr_cuenta(numero);
+	}
+
+	@Override
+	public boolean modificarCuenta(Cuenta c) {
+		return dao.modificarCuenta(c);
 	}
 
 }

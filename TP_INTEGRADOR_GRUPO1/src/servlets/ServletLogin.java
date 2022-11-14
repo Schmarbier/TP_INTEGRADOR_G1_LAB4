@@ -35,13 +35,13 @@ public class ServletLogin extends HttpServlet {
 		
 		if(request.getParameter("btnLogin")!=null) {
 			String usuario = request.getParameter("txtUsuario");
-			String contraseña = request.getParameter("txtPassword");
+			String contrasena = request.getParameter("txtPassword");
 			
 			HttpSession session = request.getSession();
 
 			Usuario usu = new Usuario();
 			usu.setUsuario(usuario);
-			usu.setContraseña(contraseña);
+			usu.setContrase�a(contrasena);
 			
 			UsuarioNegocioImp neg = new UsuarioNegocioImp();
 			
