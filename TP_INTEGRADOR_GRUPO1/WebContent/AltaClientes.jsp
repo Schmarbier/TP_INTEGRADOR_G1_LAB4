@@ -21,10 +21,10 @@
 <div class="parteDer">
    <h3 class="titulo"> Alta Clientes </h3> 
    
-<form method="get" action="ServletAgregarCliente">
+<form method="post" action="ServletAdmin">
       <%   int nroCli=0;
-           if(request.getAttribute("ncli")!=null) nroCli = Integer.parseInt(request.getParameter("ncli").toString()); %>
-	  <p>  Cliente nro:  <%= nroCli %> </p>
+           if(request.getAttribute("ncli")!=null) nroCli = Integer.parseInt(request.getAttribute("ncli").toString()); %>
+	  <p>  Cliente Numero:  <%= nroCli %> </p>
       <p>  Nombre:  <input type="text" name="nombre" placeholder="Ingrese un nombre"
            maxlength="30" required pattern="[A-Za-zñÑ]+" title="Ingrese solo letras" />
            Apellido: <input type="text" name="apellido" placeholder="Ingrese un apellido"
@@ -95,6 +95,7 @@
 	<%  if(request.getAttribute("exito")!=null) {%> Cliente agregado con éxito <%}%>
 	<%  if(request.getAttribute("error")!=null) {%> No se pudo agregar el cliente. Cliente ya existente <%}%>
 	<%  if(request.getAttribute("errorContraseña")!=null) {%> Error. Las contraseñas no coinciden <%}%>
+	<%  if(request.getAttribute("usuarioExistente")!=null) {%> Error. El usuario ingresado ya existe <%}%>
 
 </div>
 

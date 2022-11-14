@@ -41,7 +41,7 @@ public class ServletLogin extends HttpServlet {
 
 			Usuario usu = new Usuario();
 			usu.setUsuario(usuario);
-			usu.setContraseña(contrasena);
+			usu.setContrasenia(contrasena);
 			
 			UsuarioNegocioImp neg = new UsuarioNegocioImp();
 			
@@ -50,7 +50,7 @@ public class ServletLogin extends HttpServlet {
 				if(neg.esAdmin(usu)) {
 					session.setAttribute("usuarioAdmin", true);
 
-					RequestDispatcher rd = request.getRequestDispatcher("ServletAdmin?Param=1");   
+					RequestDispatcher rd = request.getRequestDispatcher("ServletDatosAdmin?datosAlta=1");   
 					rd.forward(request, response);   
 				}
 				else {
@@ -71,16 +71,9 @@ public class ServletLogin extends HttpServlet {
 		
 	}
 
-	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
-	 */
+
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		doGet(request, response);
 	}
-	
-	private boolean verificarTextbox() {
-		return true;
-	}
-
 }

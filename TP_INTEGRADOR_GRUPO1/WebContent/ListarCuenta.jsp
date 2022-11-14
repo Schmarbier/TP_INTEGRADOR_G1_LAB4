@@ -17,7 +17,7 @@
 
 <div class="parteDer">
    <h3 class="titulo"> Listar Cuenta </h3> 
-<form method="get" action="servletListarCuenta">
+<form method="post" action="ServletAdmin">
     	<p>Buscar en:</p>
     	<select name="dllBusqueda">
 		  <option value="todo">Todo</option>

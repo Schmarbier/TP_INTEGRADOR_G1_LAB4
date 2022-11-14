@@ -5,7 +5,7 @@ public class Usuario {
 	///ATRIBUTOS
 	public String Usuario;
     public TipoUsuario Tipo_Us;
-    public String Contraseña;
+    public String Contrasenia;
     public Boolean Estado;
     
     ///CONSTRUCTORES
@@ -15,7 +15,7 @@ public class Usuario {
 		super();
 		Usuario = usuario;
 		Tipo_Us = tipo_Us;
-		Contraseña = contraseña;
+		Contrasenia = contraseña;
 		Estado = estado;
 	}
 
@@ -37,11 +37,11 @@ public class Usuario {
 	}
 
 	public String getContraseña() {
-		return Contraseña;
+		return Contrasenia;
 	}
 
-	public void setContraseña(String contraseña) {
-		Contraseña = contraseña;
+	public void setContrasenia(String contraseña) {
+		Contrasenia = contraseña;
 	}
 
 	public Boolean getEstado() {

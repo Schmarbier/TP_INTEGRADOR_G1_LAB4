@@ -6,6 +6,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
+import com.mysql.jdbc.CallableStatement;
+
 import dao.ClienteDao;
 import entidades.Genero;
 import entidades.Localidad;
@@ -16,7 +18,7 @@ import entidades.Cliente;
 
 public class ClienteDaoImp implements ClienteDao{
 
-	private static final String insert = "INSERT INTO clientes (Dni, Cuil, Nombre, Apellido, Cod_Genero, Cod_nacionalidad, Fecha_nac, Direccion, Cod_localidad, Cod_provincia, Email, Telefono, Usuario, Estado) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+	private static final String insert = "{CALL spAltaCliente(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)}";
 	private static final String delete = "UPDATE clientes SET Estado = 0  WHERE Dni = ?";
 	
 	private static final String readAll = "SELECT clientes.Nro_Cliente, clientes.Nombre, clientes.Apellido, clientes.Dni,"
@@ -32,13 +34,14 @@ public class ClienteDaoImp implements ClienteDao{
 	
 	@Override
 	public boolean insert(Cliente cli) {
-		PreparedStatement statement;
-		Connection conexion = Conexion.getConexion().getSQLConexion();
-		
+        String QUERY = insert;
+
 		boolean isInsertExitoso = false;
-		try
+		try(
+			Connection conexion = Conexion.getConexion().getSQLConexion();
+			CallableStatement statement = (CallableStatement) conexion.prepareCall(QUERY);
+		)
 		{
-			statement = conexion.prepareStatement(insert);
 			statement.setString(1, cli.getDni());
 			statement.setString(2, cli.getCuil());
 			statement.setString(3, cli.getNombre());
@@ -52,21 +55,29 @@ public class ClienteDaoImp implements ClienteDao{
 			statement.setString(11, cli.getEmail());
 			statement.setString(12, cli.getTelefono());
 			statement.setString(13, cli.getUsuario().getUsuario());
-			statement.setBoolean(14, cli.getEstado());
-			if(statement.executeUpdate() > 0)
-			{
-				conexion.commit();
-				isInsertExitoso = true;
-			}
+			statement.setString(14, cli.getUsuario().getContraseña());
+			statement.setBoolean(15, cli.getEstado());
+
+			// En lugar de execute uso executeQuery para obtener el resulset que me devuelve en caso que falle
+			// statement.execute();
+
+		    isInsertExitoso = true;
+			ResultSet rs1 = statement.executeQuery();
+			
+			// Si devolvio algun mensaje de error entonces retorno falso
+		    while(rs1.next()) {
+		    	isInsertExitoso = false;
+		    	/*
+		        System.out.print("Level: "+rs1.getString("Level")+", ");
+		        System.out.print("Code: "+rs1.getString("Code")+", ");
+		        System.out.print("Message: "+rs1.getString("Message"));
+		        System.out.println();
+		        */
+		    }			
 		} 
 		catch (SQLException e) 
 		{
 			e.printStackTrace();
-			try {
-				conexion.rollback();
-			} catch (SQLException e1) {
-				e1.printStackTrace();
-			}
 		}
 		return isInsertExitoso;
 	}
@@ -94,13 +105,13 @@ public class ClienteDaoImp implements ClienteDao{
 	}
 	
 	public int obtenerProxId() {
-		Integer maxId = 0;
+		Integer maxId = -1;
 		Connection conexion = Conexion.getConexion().getSQLConexion();
 		PreparedStatement statement;
 		
 		try
 		{
-			statement = conexion.prepareStatement("SELECT MAX (Nro_Cliente) FROM clientes");
+			statement = conexion.prepareStatement("SELECT MAX(Nro_Cliente) FROM clientes");
 			ResultSet resultado = statement.executeQuery();
 			resultado.next();
 			maxId = resultado.getInt(1);
@@ -125,8 +136,30 @@ public class ClienteDaoImp implements ClienteDao{
 		boolean existeCliente = false;
 		try 
 		{
-			statement = conexion.getSQLConexion().prepareStatement("SELECT * FROM clientes WHERE dni = ?");
+			statement = conexion.getSQLConexion().prepareStatement("SELECT * FROM clientes WHERE Dni = ?");
 			statement.setString(1, cli.getDni());
+			resultSet = statement.executeQuery();
+			if(resultSet.next()) existeCliente = true;
+		} 
+		catch (SQLException e) 
+		{
+			e.printStackTrace();
+		}
+		return existeCliente;
+	}
+	
+	@Override
+	public boolean existeCliente(Cliente cli) {
+		PreparedStatement statement;
+		ResultSet resultSet; 
+		Conexion conexion = Conexion.getConexion();
+		boolean existeCliente = false;
+		try 
+		{
+			statement = conexion.getSQLConexion().prepareStatement("SELECT * FROM clientes WHERE Dni = ? OR Cuil = ? OR Email = ?");
+			statement.setString(1, cli.getDni());
+			statement.setString(2, cli.getCuil());
+			statement.setString(3, cli.getEmail());
 			resultSet = statement.executeQuery();
 			if(resultSet.next()) existeCliente = true;
 		} 
@@ -170,7 +203,7 @@ public class ClienteDaoImp implements ClienteDao{
 				Loc.setDescripcion(resultSet.getString(12));
 				String Mail = resultSet.getString(13);
 				User.setUsuario(resultSet.getString(14));
-				User.setContraseña(resultSet.getString(15));
+				User.setContrasenia(resultSet.getString(15));
 				
 				Cliente cliente = new Cliente(Nro_Cliente,Dni,Cuil,Nombre,Apellido,G,Nac,FechaNac,Direccion,Loc,Prov,Mail,Telefono,User,true);
 			    ListaClientes.add(cliente);
@@ -222,7 +255,7 @@ public class ClienteDaoImp implements ClienteDao{
 				Loc.setDescripcion(resultSet.getString(12));
 				String Mail = resultSet.getString(13);
 				User.setUsuario(resultSet.getString(14));
-				User.setContraseña(resultSet.getString(15));
+				User.setContrasenia(resultSet.getString(15));
 				
 				Cliente cliente = new Cliente(Nro_Cliente,Dni,Cuil,Nombre,Apellido,G,Nac,FechaNac,Direccion,Loc,Prov,Mail,Telefono,User,true);
 			    ListaClientes.add(cliente);
