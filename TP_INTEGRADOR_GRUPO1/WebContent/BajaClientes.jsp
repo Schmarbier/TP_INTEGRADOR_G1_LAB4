@@ -18,11 +18,42 @@
 
 	<form method="post" action="ServletAdmin">
 	<p>  Ingrese el DNI del cliente que desea eliminar: <input type="text" required name="UsuarioEliminado"></input>
-	     <input type="submit" name="btnEliminar" value="Eliminar Cliente"></input></p>
+	     
+	  <!--<input class="btn btn-outline-success" type="submit" name="AceptarEliminar" value="Aceptar" data-toggle="modal" data-target="#exampleModal">-->
+	  <!-- Button trigger modal -->
+	<button type="button" class="btn btn-outline-success" data-toggle="modal" data-target="#exampleModal">
+	  Eliminar cliente
+	</button>
+	<input class="btn btn-outline-danger" type="reset" name="RechazarEliminar" value="Rechazar">
+	
+	<!-- Modal -->
+	<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" 
+	aria-hidden="true">
+	  <div class="modal-dialog" role="document">
+	    <div class="modal-content">
+	      <div class="modal-header">
+	        <h5 class="modal-title" id="exampleModalLabel">Atencion!</h5>
+	        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+	          <span aria-hidden="true">&times;</span>
+	        </button>
+	      </div>
+	      <div class="modal-body">
+	        ¿Estas seguro de eliminar este cliente?
+	      </div>
+	      <div class="modal-footer">
+	        <input type="reset" class="btn btn-secondary" data-dismiss="modal" name="RechazarEliminar" 
+	        value="Rechazar">
+	        <input type="submit" name="AceptarEliminar"  value="Aceptar" class="btn btn-primary">
+	      </div>
+	    </div>
+	  </div>
+	</div>
+	
 	</form>
-	<%  if(request.getAttribute("exito")!=null) {%> Cliente eliminado con éxito <%}%>
+	<%  if(request.getAttribute("exito")!=null) {%>	¡Cliente eliminado con exito! <%}%>
 	<%  if(request.getAttribute("error")!=null) {%> Error. El cliente NO existe <%}%>
     
+	      
 </div>
 
 </body>
