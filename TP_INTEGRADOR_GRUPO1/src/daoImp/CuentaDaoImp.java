@@ -174,11 +174,10 @@ private static final String modificar = "update cuentas SET Nro_cliente = ?, Fec
 		int nroCuenta = -1;
         String QUERY = "{CALL spAltaCuenta(?,?,?,?,?)}";
 
-		try(
-			Connection conexion = Conexion.getConexion().getSQLConexion();
-			CallableStatement statement = conexion.prepareCall(QUERY);
-		)
+        Connection conexion = Conexion.getConexion().getSQLConexion();
+		try
 		{
+			PreparedStatement statement = conexion.prepareStatement(QUERY);
 			statement.setInt(1, cu.getNro_cliente());
 			statement.setInt(2, cu.getTipo_cuenta().getTipo_cuenta());
 			statement.setString(3, cu.getCbu());

@@ -93,6 +93,16 @@ public class ServletAdmin extends HttpServlet {
 			rd.forward(request, response);
 			
 		}
+	    
+    	if(request.getParameter("btnModificarCuenta")!=null) {
+	    	
+	    	ArrayList<Cuenta> lista = (ArrayList<Cuenta>) neg.obtenerCuentaPorNr_cuenta(request.getParameter("nroCuenta"));
+	    	
+	    	request.setAttribute("ModificarCuenta", lista);
+	    	System.out.println("entro mod cuenta");
+	    	RequestDispatcher rd = request.getRequestDispatcher("/ModifCuenta.jsp");   
+	        rd.forward(request, response);
+	    }
     
 		
 	}
@@ -200,7 +210,7 @@ public class ServletAdmin extends HttpServlet {
 	    
 	    if(request.getParameter("btnModBuscar")!=null) {
 			ArrayList<Cuenta> lista = (ArrayList<Cuenta>) neg.obtenerCuentaQueryCustom(request.getParameter("dllBusqueda").toString(), request.getParameter("txtFiltro").toString());
-			System.out.println(request.getParameter("dllBusqueda").toString());
+			
 			request.removeAttribute("ModCuentas");
 			request.setAttribute("ModCuentas", lista);
 			
@@ -213,7 +223,7 @@ public class ServletAdmin extends HttpServlet {
 	    	ArrayList<Cuenta> lista = (ArrayList<Cuenta>) neg.obtenerCuentaPorNr_cuenta(request.getParameter("nroCuenta"));
 	    	
 	    	request.setAttribute("ModificarCuenta", lista);
-	    	
+	    	System.out.println("entro mod cuenta");
 	    	RequestDispatcher rd = request.getRequestDispatcher("/ModifCuenta.jsp");   
 	        rd.forward(request, response);
 	    }
