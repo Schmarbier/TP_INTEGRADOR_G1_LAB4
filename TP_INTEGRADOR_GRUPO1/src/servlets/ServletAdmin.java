@@ -367,7 +367,6 @@ public class ServletAdmin extends HttpServlet {
 		if(request.getParameter("btnModificarAceptar")!=null) {
 			boolean ModCli = false;
 			boolean ModUs = false;
-			boolean verdadero = true;
 			
 			Cliente cliente = new Cliente();
 			Usuario usuario = new Usuario();
@@ -407,7 +406,7 @@ public class ServletAdmin extends HttpServlet {
 			ModUs = NegUser.update(usuario);
 			
 			if(ModCli && ModUs) {
-				request.setAttribute("ModifTrue", verdadero);
+				request.setAttribute("ModifTrue", true);
 			}
 			
             ArrayList<Cliente> ListaClientes = cneg.MostrarTodos();
