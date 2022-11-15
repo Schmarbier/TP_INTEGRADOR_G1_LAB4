@@ -43,24 +43,27 @@
    </form>
 	    
 	    <table id="mytable"  class="table table-sm" >
-		    <tr>
-	            <th class="th">Nro Cliente</th>
-	            <th class="th">Nombre</th>
-	            <th class="th">Apellido</th>
-	            <th class="th">Dni</th>
-	            <th class="th">Cuil</th>
-	            <th class="th">Direccion</th>
-	            <th class="th">Telefono</th>
-	            <th class="th">Fecha de nacimiento</th>
-	            <th class="th">Genero</th>
-	            <th class="th">Nacionalidad</th>
-	            <th class="th">Provincia</th>
-	            <th class="th">Localidad</th>
-	            <th class="th">Email</th>
-	            <th class="th">Usuario</th>
-	            <th class="th">Contraseña</th>
-	            <th class="th"></th>
-	        </tr>
+	    	<thead>
+			    <tr>
+		            <th class="th">Nro Cliente</th>
+		            <th class="th">Nombre</th>
+		            <th class="th">Apellido</th>
+		            <th class="th">Dni</th>
+		            <th class="th">Cuil</th>
+		            <th class="th">Direccion</th>
+		            <th class="th">Telefono</th>
+		            <th class="th">Fecha de nacimiento</th>
+		            <th class="th">Genero</th>
+		            <th class="th">Nacionalidad</th>
+		            <th class="th">Provincia</th>
+		            <th class="th">Localidad</th>
+		            <th class="th">Email</th>
+		            <th class="th">Usuario</th>
+		            <th class="th">Contraseña</th>
+		            <th class="th"></th>
+		        </tr>
+		   </thead>
+	       <tbody>
 	        
 	    <%ArrayList<Cliente>ListaClienteTodos = null;
 	    
@@ -73,7 +76,6 @@
         %>
         
         <!-- CARGA LA LISTA CON TODOS LOS CLIENTES -->
-        
     <tr class="tr">  
          <form action="ServletAdmin" method="post">
 	     <td class="td" > <%=CLI.getNro_Cliente() %> </td>    
@@ -229,7 +231,7 @@
 	</div>
 	        </form>  
 	    <%} %>
-		
+		</tbody>
 	</table>
 	
 
