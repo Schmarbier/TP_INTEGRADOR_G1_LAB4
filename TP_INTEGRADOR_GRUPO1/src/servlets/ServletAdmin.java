@@ -108,7 +108,7 @@ public class ServletAdmin extends HttpServlet {
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-            if(request.getParameter("btnAgregar")!=null) {
+            if(request.getParameter("AceptarAgregar")!=null) {
 
             boolean alta = true;
             
@@ -171,7 +171,7 @@ public class ServletAdmin extends HttpServlet {
 		        
          }
        
-       if(request.getParameter("btnEliminar")!=null) {
+       if(request.getParameter("AceptarEliminar")!=null) {
 			boolean baja = false;
 			Cliente c = new Cliente();
 			c.setDni(request.getParameter("UsuarioEliminado").toString());
