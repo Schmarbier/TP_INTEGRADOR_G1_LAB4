@@ -1,14 +1,22 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <qualifiedTypeNameHistroy>
 <fullyQualifiedTypeName name="entidades.Cliente"/>
-<fullyQualifiedTypeName name="entidades.Genero"/>
-<fullyQualifiedTypeName name="entidades.Nacionalidad"/>
 <fullyQualifiedTypeName name="java.sql.Date"/>
-<fullyQualifiedTypeName name="entidades.Provincia"/>
 <fullyQualifiedTypeName name="entidades.Usuario"/>
 <fullyQualifiedTypeName name="entidades.TipoUsuario"/>
 <fullyQualifiedTypeName name="negocioImp.ClienteNegocioImp"/>
 <fullyQualifiedTypeName name="negocioImp.UsuarioNegocioImp"/>
+<fullyQualifiedTypeName name="negocioImp.GeneroNegocioImp"/>
+<fullyQualifiedTypeName name="negocioImp.NacionalidadNegocioImp"/>
+<fullyQualifiedTypeName name="negocioImp.ProvinciaNegocioImp"/>
 <fullyQualifiedTypeName name="negocioImp.LocalidadNegocioImp"/>
 <fullyQualifiedTypeName name="entidades.Localidad"/>
+<fullyQualifiedTypeName name="entidades.Provincia"/>
+<fullyQualifiedTypeName name="entidades.Nacionalidad"/>
+<fullyQualifiedTypeName name="entidades.Genero"/>
+<fullyQualifiedTypeName name="negocio.PrestamoNegocio"/>
+<fullyQualifiedTypeName name="dao.PrestamoDao"/>
+<fullyQualifiedTypeName name="daoImp.PrestamoDaoImp"/>
+<fullyQualifiedTypeName name="entidades.Prestamo"/>
+<fullyQualifiedTypeName name="negocioImp.PrestamoNegocioImp"/>
 </qualifiedTypeNameHistroy>

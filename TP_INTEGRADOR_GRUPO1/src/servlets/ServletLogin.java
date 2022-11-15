@@ -15,6 +15,7 @@ import entidades.Usuario;
 import entidades.Genero;
 import entidades.Localidad;
 import entidades.Nacionalidad;
+import entidades.Prestamo;
 import entidades.Provincia;
 import entidades.TipoCuenta;
 import negocioImp.UsuarioNegocioImp;
@@ -22,6 +23,7 @@ import negocioImp.ClienteNegocioImp;
 import negocioImp.GeneroNegocioImp;
 import negocioImp.LocalidadNegocioImp;
 import negocioImp.NacionalidadNegocioImp;
+import negocioImp.PrestamoNegocioImp;
 import negocioImp.ProvinciaNegocioImp;
 import negocioImp.TipoCuentaNegocioImp;
 
@@ -41,6 +43,7 @@ public class ServletLogin extends HttpServlet {
 	ProvinciaNegocioImp pneg = new ProvinciaNegocioImp();
 	LocalidadNegocioImp lneg = new LocalidadNegocioImp();
     ClienteNegocioImp cneg = new ClienteNegocioImp();
+	PrestamoNegocioImp provneg = new PrestamoNegocioImp();
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
@@ -65,7 +68,7 @@ public class ServletLogin extends HttpServlet {
 				if(neg.esAdmin(usu)) {
 					session.setAttribute("usuarioAdmin", true);
 
-					RequestDispatcher rd = request.getRequestDispatcher("AltaCuenta.jsp"); 
+					RequestDispatcher rd = request.getRequestDispatcher("AltaClientes.jsp"); 
 					rd.forward(request, response);   
 				}
 				else {
@@ -100,7 +103,7 @@ public class ServletLogin extends HttpServlet {
 		ArrayList<TipoCuenta> listTipoCuenta = (ArrayList<TipoCuenta>) tcneg.readAll();
 		session.setAttribute("TipoCuenta", listTipoCuenta);
 
-		/*int maxId = cneg.obtenerProxId();
+		int maxId = cneg.obtenerProxId();
 		session.setAttribute("ncli", maxId);
 	    
 	    ArrayList<Genero> listGeneros = (ArrayList<Genero>) gneg.readAll();
@@ -113,7 +116,10 @@ public class ServletLogin extends HttpServlet {
 		session.setAttribute("provincias", listProvincias);
 		
 		ArrayList<Localidad> listaLocalidad = (ArrayList<Localidad>) lneg.readAll();
-		session.setAttribute("localidades", listaLocalidad);*/
+		session.setAttribute("localidades", listaLocalidad);
+		
+		ArrayList<Prestamo> ListaPrestamos = (ArrayList<Prestamo>) provneg.readAll();
+		session.setAttribute("prestamos", ListaPrestamos);
 		
 		
 	}	
