@@ -20,19 +20,18 @@
    <h3 class="titulo"> Listado Clientes </h3> 
 
 
-<form method="post" action="ServletAdmin">
-
-<form method="get" action="Servlet_ML_cliente">
-
-
-         <form method="get" action="Servlet_ML_cliente">
-    	<p>  Buscar usuario en especifico: <input type="text" required name="txtBuscarUsuario"></input>
-	    <input type="submit" name="btnBuscarUser" value="Buscar"></input></p>
+        <form method="post" action="ServletAdmin">
+      
+        <br>
+        
+    	<p>  Buscar usuario en especifico: <input type="text"  required name="txtBuscarUsuario"></input>
+	    <input type="submit" name="btnBuscarUser" value="Buscar" class="btn btn-outline-primary"></input></p>
 	    </form>
 	    
 	    
     
-	    <table class="table" >
+  <table id="myTable" class="table table-sm">
+	  <thead> 
 	    <tr>
              <th class="th">Nro Cliente</th>
 	            <th class="th">Nombre</th>
@@ -50,6 +49,8 @@
 	            <th class="th">Usuario</th>
 	            <th class="th">Contraseña</th>
         </tr>
+        </thead>
+        
 	    <%ArrayList<Cliente>ListaCliente = null;
 	    
 	    if(request.getAttribute("ListaClientes")!=null){
@@ -91,21 +92,21 @@
 		%>	   
 			 
 		 <tr>  
-	     <td> <%=C.getNro_Cliente() %>  </td>    
-	     <td> <%=C.getNombre() %>  </td>
-	     <td> <%=C.getApellido() %> </td> 
-	     <td> <%=C.getDni() %> </td> 
-	     <td> <%=C.getCuil() %> </td> 
-	     <td> <%=C.getDireccion() %> </td> 
-	     <td> <%=C.getTelefono() %> </td> 
-	     <td> <%=C.getFecha_nac() %> </td> 
-	     <td> <%=C.getCod_Genero() %> </td> 
-	     <td> <%=C.getCod_nacionalidad() %> </td> 
-	     <td> <%=C.getCod_provincia() %> </td> 
-	     <td> <%=C.getCod_localidad() %> </td> 
-	     <td> <%=C.getEmail() %> </td> 
-	     <td> <%=C.getUsuario()%> </td> 
-	     <td> <%=C.getUsuario().getContraseña() %> </td>    
+	     <td class="td" > <%=C.getNro_Cliente() %>  </td>    
+	     <td class="td" > <%=C.getNombre() %>  </td>
+	     <td class="td" > <%=C.getApellido() %> </td> 
+	     <td class="td" > <%=C.getDni() %> </td> 
+	     <td class="td" > <%=C.getCuil() %> </td> 
+	     <td class="td" > <%=C.getDireccion() %> </td> 
+	     <td class="td" > <%=C.getTelefono() %> </td> 
+	     <td class="td" > <%=C.getFecha_nac() %> </td> 
+	     <td class="td" > <%=C.getCod_Genero() %> </td> 
+	     <td class="td" > <%=C.getCod_nacionalidad() %> </td> 
+	     <td class="td" > <%=C.getCod_provincia() %> </td> 
+	     <td class="td" > <%=C.getCod_localidad() %> </td> 
+	     <td class="td" > <%=C.getEmail() %> </td> 
+	     <td class="td" > <%=C.getUsuario()%> </td> 
+	     <td class="td" > <%=C.getUsuario().getContraseña() %> </td>    
 	</tr>	   
 			   
 		<% }%>
@@ -113,10 +114,29 @@
 	
 
 </table>
-
-</form>
-   
+ 
 </div>
+
+<script>
+$(document).ready( function () {
+    $('#myTable').DataTable({
+    	"searching": false,
+    	"lengthMenu": [5, 10, 15, 30, 60],
+    	"language": {
+            "zeroRecords": "No se encontraron datos",
+            "infoEmpty": "No hay datos para mostrar",
+            "info": "Mostrando del _START_ al _END_, de un total de _TOTAL_ entradas",
+            "lengthMenu": "Mostrar _MENU_ registros",
+            "paginate": {
+                "first": "Primeros",
+                "last": "Ultimos",
+                "next": "Siguiente",
+                "previous": "Anterior"
+            },
+        },
+    });
+} );
+</script>
 
 </body>
 </html>
