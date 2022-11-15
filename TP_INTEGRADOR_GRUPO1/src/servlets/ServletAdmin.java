@@ -365,7 +365,9 @@ public class ServletAdmin extends HttpServlet {
 		}
 		
 		if(request.getParameter("btnModificarAceptar")!=null) {
-			boolean alta = false;
+			boolean ModCli = false;
+			boolean ModUs = false;
+			boolean verdadero = true;
 			
 			Cliente cliente = new Cliente();
 			Usuario usuario = new Usuario();
@@ -397,13 +399,16 @@ public class ServletAdmin extends HttpServlet {
 			cliente.setEstado(true);
 			cliente.setUsuario(usuario);
 			
-		
-			cneg.update(cliente);
+		    ModCli = cneg.update(cliente);
 			
 			UsuarioNegocioImp NegUser = new UsuarioNegocioImp();
 			usuario.setContrasenia(request.getParameter("txtContraseña").toString());
 			
-			NegUser.update(usuario);
+			ModUs = NegUser.update(usuario);
+			
+			if(ModCli && ModUs) {
+				request.setAttribute("ModifTrue", verdadero);
+			}
 			
             ArrayList<Cliente> ListaClientes = cneg.MostrarTodos();
 			request.setAttribute("ListaClientes", ListaClientes);
