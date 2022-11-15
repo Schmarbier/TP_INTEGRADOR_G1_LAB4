@@ -39,11 +39,10 @@ public class ClienteDaoImp implements ClienteDao{
         String QUERY = insert;
 
 		boolean isInsertExitoso = false;
-		try(
-			Connection conexion = Conexion.getConexion().getSQLConexion();
-			CallableStatement statement = (CallableStatement) conexion.prepareCall(QUERY);
-		)
+		Connection conexion = Conexion.getConexion().getSQLConexion();
+		try
 		{
+			PreparedStatement statement = conexion.prepareStatement(QUERY);
 			statement.setString(1, cli.getDni());
 			statement.setString(2, cli.getCuil());
 			statement.setString(3, cli.getNombre());
