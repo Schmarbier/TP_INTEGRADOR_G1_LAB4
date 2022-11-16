@@ -339,9 +339,20 @@ public class ServletAdmin extends HttpServlet {
     	   c.setEstado(true);
     	   
     	   CuentaNegocioImp cn = new CuentaNegocioImp();
+    	   
+    	   // Verifico que no haya llegado a la maxima cantidad de cuentas por cliente
+    	   int totCuentasCliente = cn.totalCuentasPorCliente(c.getNro_cliente());
+    	   if(totCuentasCliente>=3) {
+				request.setAttribute("cuenta", c);
+  			    request.setAttribute("resultadoAlta", "errorCantidadCuentas");
+  	    	    RequestDispatcher rd = request.getRequestDispatcher("MostrarCuenta.jsp");   
+  	    	    rd.forward(request, response);
+    	   }
+			
+    	   // Realizo el alta de cuenta
     	   int nroCuenta = cn.insert(c);
     	   request.setAttribute("NRO", nroCuenta);
-			
+
     	   if(nroCuenta>0) {
 				c.setNro_cuenta(nroCuenta);
 				request.setAttribute("cuenta", c);

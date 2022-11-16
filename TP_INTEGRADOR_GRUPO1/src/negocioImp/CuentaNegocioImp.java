@@ -53,4 +53,9 @@ public class CuentaNegocioImp implements CuentaNegocio{
 	public boolean modificarCuenta(Cuenta c) {
 		return cdao.modificarCuenta(c);
 	}
+
+	@Override
+	public int totalCuentasPorCliente(int nroCliente) {
+		return cdao.totalCuentasPorCliente(nroCliente);
+	}
 }
