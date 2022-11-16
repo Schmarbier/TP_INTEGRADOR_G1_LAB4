@@ -15,7 +15,10 @@ import entidades.TipoCuenta;
 
 public class CuentaDaoImp implements CuentaDao {
 
-private static final String modificar = "update cuentas SET Nro_cliente = ?, Fecha_creacion = ?, Tipo_cuenta = ?, Cbu = ?, Saldo = ? WHERE Nro_cuenta = ?";
+	private static final String modificar = "update cuentas SET Nro_cliente = ?, Fecha_creacion = ?, Tipo_cuenta = ?, Cbu = ?, Saldo = ? WHERE Nro_cuenta = ?";
+	
+	private static final String delete = "UPDATE cuentas SET Estado = 0  WHERE Nro_cuenta = ?";
+	
 	
 	@Override
 	public ArrayList<Cuenta> obtenerCuentas() {
@@ -204,8 +207,24 @@ private static final String modificar = "update cuentas SET Nro_cliente = ?, Fec
 
 	@Override
 	public boolean delete(Cuenta cu) {
-		// TODO Auto-generated method stub
-		return false;
+		PreparedStatement statement;
+		Connection conexion = Conexion.getConexion().getSQLConexion();
+		boolean isdeleteExitoso = false;
+		try 
+		{
+			statement = conexion.prepareStatement(delete);
+			statement.setInt(1, cu.getNro_cuenta());
+			if(statement.executeUpdate() > 0)
+			{
+				conexion.commit();
+				isdeleteExitoso = true;
+			}
+		} 
+		catch (SQLException e) 
+		{
+			e.printStackTrace();
+		}
+		return isdeleteExitoso;
 	}
 
 	@Override
@@ -216,8 +235,37 @@ private static final String modificar = "update cuentas SET Nro_cliente = ?, Fec
 
 	@Override
 	public Cuenta get(Cuenta cu) {
-		// TODO Auto-generated method stub
-		return null;
+		Connection conexion = Conexion.getConexion().getSQLConexion();
+		
+		Cuenta cuenta = new Cuenta();
+		
+		try{
+			ResultSet rs = null;
+
+			Statement st = conexion.createStatement();
+			rs = st.executeQuery(
+				"SELECT a.Nro_cuenta, a.Nro_cliente, a.Fecha_creacion, a.Tipo_cuenta, b.Descripcion, a.Cbu, a.Saldo " +
+				"from cuentas as a inner join tiposcuentas as b on a.Tipo_cuenta = b.Tipo_cuenta " + 
+				"where Estado = 1 and Nro_cuenta = " + cu.getNro_cuenta());
+
+			// Cargo lista
+			if(rs.next()){
+				cuenta.setNro_cuenta(rs.getInt("Nro_cuenta"));
+				cuenta.setNro_cliente(rs.getInt("Nro_cliente"));
+				cuenta.setFecha_creacion(rs.getString("Fecha_creacion"));
+				cuenta.setTipo_cuenta(new TipoCuenta(rs.getInt("tipo_cuenta"),rs.getString("b.Descripcion")));
+				cuenta.setCbu(rs.getString("Cbu"));
+				cuenta.setSaldo(rs.getFloat("Saldo"));
+			}
+			else cuenta = null;
+			
+		}catch(Exception e){
+			e.printStackTrace();
+		}finally{
+		
+		}
+		
+		return cuenta;
 	}
 
 }

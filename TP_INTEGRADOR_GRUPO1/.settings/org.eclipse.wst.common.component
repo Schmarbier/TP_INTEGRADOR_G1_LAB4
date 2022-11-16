@@ -2,9 +2,6 @@
     <wb-module deploy-name="TP_INTEGRADOR_GRUPO1">
         <wb-resource deploy-path="/" source-path="/WebContent" tag="defaultRootSource"/>
         <wb-resource deploy-path="/WEB-INF/classes" source-path="/src"/>
-        <dependent-module archiveName="mysql-connector-java-5.1.47.jar" deploy-path="/WEB-INF/lib" handle="module:/classpath/lib/C:/Users/schma/Downloads/mysql-connector-java-5.1.47/mysql-connector-java-5.1.47.jar">
-            <dependency-type>uses</dependency-type>
-        </dependent-module>
         <property name="context-root" value="TP_INTEGRADOR_GRUPO1"/>
         <property name="java-output-path" value="/TP_INTEGRADOR_GRUPO1/build/classes"/>
     </wb-module>
