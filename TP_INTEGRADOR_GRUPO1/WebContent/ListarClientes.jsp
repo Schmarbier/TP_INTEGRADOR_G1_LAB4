@@ -40,9 +40,9 @@
     <a class="btn btn-secondary dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false"> Genero</a>
 
          <ul class="dropdown-menu">
-               <li><a class="dropdown-item" href="ServletAdmin?Masculino=1">Masculino</a></li>
-               <li><a class="dropdown-item" href="ServletAdmin?Femenino=1">Femenino</a></li>
-               <li><a class="dropdown-item" href="ServletAdmin?Otro=1">Otro</a></li>
+               <li><a class="dropdown-item" href="ServletAdmin?Genero=1">Masculino</a></li>
+               <li><a class="dropdown-item" href="ServletAdmin?Genero=2">Femenino</a></li>
+               <li><a class="dropdown-item" href="ServletAdmin?Genero=3">Otro</a></li>
         </ul>
 
 
@@ -53,14 +53,14 @@
   </a>
 
   <ul class="dropdown-menu">
-    <li><a class="dropdown-item" href="ServletAdmin?Argentina=1">Argentina</a></li>
-    <li><a class="dropdown-item" href="ServletAdmin?Uruguaya=1">Uruguaya</a></li>
-    <li><a class="dropdown-item" href="ServletAdmin?Chilena=1">Chilena</a></li>
-    <li><a class="dropdown-item" href="ServletAdmin?Boliviana=1">Boliviana</a></li>
-    <li><a class="dropdown-item" href="ServletAdmin?Paraguaya=1">Paraguaya</a></li>
-    <li><a class="dropdown-item" href="ServletAdmin?Peruana=1">Peruana</a></li>
-    <li><a class="dropdown-item" href="ServletAdmin?Colombiana=1">Colombiana</a></li>
-    <li><a class="dropdown-item" href="ServletAdmin?Brasilera=1">Brasilera</a></li>
+    <li><a class="dropdown-item" href="ServletAdmin?Nacionalidad=1">Argentina</a></li>
+    <li><a class="dropdown-item" href="ServletAdmin?Nacionalidad=2">Uruguaya</a></li>
+    <li><a class="dropdown-item" href="ServletAdmin?Nacionalidad=3">Chilena</a></li>
+    <li><a class="dropdown-item" href="ServletAdmin?Nacionalidad=4">Boliviana</a></li>
+    <li><a class="dropdown-item" href="ServletAdmin?Nacionalidad=5">Paraguaya</a></li>
+    <li><a class="dropdown-item" href="ServletAdmin?Nacionalidad=6">Peruana</a></li>
+    <li><a class="dropdown-item" href="ServletAdmin?Nacionalidad=7">Colombiana</a></li>
+    <li><a class="dropdown-item" href="ServletAdmin?Nacionalidad=8">Brasilera</a></li>
     
   </ul>
   
@@ -70,11 +70,11 @@
   </a>
 
   <ul class="dropdown-menu">
-    <li><a class="dropdown-item" href="ServletAdmin?Buenos Aires=1">Buenos Aires</a></li>
-    <li><a class="dropdown-item" href="ServletAdmin?Cordoba=1">Cordoba</a></li>
-    <li><a class="dropdown-item" href="ServletAdmin?Santa Fe=1">Santa Fe</a></li>
-    <li><a class="dropdown-item" href="ServletAdmin?Entre Rios=1">Entre Rios</a></li>
-    <li><a class="dropdown-item" href="ServletAdmin?Corrientes">Corrientes</a></li>
+    <li><a class="dropdown-item" href="ServletAdmin?Provincia=1">Buenos Aires</a></li>
+    <li><a class="dropdown-item" href="ServletAdmin?Provincia=2">Cordoba</a></li>
+    <li><a class="dropdown-item" href="ServletAdmin?Provincia=3">Santa Fe</a></li>
+    <li><a class="dropdown-item" href="ServletAdmin?Provincia=4">Entre Rios</a></li>
+    <li><a class="dropdown-item" href="ServletAdmin?Provincia=5">Corrientes</a></li>
   </ul>
  
 </div>
