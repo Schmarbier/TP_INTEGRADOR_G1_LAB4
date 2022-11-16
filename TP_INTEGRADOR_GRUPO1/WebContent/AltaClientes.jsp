@@ -120,10 +120,10 @@
 	</div>
 </form>
 
-	<%  if(request.getAttribute("exito")!=null) {%> Cliente agregado con éxito <%}%>
-	<%  if(request.getAttribute("error")!=null) {%> No se pudo agregar el cliente. Cliente ya existente <%}%>
-	<%  if(request.getAttribute("errorContraseña")!=null) {%> Error. Las contraseñas no coinciden <%}%>
-	<%  if(request.getAttribute("usuarioExistente")!=null) {%> Error. El usuario ingresado ya existe <%}%>
+	<%  if(request.getAttribute("exito")!=null) {%> <p class="alert alert-success" role="alert">Cliente Agregado!</p> <%}%>
+	<%  if(request.getAttribute("error")!=null) {%> <p class="alert alert-danger" role="alert">No se pudo agregar el cliente. Cliente ya existente</p> <%}%>
+	<%  if(request.getAttribute("errorContraseña")!=null) {%> <p class="alert alert-danger" role="alert">Error. Las contraseñas no coinciden</p> <%}%>
+	<%  if(request.getAttribute("usuarioExistente")!=null) {%> <p class="alert alert-danger" role="alert">Error. El usuario ingresado ya existe</p> <%}%>
 
 </div>
 

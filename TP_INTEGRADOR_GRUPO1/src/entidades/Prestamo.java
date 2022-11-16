@@ -16,7 +16,7 @@ public class Prestamo {
 	
 	///CONSTRUCTORES
 	public Prestamo(){}
-	
+
 	public Prestamo(int nro_prestamo, Cliente nro_cliente, String fecha, float imp_con_intereses, float imp_solicitado,
 			String nro_cuenta_deposito, int plazo_pago_meses, float monto_pago_por_mes, int cant_cuotas) {
 		super();
@@ -30,6 +30,8 @@ public class Prestamo {
 		Monto_pago_por_mes = monto_pago_por_mes;
 		Cant_cuotas = cant_cuotas;
 	}
+
+
 
 	///GETTERS & SETTERS
 	public int getNro_prestamo() {

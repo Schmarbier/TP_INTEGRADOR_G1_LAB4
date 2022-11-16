@@ -50,7 +50,7 @@
 		      </div>
 		    </li>
 		    <li class="nav-item">
-		      <a class="nav-link" href="Prestamos.jsp">Prestamos</a>
+		      <a class="nav-link" href="ServletAdmin?LPrestamos=1">Prestamos</a>
 		    </li>
 		    <li class="nav-item">
 		      <a class="nav-link" href="Reportes.jsp">Informes y/o Reportes</a>

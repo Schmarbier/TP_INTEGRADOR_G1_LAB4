@@ -1,9 +1,6 @@
 package servlets;
 
 import java.io.IOException;
-import java.sql.Date;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 
 import javax.servlet.RequestDispatcher;
@@ -12,7 +9,6 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
 import daoImp.CuentaDaoImp;
 import entidades.Cliente;
@@ -33,7 +29,6 @@ import negocioImp.NacionalidadNegocioImp;
 import negocioImp.PrestamoNegocioImp;
 import negocioImp.ProvinciaNegocioImp;
 import negocioImp.UsuarioNegocioImp;
-import negocioImp.CuentaNegocioImp;
 
 
 @WebServlet("/ServletAdmin")
@@ -55,10 +50,54 @@ public class ServletAdmin extends HttpServlet {
 	Nacionalidad n = new Nacionalidad();
 	Provincia p = new Provincia();
 	Localidad l = new Localidad();
+	Prestamo pres = new Prestamo();
 
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
+		/*<% if(request.getAttribute("aceptado").equals(true)) {%><p class="alert alert-success" role="alert">Solicitud aceptado</p> <%}%>
+		<%  if(request.getAttribute("eliminado").equals(true)) {%> <p class="alert alert-danger" role="alert">Solicitud rechazado</p> <%}% */
+		
+        if(request.getParameter("btnAceptarSolicitud")!=null) {
+  
+        	pres.setNro_prestamo(Integer.parseInt(request.getParameter("nroPrestamo").toString()));
+        	pres.setEst_prestamo(1);
+
+        	if(pneg.RespuestaSolicitud(pres)) request.setAttribute("aceptado", true);
+        	else request.setAttribute("aceptado", false);
+        	
+        	RequestDispatcher rd = request.getRequestDispatcher("Prestamos.jsp");
+	        rd.forward(request, response);
+	    }
+        
+        if(request.getParameter("btnRechazarSolicitud")!=null) {
+        	  
+        	pres.setNro_prestamo(Integer.parseInt(request.getParameter("nroPrestamo").toString()));
+        	pres.setEst_prestamo(2);
+
+        	if(pneg.RespuestaSolicitud(pres)) request.setAttribute("eliminado", true);
+        	else request.setAttribute("eliminado", false);
+        	
+        	RequestDispatcher rd = request.getRequestDispatcher("Prestamos.jsp");
+	        rd.forward(request, response);
+	    }
+        
+        if(request.getParameter("filtrarPrestamos")!=null) {
+			ArrayList<Prestamo> ListaFiltrada = (ArrayList<Prestamo>) pneg.obtenerPrestamosQueryCustom(request.getParameter("ddlFiltro").toString(), request.getParameter("txtFiltro").toString());
+			
+			request.setAttribute("prestamosFiltrados", ListaFiltrada);			
+			RequestDispatcher rd = request.getRequestDispatcher("/Prestamos.jsp");   
+	        rd.forward(request, response);
+		}
+        
+        if(request.getParameter("LPrestamos")!=null) {
+    		ArrayList<Prestamo> ListaPrestamos = (ArrayList<Prestamo>) pneg.SolicitudesPrestamos();
+        	
+	        request.setAttribute("prestamos", ListaPrestamos);
+			RequestDispatcher rd = request.getRequestDispatcher("/Prestamos.jsp");   
+		    rd.forward(request, response);
+		}
+
 		if(request.getParameter("ParamListarCLI")!=null) {
 	
 		    ArrayList<Cliente> ListaClientes = cneg.MostrarTodos();

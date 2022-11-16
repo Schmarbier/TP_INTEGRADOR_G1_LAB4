@@ -15,7 +15,6 @@ import entidades.Usuario;
 import entidades.Genero;
 import entidades.Localidad;
 import entidades.Nacionalidad;
-import entidades.Prestamo;
 import entidades.Provincia;
 import entidades.TipoCuenta;
 import negocioImp.UsuarioNegocioImp;
@@ -23,7 +22,6 @@ import negocioImp.ClienteNegocioImp;
 import negocioImp.GeneroNegocioImp;
 import negocioImp.LocalidadNegocioImp;
 import negocioImp.NacionalidadNegocioImp;
-import negocioImp.PrestamoNegocioImp;
 import negocioImp.ProvinciaNegocioImp;
 import negocioImp.TipoCuentaNegocioImp;
 
@@ -40,10 +38,9 @@ public class ServletLogin extends HttpServlet {
 	TipoCuentaNegocioImp tcneg = new TipoCuentaNegocioImp();
 	GeneroNegocioImp gneg = new GeneroNegocioImp();
 	NacionalidadNegocioImp nneg = new NacionalidadNegocioImp();
-	ProvinciaNegocioImp pneg = new ProvinciaNegocioImp();
+	ProvinciaNegocioImp provneg = new ProvinciaNegocioImp();
 	LocalidadNegocioImp lneg = new LocalidadNegocioImp();
     ClienteNegocioImp cneg = new ClienteNegocioImp();
-	PrestamoNegocioImp provneg = new PrestamoNegocioImp();
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
@@ -112,15 +109,11 @@ public class ServletLogin extends HttpServlet {
 		ArrayList<Nacionalidad> listNacionalidades = (ArrayList<Nacionalidad>) nneg.readAll();
 		session.setAttribute("nacionalidades", listNacionalidades);
 		
-		ArrayList<Provincia> listProvincias = (ArrayList<Provincia>) pneg.readAll();
+		ArrayList<Provincia> listProvincias = (ArrayList<Provincia>) provneg.readAll();
 		session.setAttribute("provincias", listProvincias);
 		
 		ArrayList<Localidad> listaLocalidad = (ArrayList<Localidad>) lneg.readAll();
 		session.setAttribute("localidades", listaLocalidad);
-		
-		ArrayList<Prestamo> ListaPrestamos = (ArrayList<Prestamo>) provneg.readAll();
-		session.setAttribute("prestamos", ListaPrestamos);
-		
 		
 	}	
 	

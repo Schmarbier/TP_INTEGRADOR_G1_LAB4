@@ -1,5 +1,6 @@
 package negocioImp;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import dao.PrestamoDao;
@@ -12,8 +13,18 @@ public class PrestamoNegocioImp implements PrestamoNegocio{
 	PrestamoDao pdao = new PrestamoDaoImp();
 
 	@Override
-	public List<Prestamo> readAll() {
-		return pdao.readAll();
+	public List<Prestamo> SolicitudesPrestamos() {
+		return pdao.SolicitudesPrestamos();
+	}
+
+	@Override
+	public boolean RespuestaSolicitud(Prestamo p) {
+		return pdao.RespuestaSolicitud(p);
+	}
+
+	@Override
+	public ArrayList<Prestamo> obtenerPrestamosQueryCustom(String consulta, String filtro) {
+		return pdao.obtenerPrestamosQueryCustom(consulta, filtro);
 	}
 
 }
