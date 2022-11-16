@@ -108,26 +108,12 @@ public class ServletAdmin extends HttpServlet {
     	
     	
     	
-    	if(request.getParameter("Masculino")!=null) {
-			ArrayList<Cliente> ListGeneros = cneg.CargarSegunCondicion("Genero",1);
-			request.setAttribute("ListaLISTAR_CLIENTE", ListGeneros);
-			
-			RequestDispatcher rd = request.getRequestDispatcher("/ListarClientes.jsp");
-			rd.forward(request, response);
-		}
-		
-    	
-    	if(request.getParameter("Femenino")!=null) {
-			ArrayList<Cliente> ListGeneros = cneg.CargarSegunCondicion("Genero",2);
-			request.setAttribute("ListaLISTAR_CLIENTE", ListGeneros);
-			
-			RequestDispatcher rd = request.getRequestDispatcher("/ListarClientes.jsp");
-			rd.forward(request, response);
-		}
     	
     	
-    	if(request.getParameter("Otro")!=null) {
-			ArrayList<Cliente> ListGeneros = cneg.CargarSegunCondicion("Genero",3);
+    	
+    	if(request.getParameter("Genero")!=null) {
+    		int codigo = Integer.parseInt(request.getParameter("Genero"));
+			ArrayList<Cliente> ListGeneros = cneg.CargarSegunCondicion("Genero",codigo);
 			request.setAttribute("ListaLISTAR_CLIENTE", ListGeneros);
 			
 			RequestDispatcher rd = request.getRequestDispatcher("/ListarClientes.jsp");
@@ -135,68 +121,9 @@ public class ServletAdmin extends HttpServlet {
 		}
     	
     	
-    	
-    	
-    	
-    	
-    	if(request.getParameter("Argentina")!=null) {
-			ArrayList<Cliente> ListNacionalidad = cneg.CargarSegunCondicion("nacionalidad",1);
-			request.setAttribute("ListaLISTAR_CLIENTE", ListNacionalidad);
-			
-			RequestDispatcher rd = request.getRequestDispatcher("/ListarClientes.jsp");
-			rd.forward(request, response);
-		}
-    	
-    	if(request.getParameter("Uruguaya")!=null) {
-			ArrayList<Cliente> ListNacionalidad = cneg.CargarSegunCondicion("nacionalidad",2);
-			request.setAttribute("ListaLISTAR_CLIENTE", ListNacionalidad);
-			
-			RequestDispatcher rd = request.getRequestDispatcher("/ListarClientes.jsp");
-			rd.forward(request, response);
-		}
-    	
-    	if(request.getParameter("Chilena")!=null) {
-			ArrayList<Cliente> ListNacionalidad = cneg.CargarSegunCondicion("nacionalidad",3);
-			request.setAttribute("ListaLISTAR_CLIENTE", ListNacionalidad);
-			
-			RequestDispatcher rd = request.getRequestDispatcher("/ListarClientes.jsp");
-			rd.forward(request, response);
-		}
-    	
-    	if(request.getParameter("Boliviana")!=null) {
-			ArrayList<Cliente> ListNacionalidad = cneg.CargarSegunCondicion("nacionalidad",4);
-			request.setAttribute("ListaLISTAR_CLIENTE", ListNacionalidad);
-			
-			RequestDispatcher rd = request.getRequestDispatcher("/ListarClientes.jsp");
-			rd.forward(request, response);
-		}
-    	
-    	if(request.getParameter("Paraguaya")!=null) {
-			ArrayList<Cliente> ListNacionalidad = cneg.CargarSegunCondicion("nacionalidad",5);
-			request.setAttribute("ListaLISTAR_CLIENTE", ListNacionalidad);
-			
-			RequestDispatcher rd = request.getRequestDispatcher("/ListarClientes.jsp");
-			rd.forward(request, response);
-		}
-    	
-    	if(request.getParameter("Peruana")!=null) {
-			ArrayList<Cliente> ListNacionalidad = cneg.CargarSegunCondicion("nacionalidad",6);
-			request.setAttribute("ListaLISTAR_CLIENTE", ListNacionalidad);
-			
-			RequestDispatcher rd = request.getRequestDispatcher("/ListarClientes.jsp");
-			rd.forward(request, response);
-		}
-    	
-    	if(request.getParameter("Colombiana")!=null) {
-			ArrayList<Cliente> ListNacionalidad = cneg.CargarSegunCondicion("nacionalidad",7);
-			request.setAttribute("ListaLISTAR_CLIENTE", ListNacionalidad);
-			
-			RequestDispatcher rd = request.getRequestDispatcher("/ListarClientes.jsp");
-			rd.forward(request, response);
-		}
-    	
-    	if(request.getParameter("Brasilera")!=null) {
-			ArrayList<Cliente> ListNacionalidad = cneg.CargarSegunCondicion("nacionalidad",8);
+    	if(request.getParameter("Nacionalidad")!=null) {
+    		int codigo = Integer.parseInt(request.getParameter("Nacionalidad"));
+			ArrayList<Cliente> ListNacionalidad = cneg.CargarSegunCondicion("nacionalidad",codigo);
 			request.setAttribute("ListaLISTAR_CLIENTE", ListNacionalidad);
 			
 			RequestDispatcher rd = request.getRequestDispatcher("/ListarClientes.jsp");
@@ -205,50 +132,15 @@ public class ServletAdmin extends HttpServlet {
     	
     	
     	
-    	
-    	
-    	if(request.getParameter("Buenos Aires")!=null) {
-			ArrayList<Cliente> ListProvincia = cneg.CargarSegunCondicion("provincia",1);
+    	if(request.getParameter("Provincia")!=null) {
+    		int codigo = Integer.parseInt(request.getParameter("Provincia"));
+			ArrayList<Cliente> ListProvincia = cneg.CargarSegunCondicion("provincia",codigo);
 			request.setAttribute("ListaLISTAR_CLIENTE", ListProvincia);
 			
 			RequestDispatcher rd = request.getRequestDispatcher("/ListarClientes.jsp");
 			rd.forward(request, response);
 		}
     	
-    	if(request.getParameter("Cordoba")!=null) {
-			ArrayList<Cliente> ListProvincia = cneg.CargarSegunCondicion("provincia",2);
-			request.setAttribute("ListaLISTAR_CLIENTE", ListProvincia);
-			
-			RequestDispatcher rd = request.getRequestDispatcher("/ListarClientes.jsp");
-			rd.forward(request, response);
-		}
-    	
-    	if(request.getParameter("Santa Fe")!=null) {
-			ArrayList<Cliente> ListProvincia = cneg.CargarSegunCondicion("provincia",3);
-			request.setAttribute("ListaLISTAR_CLIENTE", ListProvincia);
-			
-			RequestDispatcher rd = request.getRequestDispatcher("/ListarClientes.jsp");
-			rd.forward(request, response);
-		}
-    	
-    	if(request.getParameter("Entre Rios")!=null) {
-			ArrayList<Cliente> ListProvincia = cneg.CargarSegunCondicion("provincia",4);
-			request.setAttribute("ListaLISTAR_CLIENTE", ListProvincia);
-			
-			RequestDispatcher rd = request.getRequestDispatcher("/ListarClientes.jsp");
-			rd.forward(request, response);
-		}
-    	
-    	if(request.getParameter("Corrientes")!=null) {
-			ArrayList<Cliente> ListProvincia = cneg.CargarSegunCondicion("provincia",5);
-			request.setAttribute("ListaLISTAR_CLIENTE", ListProvincia);
-			
-			RequestDispatcher rd = request.getRequestDispatcher("/ListarClientes.jsp");
-			rd.forward(request, response);
-		}
-    	
-    	
-    
     	
 	}
 
@@ -331,6 +223,8 @@ public class ServletAdmin extends HttpServlet {
 	        rd.forward(request, response);
 		}
        
+       
+       
        if(request.getParameter("btnBuscarUser")!=null) {
 			
 			String User=request.getParameter("txtBuscarUsuario").toString();
@@ -342,6 +236,8 @@ public class ServletAdmin extends HttpServlet {
 			RequestDispatcher rd = request.getRequestDispatcher("/ListarClientes.jsp");
 			rd.forward(request, response);
 		}
+       
+       
        
        if(request.getParameter("btnBuscar")!=null) {
 			
