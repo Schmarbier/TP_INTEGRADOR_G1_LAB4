@@ -26,33 +26,47 @@
 
 <div class="parteDer">
    <h3 class="titulo"> Modificación Clientes </h3>
+   
+   <% if(request.getAttribute("ModifTrue")!=null){
+   		if(request.getAttribute("ModifTrue").equals(true)){%>
+   			<p class="alert alert-success" role="alert">Cliente Modificado Correctamente!</p>
+   		<%} else {%>
+   		<p class="alert alert-danger" role="alert">El cliente no se pudo modificar, intente nuevamente!</p>
+   		<%}%>
+   <%}%>
 
     <form method="post" action="ServletAdmin">
-    
+    <br>
        <p>  Ingrese el usuario del cliente que desea modificar: <input type="text" required name="txtUsuarioModificar"></input>
-	    <input type="submit" name="btnBuscarUsuario" value="Buscar Usuario"></input></p>
+	    <input type="submit" name="btnBuscarUsuario" class="btn btn-outline-primary" value="Buscar Usuario"></input></p>
   
    </form>
 	    
-	    <table class="table" >
-		    <tr>
-	            <th class="th">Nro Cliente</th>
-	            <th class="th">Nombre</th>
-	            <th class="th">Apellido</th>
-	            <th class="th">Dni</th>
-	            <th class="th">Cuil</th>
-	            <th class="th">Direccion</th>
-	            <th class="th">Telefono</th>
-	            <th class="th">Fecha de nacimiento</th>
-	            <th class="th">Genero</th>
-	            <th class="th">Nacionalidad</th>
-	            <th class="th">Provincia</th>
-	            <th class="th">Localidad</th>
-	            <th class="th">Email</th>
-	            <th class="th">Usuario</th>
-	            <th class="th">Contraseña</th>
-	            <th class="th"></th>
-	        </tr>
+	    <table id="mytable"  class="table table-sm" >
+	    	<thead>
+			    <tr>
+		            <th class="th">Nro Cliente</th>
+		            <th class="th">Nombre</th>
+		            <th class="th">Apellido</th>
+		            <th class="th">Dni</th>
+		            <th class="th">Cuil</th>
+		            <th class="th">Direccion</th>
+		            <th class="th">Telefono</th>
+		            <th class="th">Fecha de nacimiento</th>
+		            <th class="th">Genero</th>
+		            <th class="th">Nacionalidad</th>
+		            <th class="th">Provincia</th>
+		            <th class="th">Localidad</th>
+		            <th class="th">Email</th>
+		            <th class="th">Usuario</th>
+		            <th class="th">Contraseña</th>
+		            <th class="th"></th>
+		        </tr>
+		   </thead>
+	       <tbody>
+	       
+	       
+        <!-- CARGA LA LISTA CON TODOS LOS CLIENTES -->
 	        
 	    <%ArrayList<Cliente>ListaClienteTodos = null;
 	    
@@ -63,8 +77,6 @@
 	    if(ListaClienteTodos!=null)
         	  for(Cliente CLI : ListaClienteTodos){
         %>
-        
-        <!-- CARGA LA LISTA CON TODOS LOS CLIENTES -->
         
     <tr class="tr">  
          <form action="ServletAdmin" method="post">
@@ -83,11 +95,12 @@
 	     <td class="td" > <%=CLI.getEmail() %> </td> 
 	     <td class="td" > <%=CLI.getUsuario()%> <input type="hidden" name="hiddenUsuario" value="<%=CLI.getUsuario()%>"> </td> 
 	     <td class="td" > <%=CLI.getUsuario().getContraseña() %> </td> 
-	     <td class="td" > <input type="submit" name="btnModificarCliente" value="Modificar"></input> </td>
+	     <td class="td" > <input type="submit" name="btnModificarCliente" class="btn btn-outline-secondary" value="Modificar"></input> </td>
 	     </form>
 	</tr>
 	<% }
 
+	///CARGA LA LISTA SOLAMENTE CON EL/LOS USUARIOS BUSCADOS 		 
 	    
 	    ArrayList<Cliente> ClienteXuser = null;
 	
@@ -99,9 +112,7 @@
 		   for(Cliente C : ClienteXuser){
 			
 		%>	   
-			 
-			 
-	<!-- CARGA LA LISTA SOLAMENTE CON EL/LOS USUARIOS BUSCADOS -->		 
+			 			 
     <tr>  
 		 <form action="ServletAdmin" method="post">
 	     <td> <%=C.getNro_Cliente() %>  </td>    
@@ -119,14 +130,16 @@
 	     <td> <%=C.getEmail() %> </td> 
 	     <td> <%=C.getUsuario()%> <input type="hidden" name="hiddenUsuario" value="<%=C.getUsuario()%>"></td> 
 	     <td> <%=C.getUsuario().getContraseña() %> </td>
-	     <td> <input type="submit" name="btnModificarCliente" value="Modificar"></input> </td>  
+	     <td> <input type="submit" name="btnModificarCliente" class="btn btn-outline-secondary" value="Modificar"
+	     onclick="window.location.href='ServletAdmin?btnModificarCuenta=1&nroCuenta=<%=C.getUsuario()%>'"></input> </td>  
+	     
 	     </form> 
 	</tr>	   
 		<% }
 	   
 	   
-	   
-	   
+		/// CARGA LA LISTA CON EL CLIENTE A MODIFICAR 
+	   	   
 	  ArrayList<Cliente> ClienteMODIFICAR = null;
 	  if(request.getAttribute("ClienteModificar")!=null){
 		  ClienteMODIFICAR = (ArrayList<Cliente>) request.getAttribute("ClienteModificar");
@@ -134,14 +147,12 @@
 	  
 	  if(ClienteMODIFICAR!=null)
 		  for(Cliente CL : ClienteMODIFICAR){
-			  
 	%>
 		
+	<tr>  
+	    <form action="ServletAdmin" method="post">
 		
-		<!-- CARGA LA LISTA CON EL CLIENTE A MODIFICAR -->
-	<tr>  <form action="ServletAdmin" method="post">
-	
-	     <td> <input class="Tam" type="text" name="txtNroCliente" readonly value="<%=CL.getNro_Cliente() %>">  </td>    
+	     <td> <input class="form-control" type="text" name="txtNroCliente" readonly value="<%=CL.getNro_Cliente() %>">  </td>    
 	     <td> <input class="Tam" type="text" name="txtNombre" required pattern="[A-Za-zñÑ]+" title="Ingrese solo letras" value="<%=CL.getNombre() %>">  </td>
 	     <td> <input class="Tam" type="text" name="txtApellido" required pattern="[A-Za-zñÑ]+" title="Ingrese solo letras" value="<%=CL.getApellido() %>"> </td> 
 	     <td> <input class="Tam" type="number" name="txtDNI" required pattern = "[0-9]{8}" title="Ingrese un DNI valido" value="<%=CL.getDni() %>"> </td> 
@@ -189,16 +200,64 @@
 	     <td> <input type="email" name="txtEmail" title="Ingrese un EMAIL valido" value="<%=CL.getEmail() %>"> </td> 
 	     <td> <input class="Tam" type="text" name="txtUsuario" readonly value="<%=CL.getUsuario()%>"> </td> 
 	     <td> <input class="Tam" type="text" name="txtContraseña" required value="<%=CL.getUsuario().getContraseña() %>"> </td>
-	     <td> <input type="submit"  class="button buttonACEPTAR" name="btnModificarAceptar" value="Aceptar">
-	          <input type="submit"  class="button buttonCANCELAR" name="btnModificarCancelar" value="Cancelar"> </td>   
-	          </form>
+	     
+	     <td> <button type="button" class="btn btn-outline-success" data-toggle="modal" data-target="#exampleModal">Aceptar	</button></td>
+	      <td>   <input type="submit"  class="btn btn-outline-danger"  name="btnModificarCancelar" value="Cancelar"> </td>  
+	           
 	</tr>
-		<%} %>
-		
+	         
+	         
+	         <!-- MENSAJE DE CONFIRMACION -->
+	           
+ <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" 
+	aria-hidden="true">
+	  <div class="modal-dialog" role="document">
+	    <div class="modal-content">
+	      <div class="modal-header">
+	        <h5 class="modal-title" id="exampleModalLabel">Atencion!</h5>
+	        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+	          <span aria-hidden="true">&times;</span>
+	        </button>
+	      </div>
+	      <div class="modal-body">
+	        ¿Estas seguro de modificar este registro?
+	      </div>
+	      <div class="modal-footer">
+	        <input type="submit" class="btn btn-secondary" data-dismiss="modal" name="btnModificarCancelar" 
+	        value="Rechazar">
+	        <input type="submit" name="btnModificarAceptar"  value="Aceptar" class="btn btn-primary">
+	      </div>
+	    </div>
+	  </div>
+	</div>
+	        </form>  
+	    <%} %>
+		</tbody>
 	</table>
 	
 
 </div>
+
+<script>
+	$(document).ready( function () {
+		$('#mytable').DataTable({
+	    	"searching": false,
+	    	"lengthMenu": [5, 10, 15, 30, 60],
+	    	"language": {
+	            "zeroRecords": "No se encontraron datos",
+	            "infoEmpty": "No hay datos para mostrar",
+	            "info": "Mostrando del _START_ al _END_, de un total de _TOTAL_ entradas",
+	            "lengthMenu": "Mostrar _MENU_ registros",
+	            "paginate": {
+	                "first": "Primeros",
+	                "last": "Ultimos",
+	                "next": "Siguiente",
+	                "previous": "Anterior"
+	            },
+	        },
+	    });
+	} );
+</script>
 
 </body>
 </html>

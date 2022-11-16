@@ -15,11 +15,11 @@
 
 <jsp:include page="Encabezado.jsp" />  
 
-<div class="parteDer">
+<div class="container">
    <h3 class="titulo"> Listar Cuenta </h3> 
 <form method="post" action="ServletAdmin">
 	    <p>Buscar en: </p>
-    	<div class="input-group mb-3">
+    	<div class="input-group mb-3 w-50">
 		    	<select name="dllBusqueda" class="form-control">
 				  <option value="todo">todo</option>
 				  <option value="Nro_cuenta">Numero de Cuenta</option>

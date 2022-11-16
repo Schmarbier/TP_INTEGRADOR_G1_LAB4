@@ -15,7 +15,7 @@
 
 <jsp:include page="Encabezado.jsp" />  
 
-<div class="parteDer">
+<div class="container">
    <h3 class="titulo"> Modificar Cuenta </h3> 
    <% if(request.getAttribute("infoModify")!=null){
    		if(request.getAttribute("infoModify").equals(true)){%>
@@ -51,9 +51,12 @@
 						{
 							%>
 						<tr>  
-							<td><input class="form-control" type="text" name="nroCuentaM" readonly value="<%=c.getNro_cuenta()%>"></td>    
-							<td><input class="form-control" type="text" required name="nroClienteM" value="<%=c.getNro_cliente()%>"></td>   
-							<td><input class="form-control" type="text" required name="fechaCreacionM" value="<%=c.getFecha_creacion().toString()%>"></td>
+							<td><input class="form-control" type="text" name="nroCuentaM" readonly 
+							value="<%=c.getNro_cuenta()%>"></td>    
+							<td><input class="form-control" type="text" required name="nroClienteM" 
+							value="<%=c.getNro_cliente()%>"></td>   
+							<td><input class="form-control" type="text" required name="fechaCreacionM" 
+							value="<%=c.getFecha_creacion().toString()%>"></td>
 							<td>
 								<%if(c.getTipo_cuenta().getTipo_cuenta() == 1){%>
 									<select class="form-control" name="ddlTipoCuenta">
@@ -85,7 +88,8 @@
 	<input class="btn btn-outline-danger" type="submit" name="RechazarModificar" value="Rechazar">
 	
 	<!-- Modal -->
-	<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+	<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" 
+	aria-hidden="true">
 	  <div class="modal-dialog" role="document">
 	    <div class="modal-content">
 	      <div class="modal-header">
@@ -98,7 +102,8 @@
 	        ¿Estas seguro de modificar este registro?
 	      </div>
 	      <div class="modal-footer">
-	        <input type="submit" class="btn btn-secondary" data-dismiss="modal" name="RechazarModificar" value="Rechazar">
+	        <input type="submit" class="btn btn-secondary" data-dismiss="modal" name="RechazarModificar" 
+	        value="Rechazar">
 	        <input type="submit" name="AceptarModificar"  value="Aceptar" class="btn btn-primary">
 	      </div>
 	    </div>
@@ -109,7 +114,7 @@
 <% if(request.getAttribute("ModCuentas")!=null){%>
 <form method="post" action="ServletAdmin">
     	<p>Buscar en: </p>
-    	<div class="input-group mb-3">
+    	<div class="input-group mb-3 w-50">
 		    	<select name="dllBusqueda" class="form-control">
 				  <option value="todo">todo</option>
 				  <option value="Nro_cuenta">Numero de Cuenta</option>
@@ -153,13 +158,18 @@
 							%>
 						<tr>  
 							<form action="ServletAdmin" method="post">
-								<td><%=c.getNro_cuenta()%><input type="hidden" name="nroCuenta" value="<%=c.getNro_cuenta()%>"></td>    
-								<td><%=c.getNro_cliente()%><input type="hidden" name="nroCliente" value="<%=c.getNro_cliente()%>"></td>   
-								<td><%=c.getFecha_creacion()%><input type="hidden" name="fechaCreacion" value="<%=c.getFecha_creacion()%>"></td>
-								<td><%=c.getTipo_cuenta().getDescripcion()%><input type="hidden" name="tipoCuenta" value="<%=c.getTipo_cuenta().getDescripcion()%>"></td>   
+								<td><%=c.getNro_cuenta()%><input type="hidden" 
+								name="nroCuenta" value="<%=c.getNro_cuenta()%>"></td>    
+								<td><%=c.getNro_cliente()%><input type="hidden" 
+								name="nroCliente" value="<%=c.getNro_cliente()%>"></td>   
+								<td><%=c.getFecha_creacion()%><input type="hidden" 
+								name="fechaCreacion" value="<%=c.getFecha_creacion()%>"></td>
+								<td><%=c.getTipo_cuenta().getDescripcion()%><input type="hidden" 
+								name="tipoCuenta" value="<%=c.getTipo_cuenta().getDescripcion()%>"></td>   
 								<td><%=c.getCbu()%><input type="hidden" name="cbu" value="<%=c.getCbu()%>"></td>
 								<td><%=c.getSaldo()%><input type="hidden" name="saldo" value="<%=c.getSaldo()%>"></td>
-								<td><input type="submit" name="btnModificarCuenta" value="Modificar Cuenta" class="btn btn-outline-secondary"
+								<td><input type="submit" name="btnModificarCuenta" value="Modificar Cuenta" 
+								class="btn btn-outline-secondary"
 								 onclick="window.location.href='ServletAdmin?btnModificarCuenta=1&nroCuenta=<%=c.getNro_cuenta()%>'"></input></td>
 							</form>
 						</tr>

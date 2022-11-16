@@ -13,5 +13,7 @@ public interface ClienteNegocio {
     public ArrayList<Cliente> MostrarTodos();
 	public ArrayList<Cliente> LeerSegunUsuario(String User);
     public boolean update(Cliente cli);
-	
+    
+
+	public ArrayList<Cliente> CargarSegunCondicion(String condicion, int Codigo);
 }

@@ -88,8 +88,36 @@
 
 	  <p>  Contraseña: <input type="password" required name="contra" placeholder="Contraseña"></input></p>
 	  <p>  Confirmar contraseña: <input type="password" required name="contra2" placeholder="Confirmar contraseña"></input></p>
-      <p>  Reset: <input type="reset"></input></p>
-	  <p>  <input type="submit" name="btnAgregar" value="Agregar Cliente"></input></p>
+	  
+<!--<input class="btn btn-outline-success" type="submit" name="AceptarAgregar" value="Aceptar" data-toggle="modal" data-target="#exampleModal">-->
+	  <!-- Button trigger modal -->
+	<button type="button" class="btn btn-outline-success" data-toggle="modal" data-target="#exampleModal">
+	  Agregar cliente
+	</button>
+	<input class="btn btn-outline-danger" type="reset" name="RechazarAgregar" value="Rechazar">
+	
+	<!-- Modal -->
+	<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" 
+	aria-hidden="true">
+	  <div class="modal-dialog" role="document">
+	    <div class="modal-content">
+	      <div class="modal-header">
+	        <h5 class="modal-title" id="exampleModalLabel">Atencion!</h5>
+	        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+	          <span aria-hidden="true">&times;</span>
+	        </button>
+	      </div>
+	      <div class="modal-body">
+	        ¿Estas seguro de agregar este cliente?
+	      </div>
+	      <div class="modal-footer">
+	        <input type="reset" class="btn btn-secondary" data-dismiss="modal" name="RechazarAgregar" 
+	        value="Rechazar">
+	        <input type="submit" name="AceptarAgregar"  value="Aceptar" class="btn btn-primary">
+	      </div>
+	    </div>
+	  </div>
+	</div>
 </form>
 
 	<%  if(request.getAttribute("exito")!=null) {%> Cliente agregado con éxito <%}%>
