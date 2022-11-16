@@ -21,7 +21,6 @@
 <form method="post" action="#">
 
 		  		<% 
-		  		//request.setAttribute("generos", listGeneros);
 		  		Cuenta cu = (Cuenta) request.getAttribute("cuenta");
 		  		
 		  		if(request.getAttribute("resultadoAlta")!=null) 

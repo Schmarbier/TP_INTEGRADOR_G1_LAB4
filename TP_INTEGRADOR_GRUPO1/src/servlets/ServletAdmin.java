@@ -55,7 +55,7 @@ public class ServletAdmin extends HttpServlet {
 
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-	
+		
 		if(request.getParameter("ParamListarCLI")!=null) {
 	
 		    ArrayList<Cliente> ListaClientes = cneg.MostrarTodos();
@@ -108,7 +108,8 @@ public class ServletAdmin extends HttpServlet {
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-            if(request.getParameter("btnAgregar")!=null) {
+            
+		if(request.getParameter("btnAgregar")!=null) {
 
             boolean alta = true;
             
@@ -169,7 +170,7 @@ public class ServletAdmin extends HttpServlet {
 			    rd.forward(request, response);
 			}
 		        
-         }
+       }
        
        if(request.getParameter("btnEliminar")!=null) {
 			boolean baja = false;
@@ -313,7 +314,6 @@ public class ServletAdmin extends HttpServlet {
     	   rd.forward(request, response);
        }
 
-		//doGet(request, response);
 
        if(request.getParameter("btnBuscarUsuario")!=null) {
 			
@@ -411,6 +411,54 @@ public class ServletAdmin extends HttpServlet {
 			RequestDispatcher rd = request.getRequestDispatcher("/ModifClientes.jsp");
 			rd.forward(request, response);
 		}
+		
+		
+	    if(request.getParameter("btnBuscarCuenta")!=null) {
+
+    	   Cuenta c = new Cuenta();
+    	   c.setNro_cuenta(Integer.parseInt(request.getParameter("NroCuentaAEliminar").toString()));
+    	   
+    	   // Obtengo cuenta
+    	   CuentaNegocioImp cn = new CuentaNegocioImp();
+    	   c = cn.get(c);
+    	   
+		   request.setAttribute("cuenta", c);
+    	   if(c!=null) {
+    		   request.setAttribute("cuentaEncontrada", "true");
+    	   }
+    	   else
+    	   {
+    		   request.setAttribute("cuentaEncontrada", "false");
+    	   }
+    	   
+    	   RequestDispatcher rd = request.getRequestDispatcher("BajaCuenta.jsp");   
+    	   rd.forward(request, response);
+	    }
+	    
+
+	    if(request.getParameter("btnEliminarCuenta")!=null) {
+    	   Cuenta c = new Cuenta();
+    	   String nroCuenta = request.getParameter("hiddenNroCuenta");
+    	   c.setNro_cuenta(Integer.parseInt(nroCuenta));
+    	   
+    	   // Elimino cuenta
+    	   CuentaNegocioImp cn = new CuentaNegocioImp();
+    	   boolean cuentaEliminada = cn.delete(c);
+    	   
+    	   if(cuentaEliminada) 
+    	   {
+    		   request.setAttribute("cuentaEliminada", "true");
+    	   }
+    	   else 
+    	   {
+    		   request.setAttribute("cuentaEliminada", "false");
+    	   }
+
+    	   RequestDispatcher rd = request.getRequestDispatcher("BajaCuenta.jsp");   
+    	   rd.forward(request, response);
+		}
+	    
+		
 	}
 
 }
