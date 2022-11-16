@@ -34,6 +34,8 @@ public class ClienteDaoImp implements ClienteDao{
 	
 	private static final String update = "UPDATE clientes SET Nombre=?, Apellido=?, Dni=?, Cuil=?, Direccion=?, Telefono=?, Fecha_nac=?, Cod_Genero=?, Cod_nacionalidad=?, Cod_provincia=?, Cod_localidad=?, Email=? WHERE Nro_Cliente = ?";
 	
+	
+	
 	@Override
 	public boolean insert(Cliente cli) {
         String QUERY = insert;
@@ -305,8 +307,67 @@ public class ClienteDaoImp implements ClienteDao{
 		
 		return UpDateExitoso;
 	}
+
 	
-}
+
+	@Override
+	public ArrayList<Cliente> CargarSegunCondicion(String condicion, int Codigo) {
+		PreparedStatement Statement;
+		ResultSet resultSet;
+		ArrayList<Cliente> ListaClientes = new ArrayList<Cliente>();
+		Conexion conexion = Conexion.getConexion();
+		
+		try {
+			Statement = conexion.getSQLConexion().prepareStatement("SELECT clientes.Nro_Cliente, clientes.Nombre, clientes.Apellido, clientes.Dni,"
+					+ " clientes.Cuil, clientes.Direccion, clientes.Telefono, clientes.Fecha_nac AS Fecha_Nacimiento, "
+					+ "generos.Descripcion AS Genero, nacionalidad.Descripcion AS Nacionalidad, provincias.Descripcion "
+					+ "AS Provincia, localidades.Descripcion AS Localidad, clientes.Email, usuarios.Usuario, usuarios.Contraseña "
+					+ "FROM clientes INNER JOIN generos ON clientes.Cod_Genero = generos.Cod_genero INNER JOIN nacionalidad"
+					+ " ON clientes.Cod_nacionalidad = nacionalidad.Cod_nacionalidad INNER JOIN provincias ON "
+					+ "clientes.Cod_provincia = provincias.Cod_provincia INNER JOIN localidades "
+					+ "ON clientes.Cod_provincia = localidades.Cod_provincia AND clientes.Cod_localidad = localidades.Cod_localidad"
+					+ " INNER JOIN usuarios ON clientes.Usuario = usuarios.Usuario "
+					+ "WHERE clientes.Estado=1 AND clientes.Cod_"+condicion+" = " + Codigo);
+			resultSet = Statement.executeQuery();
+			while(resultSet.next()) {
+				Genero G = new Genero();
+				Nacionalidad Nac = new Nacionalidad();
+				Provincia Prov = new Provincia();
+				Localidad Loc = new Localidad();
+				Usuario User = new Usuario();
+				
+				int Nro_Cliente = resultSet.getInt(1);
+				String Nombre = resultSet.getString(2);
+				String Apellido = resultSet.getString(3);
+				String Dni = resultSet.getString(4);
+				String Cuil = resultSet.getString(5);
+				String Direccion = resultSet.getString(6);
+				String Telefono = resultSet.getString(7);
+				String FechaNac = resultSet.getString(8);
+				G.setDescripcion(resultSet.getString(9));
+				Nac.setDescripcion(resultSet.getString(10));
+				Prov.setDescripcion(resultSet.getString(11));
+				Loc.setDescripcion(resultSet.getString(12));
+				String Mail = resultSet.getString(13);
+				User.setUsuario(resultSet.getString(14));
+				User.setContrasenia(resultSet.getString(15));
+				
+				Cliente cliente = new Cliente(Nro_Cliente,Dni,Cuil,Nombre,Apellido,G,Nac,FechaNac,Direccion,Loc,Prov,Mail,Telefono,User,true);
+			    ListaClientes.add(cliente);
+			}
+		}
+		catch(Exception e) {
+			e.printStackTrace();
+		}
+		return ListaClientes;
+	}
+	
+	
+	
+	
+	}
+	
+
 
 
 

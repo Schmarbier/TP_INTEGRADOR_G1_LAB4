@@ -64,6 +64,9 @@
 		        </tr>
 		   </thead>
 	       <tbody>
+	       
+	       
+        <!-- CARGA LA LISTA CON TODOS LOS CLIENTES -->
 	        
 	    <%ArrayList<Cliente>ListaClienteTodos = null;
 	    
@@ -75,7 +78,6 @@
         	  for(Cliente CLI : ListaClienteTodos){
         %>
         
-        <!-- CARGA LA LISTA CON TODOS LOS CLIENTES -->
     <tr class="tr">  
          <form action="ServletAdmin" method="post">
 	     <td class="td" > <%=CLI.getNro_Cliente() %> </td>    
@@ -98,6 +100,7 @@
 	</tr>
 	<% }
 
+	///CARGA LA LISTA SOLAMENTE CON EL/LOS USUARIOS BUSCADOS 		 
 	    
 	    ArrayList<Cliente> ClienteXuser = null;
 	
@@ -109,9 +112,7 @@
 		   for(Cliente C : ClienteXuser){
 			
 		%>	   
-			 
-			 
-	<!-- CARGA LA LISTA SOLAMENTE CON EL/LOS USUARIOS BUSCADOS -->		 
+			 			 
     <tr>  
 		 <form action="ServletAdmin" method="post">
 	     <td> <%=C.getNro_Cliente() %>  </td>    
@@ -137,8 +138,8 @@
 		<% }
 	   
 	   
-	   
-	   
+		/// CARGA LA LISTA CON EL CLIENTE A MODIFICAR 
+	   	   
 	  ArrayList<Cliente> ClienteMODIFICAR = null;
 	  if(request.getAttribute("ClienteModificar")!=null){
 		  ClienteMODIFICAR = (ArrayList<Cliente>) request.getAttribute("ClienteModificar");
@@ -146,11 +147,8 @@
 	  
 	  if(ClienteMODIFICAR!=null)
 		  for(Cliente CL : ClienteMODIFICAR){
-			  
 	%>
 		
-		
-		<!-- CARGA LA LISTA CON EL CLIENTE A MODIFICAR -->
 	<tr>  
 	    <form action="ServletAdmin" method="post">
 		
@@ -207,6 +205,9 @@
 	      <td>   <input type="submit"  class="btn btn-outline-danger"  name="btnModificarCancelar" value="Cancelar"> </td>  
 	           
 	</tr>
+	         
+	         
+	         <!-- MENSAJE DE CONFIRMACION -->
 	           
  <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" 
 	aria-hidden="true">
