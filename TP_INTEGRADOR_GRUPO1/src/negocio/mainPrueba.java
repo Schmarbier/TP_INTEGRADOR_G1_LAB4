@@ -57,14 +57,18 @@ public class mainPrueba {
 		if(cu!=null) System.out.print("Cuenta encontrado - "+cu.toString());
 		else System.out.print("Cuenta no agregado");
 
-		*/
-		
 		Cuenta cu = new Cuenta();
 		cu.setNro_cuenta(4);
 		CuentaNegocioImp cn = new CuentaNegocioImp();
 		boolean res = cn.delete(cu);
 		if(res) System.out.print("Cuenta dada de baja- "+cu.toString());
 		else System.out.print("Cuenta no dada de baja o no encontrada");
+
+		*/
+
+		CuentaNegocioImp cn = new CuentaNegocioImp();
+		int tot = cn.totalCuentasPorCliente(2);
+		System.out.print("total cuentas por cliente- "+tot);
 
 	}
 }

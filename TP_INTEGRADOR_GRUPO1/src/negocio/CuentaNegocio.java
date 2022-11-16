@@ -19,4 +19,5 @@ public interface CuentaNegocio {
 	
 	public boolean modificarCuenta(Cuenta c);
 	
+	public int totalCuentasPorCliente(int nroCliente);
 }

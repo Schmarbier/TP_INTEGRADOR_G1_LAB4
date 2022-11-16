@@ -27,22 +27,28 @@
 				{ 
 		  			if(request.getAttribute("resultadoAlta")=="ok") 	
 		  			{
-				%>
-						  <p>  Nro Cuenta:  <%=cu.getNro_cuenta()%> </p>	
-					      <p>  Nro Cliente: <%=cu.getNro_cliente()%> </p>
-					      <p>  Tipo de cuenta: <%=cu.getTipo_cuenta().getTipo_cuenta()%> </p>
-						  <p>  Cbu: <%=cu.getCbu()%></p>
-						  <p>  Saldo inicial: $<%=cu.getSaldo()%></p>
+						%>
+						<p>  Nro Cuenta:  <%=cu.getNro_cuenta()%> </p>	
+					    <p>  Nro Cliente: <%=cu.getNro_cliente()%> </p>
+					    <p>  Tipo de cuenta: <%=cu.getTipo_cuenta().getTipo_cuenta()%> </p>
+						<p>  Cbu: <%=cu.getCbu()%></p>
+						<p>  Saldo inicial: $<%=cu.getSaldo()%></p>
 					
-						  <h3>Alta exitosa</h3>
+						<h3>Alta exitosa</h3>
 											
-				<%
+						<%
 		  			}; 
 		  			if(request.getAttribute("resultadoAlta")=="error") 	
 		  			{
-				%>
+						%>
 						<h3>Error en alta</h3>
-				<%
+						<%
+		  			};
+		  			if(request.getAttribute("resultadoAlta")=="errorCantidadCuentas") 	
+		  			{
+						%>
+						<h3>No se puede realizar el alta porque el cliente ya tiene el máximo de cuentas permitido (3 por cliente)</h3>
+						<%
 		  			};
 		  		}
 		  		%>

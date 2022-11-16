@@ -18,4 +18,7 @@ public interface CuentaDao {
 	public ArrayList<Cuenta> obtenerCuentaPorNr_cuenta(String numero);
 	
 	public boolean modificarCuenta(Cuenta c);
+	
+	public int totalCuentasPorCliente(int nroCliente);
+	
 }
