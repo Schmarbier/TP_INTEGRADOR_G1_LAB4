@@ -42,4 +42,11 @@ public class ClienteNegocioImp implements ClienteNegocio{
 		return cdao.update(cli);
 	}
 
+	
+
+	@Override
+	public ArrayList<Cliente> CargarSegunCondicion(String condicion, int Codigo) {
+		return cdao.CargarSegunCondicion(condicion, Codigo);
+	}
+
 }
