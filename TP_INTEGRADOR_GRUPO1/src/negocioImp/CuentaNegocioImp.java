@@ -31,8 +31,7 @@ public class CuentaNegocioImp implements CuentaNegocio{
 
 	@Override
 	public boolean delete(Cuenta cu) {
-		// TODO Auto-generated method stub
-		return false;
+		return cdao.delete(cu);
 	}
 
 	@Override
@@ -43,8 +42,7 @@ public class CuentaNegocioImp implements CuentaNegocio{
 
 	@Override
 	public Cuenta get(Cuenta cu) {
-		// TODO Auto-generated method stub
-		return null;
+		return cdao.get(cu);
 	}
 
 	public ArrayList<Cuenta> obtenerCuentaPorNr_cuenta(String numero) {
@@ -54,5 +52,10 @@ public class CuentaNegocioImp implements CuentaNegocio{
 	@Override
 	public boolean modificarCuenta(Cuenta c) {
 		return cdao.modificarCuenta(c);
+	}
+
+	@Override
+	public int totalCuentasPorCliente(int nroCliente) {
+		return cdao.totalCuentasPorCliente(nroCliente);
 	}
 }

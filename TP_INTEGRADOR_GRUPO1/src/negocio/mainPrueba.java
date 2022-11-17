@@ -37,8 +37,6 @@ public class mainPrueba {
 		ArrayList<TipoCuenta> lista = (ArrayList<TipoCuenta>) neg.readAll();
 		for(TipoCuenta p:lista) { System.out.println( p.toString()); }
 		
-		*/
-
 		Cuenta obj = new Cuenta();
 		obj.setNro_cliente(8);
 		obj.setTipo_cuenta(new TipoCuenta(2,""));
@@ -48,9 +46,29 @@ public class mainPrueba {
 		
 		CuentaNegocioImp cn = new CuentaNegocioImp();
 		int Nro = cn.insert(obj);
-		if(Nro>0) System.out.print("Cliente agregado - Nro="+ Nro +"-"+obj.toString());
-		else System.out.print("Cliente no agregado");
+		if(Nro>0) System.out.print("Cuenta agregado - Nro="+ Nro +"-"+obj.toString());
+		else System.out.print("Cuenta no agregado");
 		
+
+		Cuenta cu = new Cuenta();
+		cu.setNro_cuenta(855);
+		CuentaNegocioImp cn = new CuentaNegocioImp();
+		cu = cn.get(cu);
+		if(cu!=null) System.out.print("Cuenta encontrado - "+cu.toString());
+		else System.out.print("Cuenta no agregado");
+
+		Cuenta cu = new Cuenta();
+		cu.setNro_cuenta(4);
+		CuentaNegocioImp cn = new CuentaNegocioImp();
+		boolean res = cn.delete(cu);
+		if(res) System.out.print("Cuenta dada de baja- "+cu.toString());
+		else System.out.print("Cuenta no dada de baja o no encontrada");
+
+		*/
+
+		CuentaNegocioImp cn = new CuentaNegocioImp();
+		int tot = cn.totalCuentasPorCliente(2);
+		System.out.print("total cuentas por cliente- "+tot);
 
 	}
 }

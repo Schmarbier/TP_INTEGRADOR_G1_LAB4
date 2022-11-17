@@ -15,7 +15,20 @@ import entidades.TipoCuenta;
 
 public class CuentaDaoImp implements CuentaDao {
 
-private static final String modificar = "update cuentas SET Nro_cliente = ?, Fecha_creacion = ?, Tipo_cuenta = ?, Cbu = ?, Saldo = ? WHERE Nro_cuenta = ?";
+	private static final String agregar = "{CALL spAltaCuenta(?,?,?,?,?)}";
+
+	private static final String modificar = "update cuentas SET Nro_cliente = ?, Fecha_creacion = ?, Tipo_cuenta = ?, Cbu = ?, Saldo = ? WHERE Nro_cuenta = ?";
+	
+	private static final String delete = "UPDATE cuentas SET Estado = 0  WHERE Nro_cuenta = ?";
+	
+	private static final String consultar = "SELECT a.Nro_cuenta, a.Nro_cliente, a.Fecha_creacion, a.Tipo_cuenta, b.Descripcion, a.Cbu, a.Saldo " +
+											"from cuentas as a inner join tiposcuentas as b on a.Tipo_cuenta = b.Tipo_cuenta " + 
+											"where Estado = 1 and Nro_cuenta = ?";
+	
+	private static final String totalCuentasPorCliente = "SELECT COUNT(*) as total FROM cuentas " +
+														 "where Estado = 1 and Nro_cliente = ?";
+	
+
 	
 	@Override
 	public ArrayList<Cuenta> obtenerCuentas() {
@@ -29,7 +42,7 @@ private static final String modificar = "update cuentas SET Nro_cliente = ?, Fec
 			ResultSet rs = null;
 
 			Statement st = conexion.createStatement();
-			rs = st.executeQuery("SELECT a.Nro_cuenta, a.Nro_cliente, a.Fecha_creacion, a.Tipo_cuenta, b.Descripcion, a.Cbu, a.Saldo from cuentas as a inner join tiposcuentas as b on a.Tipo_cuenta = b.Tipo_cuenta");
+			rs = st.executeQuery("SELECT a.Nro_cuenta, a.Nro_cliente, a.Fecha_creacion, a.Tipo_cuenta, b.Descripcion, a.Cbu, a.Saldo from cuentas as a inner join tiposcuentas as b on a.Tipo_cuenta = b.Tipo_cuenta where Estado = 1 ");
 
 			// Cargo lista
 			while(rs.next()){
@@ -61,14 +74,16 @@ private static final String modificar = "update cuentas SET Nro_cliente = ?, Fec
 		if(consulta.equals("todo")) {
 			Query = "SELECT a.Nro_cuenta, a.Nro_cliente, a.Fecha_creacion, a.Tipo_cuenta, b.Descripcion, a.Cbu, a.Saldo " + 
 					"from cuentas as a inner join tiposcuentas as b on a.Tipo_cuenta = b.Tipo_cuenta " + 
-					"WHERE " + 
+					"WHERE Estado = 1 AND " + 
+					"(" +
 					"a.Nro_cuenta LIKE '%" + filtro + "%' or " + 
 					"a.Nro_cliente LIKE '%" + filtro + "%' or " + 
 					"a.Fecha_creacion LIKE '%" + filtro + "%' or " + 
 					"a.Tipo_cuenta LIKE '%" + filtro + "%' or " + 
 					"b.Descripcion LIKE '%" + filtro + "%' or " + 
 					"a.Cbu LIKE '%" + filtro + "%' or " + 
-					"a.Saldo LIKE '%" + filtro + "%'";
+					"a.Saldo LIKE '%" + filtro + "%'" +
+					")";
 		}
 		else {
 			Query = "SELECT a.Nro_cuenta, a.Nro_cliente, a.Fecha_creacion, a.Tipo_cuenta, b.Descripcion, a.Cbu, a.Saldo from cuentas as a inner join tiposcuentas as b on a.Tipo_cuenta = b.Tipo_cuenta WHERE " + consulta +" LIKE '%" + filtro + "%'";
@@ -172,12 +187,11 @@ private static final String modificar = "update cuentas SET Nro_cliente = ?, Fec
 	@Override
 	public int insert(Cuenta cu) {
 		int nroCuenta = -1;
-        String QUERY = "{CALL spAltaCuenta(?,?,?,?,?)}";
 
         Connection conexion = Conexion.getConexion().getSQLConexion();
 		try
 		{
-			PreparedStatement statement = conexion.prepareStatement(QUERY);
+			PreparedStatement statement = conexion.prepareStatement(agregar);
 			statement.setInt(1, cu.getNro_cliente());
 			statement.setInt(2, cu.getTipo_cuenta().getTipo_cuenta());
 			statement.setString(3, cu.getCbu());
@@ -204,8 +218,24 @@ private static final String modificar = "update cuentas SET Nro_cliente = ?, Fec
 
 	@Override
 	public boolean delete(Cuenta cu) {
-		// TODO Auto-generated method stub
-		return false;
+		PreparedStatement statement;
+		Connection conexion = Conexion.getConexion().getSQLConexion();
+		boolean isdeleteExitoso = false;
+		try 
+		{
+			statement = conexion.prepareStatement(delete);
+			statement.setInt(1, cu.getNro_cuenta());
+			if(statement.executeUpdate() > 0)
+			{
+				conexion.commit();
+				isdeleteExitoso = true;
+			}
+		} 
+		catch (SQLException e) 
+		{
+			e.printStackTrace();
+		}
+		return isdeleteExitoso;
 	}
 
 	@Override
@@ -216,8 +246,66 @@ private static final String modificar = "update cuentas SET Nro_cliente = ?, Fec
 
 	@Override
 	public Cuenta get(Cuenta cu) {
-		// TODO Auto-generated method stub
-		return null;
+		Cuenta cuenta = new Cuenta();
+				
+		PreparedStatement statement;
+		Connection conexion = Conexion.getConexion().getSQLConexion();
+		try 
+		{
+			statement = conexion.prepareStatement(consultar);
+			statement.setInt(1, cu.getNro_cuenta());
+			
+			ResultSet rs = null;
+			
+			rs = statement.executeQuery();
+			
+			// Cargo lista
+			if(rs.next()){
+				cuenta.setNro_cuenta(rs.getInt("Nro_cuenta"));
+				cuenta.setNro_cliente(rs.getInt("Nro_cliente"));
+				cuenta.setFecha_creacion(rs.getString("Fecha_creacion"));
+				cuenta.setTipo_cuenta(new TipoCuenta(rs.getInt("tipo_cuenta"),rs.getString("b.Descripcion")));
+				cuenta.setCbu(rs.getString("Cbu"));
+				cuenta.setSaldo(rs.getFloat("Saldo"));
+			}
+			else cuenta = null;
+		} 
+		catch (SQLException e) 
+		{
+			e.printStackTrace();
+		}finally{
+		
+		}
+		return cuenta;
+	}
+
+	@Override
+	public int totalCuentasPorCliente(int nroCliente) {
+		int total = 0;
+		
+		PreparedStatement statement;
+		Connection conexion = Conexion.getConexion().getSQLConexion();
+		try 
+		{
+			statement = conexion.prepareStatement(totalCuentasPorCliente);
+			statement.setInt(1, nroCliente);
+			
+			ResultSet rs = null;
+			
+			rs = statement.executeQuery();
+			
+			// Cargo lista
+			if(rs.next()){
+				total = rs.getInt("total");
+			}
+		} 
+		catch (SQLException e) 
+		{
+			e.printStackTrace();
+		}finally{
+		
+		}
+		return total;
 	}
 
 }

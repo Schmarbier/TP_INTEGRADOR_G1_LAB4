@@ -38,9 +38,14 @@
     <form method="post" action="ServletAdmin">
     <br>
        <p>  Ingrese el usuario del cliente que desea modificar: <input type="text" required name="txtUsuarioModificar"></input>
-	    <input type="submit" name="btnBuscarUsuario" class="btn btn-outline-primary" value="Buscar Usuario"></input></p>
+	    <input type="submit" name="btnBuscarUsuario" class="btn btn-outline-primary" value="Buscar Usuario"></input>
+	    </p>
   
    </form>
+	   <form action="ServletAdmin" method="post">
+		    <input type="submit" name="btnMostrarTodo" class="btn btn-outline-primary" value="Mostrar Todo"></input>
+		    </form>
+		    <br>
 	    
 	    <table id="mytable"  class="table table-sm" >
 	    	<thead>
@@ -135,10 +140,9 @@
 	     
 	     </form> 
 	</tr>	   
-		<% }
-	   
-	   
-		/// CARGA LA LISTA CON EL CLIENTE A MODIFICAR 
+		<% }	
+		   							
+	   /// CARGA LA LISTA CON EL CLIENTE A MODIFICAR 
 	   	   
 	  ArrayList<Cliente> ClienteMODIFICAR = null;
 	  if(request.getAttribute("ClienteModificar")!=null){
