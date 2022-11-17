@@ -50,8 +50,8 @@
 	</div>
 	
 	</form>
-	<%  if(request.getAttribute("exito")!=null) {%>	¡Cliente eliminado con exito! <%}%>
-	<%  if(request.getAttribute("error")!=null) {%> Error. El cliente NO existe <%}%>
+	<%  if(request.getAttribute("exito")!=null) {%>	<p class="alert alert-success" role="alert">Cliente Eliminado!</p> <%}%>
+	<%  if(request.getAttribute("error")!=null) {%> <p class="alert alert-danger" role="alert">Error. El cliente NO existe</p> <%}%>
     
 	      
 </div>

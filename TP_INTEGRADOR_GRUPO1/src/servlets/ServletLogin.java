@@ -38,7 +38,7 @@ public class ServletLogin extends HttpServlet {
 	TipoCuentaNegocioImp tcneg = new TipoCuentaNegocioImp();
 	GeneroNegocioImp gneg = new GeneroNegocioImp();
 	NacionalidadNegocioImp nneg = new NacionalidadNegocioImp();
-	ProvinciaNegocioImp pneg = new ProvinciaNegocioImp();
+	ProvinciaNegocioImp provneg = new ProvinciaNegocioImp();
 	LocalidadNegocioImp lneg = new LocalidadNegocioImp();
     ClienteNegocioImp cneg = new ClienteNegocioImp();
 
@@ -65,7 +65,7 @@ public class ServletLogin extends HttpServlet {
 				if(neg.esAdmin(usu)) {
 					session.setAttribute("usuarioAdmin", true);
 
-					RequestDispatcher rd = request.getRequestDispatcher("AltaCuenta.jsp"); 
+					RequestDispatcher rd = request.getRequestDispatcher("AltaClientes.jsp"); 
 					rd.forward(request, response);   
 				}
 				else {
@@ -100,7 +100,7 @@ public class ServletLogin extends HttpServlet {
 		ArrayList<TipoCuenta> listTipoCuenta = (ArrayList<TipoCuenta>) tcneg.readAll();
 		session.setAttribute("TipoCuenta", listTipoCuenta);
 
-		/*int maxId = cneg.obtenerProxId();
+		int maxId = cneg.obtenerProxId();
 		session.setAttribute("ncli", maxId);
 	    
 	    ArrayList<Genero> listGeneros = (ArrayList<Genero>) gneg.readAll();
@@ -109,12 +109,11 @@ public class ServletLogin extends HttpServlet {
 		ArrayList<Nacionalidad> listNacionalidades = (ArrayList<Nacionalidad>) nneg.readAll();
 		session.setAttribute("nacionalidades", listNacionalidades);
 		
-		ArrayList<Provincia> listProvincias = (ArrayList<Provincia>) pneg.readAll();
+		ArrayList<Provincia> listProvincias = (ArrayList<Provincia>) provneg.readAll();
 		session.setAttribute("provincias", listProvincias);
 		
 		ArrayList<Localidad> listaLocalidad = (ArrayList<Localidad>) lneg.readAll();
-		session.setAttribute("localidades", listaLocalidad);*/
-		
+		session.setAttribute("localidades", listaLocalidad);
 		
 	}	
 	

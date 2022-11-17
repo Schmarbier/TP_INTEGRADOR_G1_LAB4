@@ -4,9 +4,9 @@ INDEX VERSION 1.130+C:\Users\usuario\Desktop\Gianluca\UTN\4º cuatrimestre\Labora
 2902031084.index
 1039306593.index
 2820280038.index
-1090200666.index
-3200703938.index
 3349119677.index
+3200703938.index
+1090200666.index
 453955381.index
 460187341.index
 2899740869.index
@@ -30,7 +30,6 @@ INDEX VERSION 1.130+C:\Users\usuario\Desktop\Gianluca\UTN\4º cuatrimestre\Labora
 1773958954.index
 1482361719.index
 3194370155.index
-678651583.index
 1630579643.index
 2574794399.index
 2513093821.index

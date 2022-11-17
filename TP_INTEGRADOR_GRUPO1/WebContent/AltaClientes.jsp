@@ -23,7 +23,7 @@
    
 <form method="post" action="ServletAdmin">
       <%   int nroCli=0;
-           if(request.getAttribute("ncli")!=null) nroCli = Integer.parseInt(request.getAttribute("ncli").toString()); %>
+           if(session.getAttribute("ncli")!=null) nroCli = Integer.parseInt(session.getAttribute("ncli").toString()); %>
 	  <p>  Cliente Numero:  <%= nroCli %> </p>
       <p>  Nombre:  <input type="text" name="nombre" placeholder="Ingrese un nombre"
            maxlength="30" required pattern="[A-Za-zñÑ]+" title="Ingrese solo letras" />
@@ -37,7 +37,7 @@
 	  <p>  Género: 
 	  		<select required name="genero" title="Seleccione un genero">
 	  		<% ArrayList <Genero> gList = null;
-	           if(request.getAttribute("generos")!=null) gList=(ArrayList<Genero>)request.getAttribute("generos");
+	           if(session.getAttribute("generos")!=null) gList=(ArrayList<Genero>)session.getAttribute("generos");
 	           if(gList!=null)
 	           for(Genero g : gList){ %>
 				<option value="<%=g.getCod_genero()%>"><%=g.getDescripcion()%></option>
@@ -46,7 +46,7 @@
 	       Nacionalidad: 
 	  		<select required name="nacionalidad" title="Seleccione una nacionalidad">
 	  		<% ArrayList <Nacionalidad> nList = null;
-	           if(request.getAttribute("nacionalidades")!=null) nList=(ArrayList<Nacionalidad>)request.getAttribute("nacionalidades");
+	           if(session.getAttribute("nacionalidades")!=null) nList=(ArrayList<Nacionalidad>)session.getAttribute("nacionalidades");
 	           if(nList!=null)
 	           for(Nacionalidad n : nList){ %>
 				<option value="<%=n.getCod_nacionalidad()%>"><%=n.getDescripcion()%></option>
@@ -61,7 +61,7 @@
 	  <p>   Provincia: 
 	  		<select required name="provincia" title="Seleccione una provincia">
 	  		<% ArrayList <Provincia> pList = null;
-	           if(request.getAttribute("provincias")!=null) pList=(ArrayList<Provincia>)request.getAttribute("provincias");
+	           if(session.getAttribute("provincias")!=null) pList=(ArrayList<Provincia>)session.getAttribute("provincias");
 	           if(pList!=null)
 	           for(Provincia p : pList){ %>
 				<option value="<%=p.getCod_provincia()%>"><%=p.getDescripcion()%></option>
@@ -71,7 +71,7 @@
 	        Localidad: 
 	  		<select required name="localidad" title="Seleccione una localidad">
 				<% ArrayList <Localidad> lList = null;
-	               if(request.getAttribute("localidades")!=null) lList=(ArrayList<Localidad>)request.getAttribute("localidades");
+	               if(session.getAttribute("localidades")!=null) lList=(ArrayList<Localidad>)session.getAttribute("localidades");
 	               if(lList!=null)
 	               for(Localidad l : lList){ %>
 				    <option value="<%=l.getCod_localidad()%>"><%= l.getCod_provincia().getDescripcion()%> - <%=l.getDescripcion()%></option>
@@ -120,10 +120,10 @@
 	</div>
 </form>
 
-	<%  if(request.getAttribute("exito")!=null) {%> Cliente agregado con éxito <%}%>
-	<%  if(request.getAttribute("error")!=null) {%> No se pudo agregar el cliente. Cliente ya existente <%}%>
-	<%  if(request.getAttribute("errorContraseña")!=null) {%> Error. Las contraseñas no coinciden <%}%>
-	<%  if(request.getAttribute("usuarioExistente")!=null) {%> Error. El usuario ingresado ya existe <%}%>
+	<%  if(request.getAttribute("exito")!=null) {%> <p class="alert alert-success" role="alert">Cliente Agregado!</p> <%}%>
+	<%  if(request.getAttribute("error")!=null) {%> <p class="alert alert-danger" role="alert">No se pudo agregar el cliente. Cliente ya existente</p> <%}%>
+	<%  if(request.getAttribute("errorContraseña")!=null) {%> <p class="alert alert-danger" role="alert">Error. Las contraseñas no coinciden</p> <%}%>
+	<%  if(request.getAttribute("usuarioExistente")!=null) {%> <p class="alert alert-danger" role="alert">Error. El usuario ingresado ya existe</p> <%}%>
 
 </div>
 
