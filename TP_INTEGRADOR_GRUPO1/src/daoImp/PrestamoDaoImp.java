@@ -29,20 +29,7 @@ public class PrestamoDaoImp implements PrestamoDao{
 			Statement = conexion.getSQLConexion().prepareStatement(solicitudes);
 			resultSet = Statement.executeQuery();
 			while(resultSet.next()) {
-				Cliente c = new Cliente();
-				
-			    int Nro_Prestamo = resultSet.getInt(1);
-				c.setNro_Cliente(resultSet.getInt(2));
-				String Fecha = resultSet.getString(3);
-				Float Imp_con_intereses = resultSet.getFloat(4);
-				Float Imp_solicitado = resultSet.getFloat(5);
-				String Nro_cuenta_deposito = resultSet.getString(6);
-			    int Plazo_pago_meses = resultSet.getInt(7);
-				Float Monto_pago_por_mes = resultSet.getFloat(8);
-			    int Cant_cuotas = resultSet.getInt(9);
-			    
-				Prestamo prestamo = new Prestamo(Nro_Prestamo,c,Fecha,Imp_con_intereses,Imp_solicitado,Nro_cuenta_deposito,Plazo_pago_meses,Monto_pago_por_mes,Cant_cuotas);
-				ListaPrestamos.add(prestamo);
+				ListaPrestamos.add(get(resultSet));
 			}
 		}
 		catch(Exception e) {
@@ -50,7 +37,6 @@ public class PrestamoDaoImp implements PrestamoDao{
 		}
 		return ListaPrestamos;
 	}
-
 
 	@Override
 	public boolean RespuestaSolicitud(Prestamo p) {
@@ -77,16 +63,12 @@ public class PrestamoDaoImp implements PrestamoDao{
 	
    @Override
    public ArrayList<Prestamo> obtenerPrestamosQueryCustom(String consulta, String filtro) {
-		
 		Connection conexion = Conexion.getConexion().getSQLConexion();
-		
 		ArrayList<Prestamo> lista = new ArrayList<Prestamo>();
 		String Query = "";
 		
-		if(consulta.equals("Todo")) {
-			Query = "SELECT Nro_prestamo, Nro_cliente, Fecha, Imp_con_intereses, Imp_solicitado, Nro_cuenta_deposito, Plazo_pago_meses " + 
-					"Monto_pago_por_mes, Cant_cuotas FROM prestamo " + 
-					"WHERE Est_prestamo = 3 AND " + 
+		if(consulta.equals("Todo") && filtro.equals("")) {
+			Query = "SELECT * FROM prestamos WHERE Est_prestamo = 3 AND " + 
 					"Nro_prestamo LIKE '%" + filtro + "%' or " + 
 					"Nro_cliente LIKE '%" + filtro + "%' or " + 
 					"Fecha LIKE '%" + filtro + "%' or " + 
@@ -98,7 +80,7 @@ public class PrestamoDaoImp implements PrestamoDao{
 					"Cant_cuotas LIKE '%" + filtro + "%'";
 		}
 		else {
-			Query = "SELECT Nro_prestamo, Nro_cliente, Fecha, Imp_con_intereses, Imp_solicitado, Nro_cuenta_deposito, Plazo_pago_meses, Monto_pago_por_mes, Cant_cuotas  FROM prestamos WHERE Est_prestamo = 3 AND " + consulta + " LIKE '%" + filtro + "%'";
+			Query = "SELECT * FROM prestamos WHERE Est_prestamo = 3 AND " + consulta + " LIKE '%" + filtro + "%'";
 		}
 
 		try{
@@ -109,21 +91,7 @@ public class PrestamoDaoImp implements PrestamoDao{
 
 			// Cargo lista
 			while(rs.next()){
-				Prestamo prestamo = new Prestamo();
-				Cliente c = new Cliente();
-				c.setNro_Cliente(rs.getInt("Nro_cliente"));
-						
-				prestamo.setNro_prestamo(rs.getInt("Nro_cliente"));
-				prestamo.setNro_cliente(c);
-				prestamo.setFecha(rs.getString("Fecha_creacion"));
-				prestamo.setImp_con_intereses(rs.getFloat("Fecha_creacion"));
-				prestamo.setImp_solicitado(rs.getFloat("Fecha_creacion"));
-				prestamo.setNro_cuenta_deposito(rs.getString("Fecha_creacion"));
-				prestamo.setPlazo_pago_meses(rs.getInt("Nro_cliente"));
-				prestamo.setMonto_pago_por_mes(rs.getFloat("Fecha_creacion"));
-				prestamo.setCant_cuotas(rs.getInt("Nro_cliente"));
-				
-				lista.add(prestamo);
+				lista.add(get(rs));
 			}
 		}catch(Exception e){
 			e.printStackTrace();
@@ -134,4 +102,22 @@ public class PrestamoDaoImp implements PrestamoDao{
 		return lista;
 	}
 
+	private Prestamo get(ResultSet resultSet) throws SQLException
+	{
+		Cliente c = new Cliente();
+		Prestamo p = new Prestamo();
+	    
+	    p.setNro_prestamo(resultSet.getInt("Nro_prestamo"));
+		c.setNro_Cliente(resultSet.getInt("Nro_cliente"));
+		p.setNro_cliente(c);
+		p.setFecha(resultSet.getString("Fecha"));
+		p.setImp_con_intereses(resultSet.getFloat("Imp_con_intereses"));
+		p.setImp_solicitado(resultSet.getFloat("Imp_solicitado"));
+		p.setNro_cuenta_deposito(resultSet.getString("Nro_cuenta_deposito"));
+	    p.setPlazo_pago_meses(resultSet.getInt("Plazo_pago_meses"));
+		p.setMonto_pago_por_mes(resultSet.getFloat("Monto_pago_por_mes"));
+	    p.setMonto_pago_por_mes(resultSet.getInt("Cant_cuotas"));
+	    
+	    return p;
+	}
 }

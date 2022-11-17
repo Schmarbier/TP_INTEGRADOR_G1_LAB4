@@ -17,7 +17,7 @@
 
 <div class="parteDer">
    <h3 class="titulo"> Prestamos </h3>    
-<form method="get" action="ServletAdmin">
+<form method="post" action="ServletAdmin">
     	<p>Filtrar por: </p>
     	<div class="input-group mb-3 w-50">
 		    	<select name="ddlFiltro" class="form-control">
@@ -63,8 +63,8 @@
 						<form action="ServletAdmin" method="get">
 								<td><%=c.getNro_prestamo()%><input type="hidden" 
 								name="nroPrestamo" value="<%=c.getNro_prestamo()%>"></td>    
-								<td><%=c.getNro_cliente()%><input type="hidden" 
-								name="nroCliente" value="<%=c.getNro_cliente()%>"></td>   
+								<td><%=c.getNro_cliente().getNro_Cliente() %><input type="hidden" 
+								name="nroCliente" value="<%=c.getNro_cliente().getNro_Cliente()%>"></td>   
 								<td><%=c.getFecha()%><input type="hidden" 
 								name="fechaSolicitud" value="<%=c.getFecha()%>"></td>
 								<td><%=c.getImp_solicitado()%><input type="hidden" name="impSol" value="<%=c.getImp_solicitado()%>"></td>
@@ -75,45 +75,10 @@
 								<td><%=c.getMonto_pago_por_mes()%><input type="hidden" name="montPag" value="<%=c.getMonto_pago_por_mes()%>"></td>
 								<td><%=c.getCant_cuotas()%><input type="hidden" name="cantCuo" value="<%=c.getCant_cuotas()%>"></td>
 								<td><input type="submit" name="btnAceptarSolicitud" value="Aceptar" 
-								class="btn btn-outline-secondary"
+								class="btn btn-outline-success"
 								 onclick="window.location.href='ServletAdmin?btnAceptarSolicitud=1'"></input></td>
 							    <td><input type="submit" name="btnRechazarSolicitud" value="Rechazar" 
-							     class="btn btn-outline-secondary"
-								 onclick="window.location.href='ServletAdmin?btnRechazarSolicitud=1'"></input></td>
-						 </form>
-					</tr>
-				<%  } 
-				}
-			%>
-			
-			<%  
-				ArrayList<Prestamo> listaCustom = null;
-				if(request.getAttribute("prestamosFiltrados")!=null) listaCustom = (ArrayList<Prestamo>) request.getAttribute("prestamosFiltrados");
-
-	    		if(listaCustom!=null){
-					for(Prestamo c:listaCustom) 
-					{
-						%>
-					<tr>
-						<form action="ServletAdmin" method="get">
-								<td><%=c.getNro_prestamo()%><input type="hidden" 
-								name="nroPrestamo" value="<%=c.getNro_prestamo()%>"></td>    
-								<td><%=c.getNro_cliente()%><input type="hidden" 
-								name="nroCliente" value="<%=c.getNro_cliente()%>"></td>   
-								<td><%=c.getFecha()%><input type="hidden" 
-								name="fechaSolicitud" value="<%=c.getFecha()%>"></td>
-								<td><%=c.getImp_solicitado()%><input type="hidden" name="impSol" value="<%=c.getImp_solicitado()%>"></td>
-								<td><%=c.getImp_con_intereses()%><input type="hidden" 
-								name="impInt" value="<%=c.getImp_con_intereses()%>"></td>   
-								<td><%=c.getNro_cuenta_deposito()%><input type="hidden" name="cuentDep" value="<%=c.getNro_cuenta_deposito()%>"></td>
-								<td><%=c.getPlazo_pago_meses()%><input type="hidden" name="plaPag" value="<%=c.getPlazo_pago_meses()%>"></td>
-								<td><%=c.getMonto_pago_por_mes()%><input type="hidden" name="montPag" value="<%=c.getMonto_pago_por_mes()%>"></td>
-								<td><%=c.getCant_cuotas()%><input type="hidden" name="cantCuo" value="<%=c.getCant_cuotas()%>"></td>
-								<td><input type="submit" name="btnAceptarSolicitud" value="Aceptar" 
-								class="btn btn-outline-secondary"
-								 onclick="window.location.href='ServletAdmin?btnAceptarSolicitud=1'"></input></td>
-							    <td><input type="submit" name="btnRechazarSolicitud" value="Rechazar" 
-							     class="btn btn-outline-secondary"
+							     class="btn btn-outline-danger"
 								 onclick="window.location.href='ServletAdmin?btnRechazarSolicitud=1'"></input></td>
 						 </form>
 					</tr>

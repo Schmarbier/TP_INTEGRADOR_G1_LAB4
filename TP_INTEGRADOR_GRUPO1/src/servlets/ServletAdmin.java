@@ -1,9 +1,6 @@
 package servlets;
 
 import java.io.IOException;
-import java.sql.Date;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 
 import javax.servlet.RequestDispatcher;
@@ -12,7 +9,6 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
 import daoImp.CuentaDaoImp;
 import entidades.Cliente;
@@ -20,6 +16,7 @@ import entidades.Cuenta;
 import entidades.Genero;
 import entidades.Localidad;
 import entidades.Nacionalidad;
+import entidades.Prestamo;
 import entidades.Provincia;
 import entidades.TipoCuenta;
 import entidades.TipoUsuario;
@@ -29,9 +26,9 @@ import negocioImp.CuentaNegocioImp;
 import negocioImp.GeneroNegocioImp;
 import negocioImp.LocalidadNegocioImp;
 import negocioImp.NacionalidadNegocioImp;
+import negocioImp.PrestamoNegocioImp;
 import negocioImp.ProvinciaNegocioImp;
 import negocioImp.UsuarioNegocioImp;
-import negocioImp.CuentaNegocioImp;
 
 
 @WebServlet("/ServletAdmin")
@@ -46,15 +43,46 @@ public class ServletAdmin extends HttpServlet {
 	CuentaDaoImp cuneg = new CuentaDaoImp();
 	CuentaNegocioImp neg = new CuentaNegocioImp();
 	UsuarioNegocioImp uneg = new UsuarioNegocioImp();
+	PrestamoNegocioImp pneg = new PrestamoNegocioImp();
 	Cliente c = new Cliente();
 	Usuario u = new Usuario();
 	Genero g = new Genero();
 	Nacionalidad n = new Nacionalidad();
 	Provincia p = new Provincia();
 	Localidad l = new Localidad();
-
+	Prestamo pres = new Prestamo();
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		
+		if(request.getParameter("LPrestamos")!=null) {
+		    ArrayList<Prestamo> ListaPrestamos = (ArrayList<Prestamo>) pneg.SolicitudesPrestamos();
+			request.setAttribute("prestamos", ListaPrestamos);
+			RequestDispatcher rd = request.getRequestDispatcher("/Prestamos.jsp");
+			rd.forward(request, response);
+		}
+		
+        if(request.getParameter("btnAceptarSolicitud")!=null) {
+			pres.setNro_prestamo(Integer.parseInt(request.getParameter("nroPrestamo").toString()));
+			pres.setEst_prestamo(1);
+			pneg.RespuestaSolicitud(pres);
+			
+		    ArrayList<Prestamo> ListaPrestamos = (ArrayList<Prestamo>) pneg.SolicitudesPrestamos();
+			request.setAttribute("prestamos", ListaPrestamos);
+			RequestDispatcher rd = request.getRequestDispatcher("/Prestamos.jsp");
+			rd.forward(request, response);
+		}
+        
+        if(request.getParameter("btnRechazarSolicitud")!=null) {
+        	pres.setNro_prestamo(Integer.parseInt(request.getParameter("nroPrestamo").toString()));
+			pres.setEst_prestamo(2);
+			pneg.RespuestaSolicitud(pres);
+			
+		    ArrayList<Prestamo> ListaPrestamos = (ArrayList<Prestamo>) pneg.SolicitudesPrestamos();
+			request.setAttribute("prestamos", ListaPrestamos);
+			RequestDispatcher rd = request.getRequestDispatcher("/Prestamos.jsp");
+			rd.forward(request, response);
+		}
+
 		
 		//AL HACER CLICK EN 
 		if(request.getParameter("ParamListarCLI")!=null) {
@@ -146,6 +174,20 @@ public class ServletAdmin extends HttpServlet {
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
+		if(request.getParameter("filtrarPrestamos")!=null) {
+		    ArrayList<Prestamo> ListaPrestamos = (ArrayList<Prestamo>) pneg.obtenerPrestamosQueryCustom(request.getParameter("ddlFiltro").toString(), request.getParameter("txtFiltro").toString());
+			request.setAttribute("prestamos", ListaPrestamos);
+			RequestDispatcher rd = request.getRequestDispatcher("/Prestamos.jsp");
+			rd.forward(request, response);
+		}
+		
+		if(request.getParameter("LPrestamos")!=null) {
+		    ArrayList<Prestamo> ListaPrestamos = (ArrayList<Prestamo>) pneg.SolicitudesPrestamos();
+			request.setAttribute("prestamos", ListaPrestamos);
+			RequestDispatcher rd = request.getRequestDispatcher("/Prestamos.jsp");
+			rd.forward(request, response);
+		}
+		
             if(request.getParameter("AceptarAgregar")!=null) {
 
             boolean alta = true;
@@ -154,7 +196,7 @@ public class ServletAdmin extends HttpServlet {
 			{
 				alta = false;
 				request.setAttribute("errorContraseña", alta);
-				RequestDispatcher rd = request.getRequestDispatcher("ServletDatosAdmin?datosAlta=1");   
+				RequestDispatcher rd = request.getRequestDispatcher("/AltaClientes.jsp");   
 		        rd.forward(request, response);
 		        return;
 			}
@@ -167,7 +209,7 @@ public class ServletAdmin extends HttpServlet {
 			if(uneg.existeNombreUsuario(u)) {
 				alta = false;
 				request.setAttribute("usuarioExistente", alta);
-				RequestDispatcher rd = request.getRequestDispatcher("ServletDatosAdmin?datosAlta=1");   
+				RequestDispatcher rd = request.getRequestDispatcher("/AltaClientes.jsp");   
 		        rd.forward(request, response);
 		        return;
 			}
@@ -196,14 +238,14 @@ public class ServletAdmin extends HttpServlet {
 			if(cneg.insert(c) == false) {
 				alta = false;
 				request.setAttribute("error", alta);
-				RequestDispatcher rd = request.getRequestDispatcher("ServletDatosAdmin?datosAlta=1");   
+				RequestDispatcher rd = request.getRequestDispatcher("/AltaClientes.jsp");   
 		        rd.forward(request, response);
 		        return;
 			}
 			
 			if(alta==true) {
 				request.setAttribute("exito", alta);
-				RequestDispatcher rd = request.getRequestDispatcher("ServletDatosAdmin?datosAlta=1");   
+				RequestDispatcher rd = request.getRequestDispatcher("/AltaClientes.jsp");   
 			    rd.forward(request, response);
 			}
 		        
