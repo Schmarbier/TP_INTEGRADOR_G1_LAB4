@@ -15,6 +15,7 @@ import entidades.Prestamo;
 public class PrestamoDaoImp implements PrestamoDao{
 
 	private static final String solicitudes = "SELECT * FROM prestamos WHERE Est_prestamo = 3";
+	private static final String prestamos = "SELECT * FROM prestamos";
 	private static final String respuesta = "UPDATE prestamos SET Est_prestamo = ?  WHERE Nro_prestamo = ?";
 
 
@@ -27,6 +28,26 @@ public class PrestamoDaoImp implements PrestamoDao{
 		
 		try {
 			Statement = conexion.getSQLConexion().prepareStatement(solicitudes);
+			resultSet = Statement.executeQuery();
+			while(resultSet.next()) {
+				ListaPrestamos.add(get(resultSet));
+			}
+		}
+		catch(Exception e) {
+			e.printStackTrace();
+		}
+		return ListaPrestamos;
+	}
+	
+	@Override
+	public List<Prestamo> Prestamos() {
+		PreparedStatement Statement;
+		ResultSet resultSet;
+		ArrayList<Prestamo> ListaPrestamos = new ArrayList<Prestamo>();
+		Conexion conexion = Conexion.getConexion();
+		
+		try {
+			Statement = conexion.getSQLConexion().prepareStatement(prestamos);
 			resultSet = Statement.executeQuery();
 			while(resultSet.next()) {
 				ListaPrestamos.add(get(resultSet));

@@ -17,6 +17,12 @@
 <fullyQualifiedTypeName name="negocio.PrestamoNegocio"/>
 <fullyQualifiedTypeName name="dao.PrestamoDao"/>
 <fullyQualifiedTypeName name="daoImp.PrestamoDaoImp"/>
-<fullyQualifiedTypeName name="entidades.Prestamo"/>
 <fullyQualifiedTypeName name="negocioImp.PrestamoNegocioImp"/>
+<fullyQualifiedTypeName name="entidades.Prestamo"/>
+<fullyQualifiedTypeName name="dao.TipoMovimientoDao"/>
+<fullyQualifiedTypeName name="entidades.Movimiento"/>
+<fullyQualifiedTypeName name="negocio.MovimientoNegocio"/>
+<fullyQualifiedTypeName name="dao.MovimientoDao"/>
+<fullyQualifiedTypeName name="daoImp.MovimientoDaoImp"/>
+<fullyQualifiedTypeName name="negocioImp.MovimientoNegocioImp"/>
 </qualifiedTypeNameHistroy>

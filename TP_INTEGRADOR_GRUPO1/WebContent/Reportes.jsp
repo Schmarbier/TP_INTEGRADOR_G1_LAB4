@@ -1,5 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
+<%@page import="java.util.ArrayList"%>
+<%@page import="entidades.Prestamo"%>
+<%@page import="entidades.Movimiento"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -16,15 +19,22 @@
 <div class="parteDer">
    <h3 class="titulo"> Reportes </h3> 
 
-<form method="post" action="ServletHTML">
+<form method="post" action="ServletAdmin">
 <div>
-<span>Prestamos desde </span><input type="date" /><span> Hasta </span><input type="date" />
+<br><br>
+<span>Dinero total depositado en el banco actualmente: <b>$28.392.122</b></span>
+<br><br>
+<span>Prestamos desde: </span><input type="text" name="presIni" placeholder="dd/mm/aaaa" required pattern="\d{1,2}/\d{1,2}/\d{4}" title="La fecha no es v&aacute;lida"></input>
+<span> Hasta: </span><input type="text" name="presFin" placeholder="dd/mm/aaaa" required pattern="\d{1,2}/\d{1,2}/\d{4}" title="La fecha no es v&aacute;lida"/></input>
 <span>Filtrar por: </span>
 <select name="filtroPre">
-				<option value="R">Rechazados</option>
-				<option value="A">Aceptados</option>
-			</select> 
-<br>
+				<option value="1">Aprobados</option>
+				<option value="2">Rechazados</option>
+</select> 
+<br><br>
+<input type="submit" name="btnFiltrarPres" value="Filtrar" class="btn btn-primary" onclick="window.location.href='ServletAdmin?btnFiltrarPres=1'"></input>
+<input type="submit" name="btnMostrarPres" value="Mostrar todos" class="btn btn-secondary" onclick="window.location.href='ServletAdmin?btnMostrarPres=1'"></input>
+<br><br>
 <table class="table">
   <thead>
     <tr>
@@ -38,46 +48,82 @@
             <th scope="col">Monto de pago (por mes)</th>
             <th scope="col">Cantidad de cuotas</th>
             <th scope="col">Fecha de vencimiento de cuota</th>
-            <th scope="col">Estado</th>
     </tr>
   </thead>
   <tbody>
-    <tr>
-         <td> 1 </td>    
-	     <td> 1 </td>
-	     <td> 20/08/2022 </td> 
-	     <td> 10.000 </td> 
-	     <td> 12.000 </td> 
-	     <td> 1 </td> 
-	     <td> 12 </td>
-	     <td> 1000 </td> 
-	     <td> 12 </td>  
-	     <td> 20/08 </td> 
-	     <td> Rechazado </td> 
-    </tr>
-    <tr>
+  <%  
+				ArrayList<Prestamo> listaPrestamos = null;
+				if(request.getAttribute("prestamos")!=null)
+				{
+					listaPrestamos = (ArrayList<Prestamo>) request.getAttribute("prestamos");
+				}
+	    		if(listaPrestamos!=null){
+					for(Prestamo c:listaPrestamos) 
+					{
+						%>
+					<tr>  
+						<td><%=c.getNro_prestamo()%></td>     
+						<td><%=c.getNro_cliente().getNro_Cliente()%></td>   
+						<td><%=c.getFecha()%></td>
+						<td><%=c.getImp_solicitado()%></td> 
+						<td><%=c.getImp_con_intereses() %></td>  
+						<td><%=c.getNro_cuenta_deposito() %></td>
+						<td><%=c.getPlazo_pago_meses() %></td>
+						<td><%=c.getMonto_pago_por_mes() %></td>
+						<td><%=c.getCant_cuotas() %></td>	
+					</tr>
+			<%  } 
+			}
+		%>
   </tbody>
 </table>
-<br>
-<span>Movimientos hechos desde: </span><input type="date" /><span> Hasta: </span><input type="date" />
+<br><br>
+<span>Movimientos desde: </span><input type="text" name="movIni" placeholder="dd/mm/aaaa" required pattern="\d{1,2}/\d{1,2}/\d{4}" title="La fecha no es v&aacute;lida"/></input>
+<span> Hasta: </span><input type="text" name="movFin" placeholder="dd/mm/aaaa" required pattern="\d{1,2}/\d{1,2}/\d{4}" title="La fecha no es v&aacute;lida"/></input>
 <span>Filtrar por: </span>
 <select name="filtroMov">
-				<option value="AC">Altas de cuenta</option>
-				<option value="AP">Altas de prestamo</option>
-				<option value="PP">Pagos de prestamo</option>
-				<option value="T">Transferencias</option>
-			</select> 
-<br>
+				<option value="1">Altas de cuenta</option>
+				<option value="2">Altas de prestamo</option>
+				<option value="3">Pagos de prestamo</option>
+				<option value="4">Transferencias</option>
+</select> 
+<br><br>
+<input type="submit" name="btnFiltrarMov" value="Filtrar" class="btn btn-primary" onclick="window.location.href='ServletAdmin?btnFiltrarMov=1'"></input>
+<input type="submit" name="btnMostrarMov" value="Mostrar todos" class="btn btn-secondary" onclick="window.location.href='ServletAdmin?btnMostrarMov=1'"></input>
+<br><br>
 <table class="table">
   <thead>
     <tr>
+      <th scope="col">Nro movimiento</th>
+      <th scope="col">Nro cuenta</th>
       <th scope="col">Fecha</th>
       <th scope="col">Tipo de movimiento</th>
-      <th scope="col">Detalle</th>
       <th scope="col">Importe</th>
+      <th scope="col">Detalle</th>
     </tr>
   </thead>
   <tbody>
+  <%  
+				ArrayList<Movimiento> listaMovimientos = null;
+				if(request.getAttribute("movimientos")!=null)
+				{
+					listaMovimientos = (ArrayList<Movimiento>) request.getAttribute("movimientos");
+				}
+	    		if(listaMovimientos!=null){
+					for(Movimiento c:listaMovimientos) 
+					{
+						%>
+					<tr>  
+						<td><%=c.getNro_Movimiento()%></td>     
+						<td><%=c.getNro_Cuenta()%></td>
+						<td><%=c.getFecha()%></td> 
+						<td><%=c.getTipo_Mov().getDescripcion() %></td>  
+						<td><%=c.getImporte() %></td>
+						<td><%=c.getDetalle() %></td>											
+					</tr>
+			<%  } 
+			}
+		%>
     <tr>
       <th scope="row">19/08/2022</th>
       <td>Transferencia</td>
@@ -87,9 +133,6 @@
     <tr>
   </tbody>
 </table>
-<br>
-<br>
-<span>Dinero total depositado en el banco actualmente: <b>$28.392.122</b></span>
 </div>
 
 </form>

@@ -16,6 +16,11 @@ public class PrestamoNegocioImp implements PrestamoNegocio{
 	public List<Prestamo> SolicitudesPrestamos() {
 		return pdao.SolicitudesPrestamos();
 	}
+	
+	@Override
+	public List<Prestamo> Prestamos() {
+		return pdao.Prestamos();
+	}
 
 	@Override
 	public boolean RespuestaSolicitud(Prestamo p) {

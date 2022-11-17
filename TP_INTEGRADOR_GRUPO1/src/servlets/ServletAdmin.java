@@ -15,6 +15,7 @@ import entidades.Cliente;
 import entidades.Cuenta;
 import entidades.Genero;
 import entidades.Localidad;
+import entidades.Movimiento;
 import entidades.Nacionalidad;
 import entidades.Prestamo;
 import entidades.Provincia;
@@ -25,6 +26,7 @@ import negocioImp.ClienteNegocioImp;
 import negocioImp.CuentaNegocioImp;
 import negocioImp.GeneroNegocioImp;
 import negocioImp.LocalidadNegocioImp;
+import negocioImp.MovimientoNegocioImp;
 import negocioImp.NacionalidadNegocioImp;
 import negocioImp.PrestamoNegocioImp;
 import negocioImp.ProvinciaNegocioImp;
@@ -44,6 +46,7 @@ public class ServletAdmin extends HttpServlet {
 	CuentaNegocioImp neg = new CuentaNegocioImp();
 	UsuarioNegocioImp uneg = new UsuarioNegocioImp();
 	PrestamoNegocioImp pneg = new PrestamoNegocioImp();
+	MovimientoNegocioImp mneg = new MovimientoNegocioImp();
 	Cliente c = new Cliente();
 	Usuario u = new Usuario();
 	Genero g = new Genero();
@@ -53,6 +56,15 @@ public class ServletAdmin extends HttpServlet {
 	Prestamo pres = new Prestamo();
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		
+		if(request.getParameter("LReportes")!=null) {
+		    ArrayList<Prestamo> ListaPrestamos = (ArrayList<Prestamo>) pneg.Prestamos();
+		    ArrayList<Movimiento> ListaMovimientos = (ArrayList<Movimiento>) mneg.readAll();
+			request.setAttribute("prestamos", ListaPrestamos);
+			request.setAttribute("movimientos", ListaMovimientos);
+			RequestDispatcher rd = request.getRequestDispatcher("/Reportes.jsp");
+			rd.forward(request, response);
+		}
 		
 		if(request.getParameter("LPrestamos")!=null) {
 		    ArrayList<Prestamo> ListaPrestamos = (ArrayList<Prestamo>) pneg.SolicitudesPrestamos();
