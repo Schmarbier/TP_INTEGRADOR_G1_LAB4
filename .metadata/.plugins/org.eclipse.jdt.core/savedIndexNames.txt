@@ -16,7 +16,6 @@ INDEX VERSION 1.130+C:\Users\usuario\Desktop\Gianluca\UTN\4º cuatrimestre\Labora
 2386850106.index
 313442838.index
 900480025.index
-125237512.index
 980670568.index
 3654661913.index
 1200339477.index

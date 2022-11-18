@@ -137,7 +137,7 @@ public class PrestamoDaoImp implements PrestamoDao{
 		p.setFecha(resultSet.getString("prestamos.Fecha"));
 		p.setImp_con_intereses(resultSet.getFloat("prestamos.Imp_con_intereses"));
 		p.setImp_solicitado(resultSet.getFloat("prestamos.Imp_solicitado"));
-		p.setNro_cuenta_deposito(resultSet.getString("prestamos.Nro_cuenta_deposito"));
+		p.setNro_cuenta_deposito(resultSet.getInt("prestamos.Nro_cuenta_deposito"));
 	    p.setPlazo_pago_meses(resultSet.getInt("prestamos.Plazo_pago_meses"));
 		p.setMonto_pago_por_mes(resultSet.getFloat("prestamos.Monto_pago_por_mes"));
 	    p.setCant_cuotas(resultSet.getInt("prestamos.Cant_cuotas"));

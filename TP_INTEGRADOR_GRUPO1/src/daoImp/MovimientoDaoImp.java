@@ -43,7 +43,7 @@ public class MovimientoDaoImp implements MovimientoDao{
 		m.setNro_Movimiento(resultSet.getInt("Nro_Movimiento"));
 		m.setNro_Cuenta(resultSet.getInt("Nro_cuenta"));
 		m.setFecha(resultSet.getString("Fecha"));
-		tm.setDescripcion("tiposmovimientos.Descripcion");
+		tm.setDescripcion(resultSet.getString("Descripcion"));
 		m.setTipo_Mov(tm);
 		m.setImporte(resultSet.getFloat("Importe"));
 		m.setDetalle(resultSet.getString("Detalle"));
