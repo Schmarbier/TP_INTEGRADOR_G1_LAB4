@@ -7,7 +7,8 @@ import entidades.Prestamo;
 
 public interface PrestamoDao {
 
-	public List<Prestamo> SolicitudesPrestamos();
+	public List<Prestamo> readAll();
+	public List<Prestamo> Prestamos(Prestamo p);
 	public boolean RespuestaSolicitud(Prestamo p);
 	public ArrayList<Prestamo> obtenerPrestamosQueryCustom(String consulta, String filtro);
 	

@@ -12,13 +12,14 @@ public class Prestamo {
 	private int Plazo_pago_meses;
 	private float Monto_pago_por_mes;
 	private int Cant_cuotas;
-	private int Est_prestamo;
+	private EstadosPrestamo Est_prestamo;
 	
 	///CONSTRUCTORES
-	public Prestamo(){}
-
+    public Prestamo() {}
+	
 	public Prestamo(int nro_prestamo, Cliente nro_cliente, String fecha, float imp_con_intereses, float imp_solicitado,
-			String nro_cuenta_deposito, int plazo_pago_meses, float monto_pago_por_mes, int cant_cuotas) {
+			String nro_cuenta_deposito, int plazo_pago_meses, float monto_pago_por_mes, int cant_cuotas,
+			EstadosPrestamo est_prestamo) {
 		super();
 		Nro_prestamo = nro_prestamo;
 		Nro_cliente = nro_cliente;
@@ -29,9 +30,8 @@ public class Prestamo {
 		Plazo_pago_meses = plazo_pago_meses;
 		Monto_pago_por_mes = monto_pago_por_mes;
 		Cant_cuotas = cant_cuotas;
+		Est_prestamo = est_prestamo;
 	}
-
-
 
 	///GETTERS & SETTERS
 	public int getNro_prestamo() {
@@ -106,23 +106,24 @@ public class Prestamo {
 		Cant_cuotas = cant_cuotas;
 	}
 
-	public int getEst_prestamo() {
+	public EstadosPrestamo getEst_prestamo() {
 		return Est_prestamo;
 	}
 
-	public void setEst_prestamo(int est_prestamo) {
+	public void setEst_prestamo(EstadosPrestamo est_prestamo) {
 		Est_prestamo = est_prestamo;
 	}
 
 	///METODO TOSTRING()
 	@Override
 	public String toString() {
-		return "Prestamo Nro_prestamo=" + Nro_prestamo + ", Nro_cliente=" + Nro_cliente + ", Fecha=" + Fecha
+		return "Nro_prestamo=" + Nro_prestamo + ", Nro_cliente=" + Nro_cliente + ", Fecha=" + Fecha
 				+ ", Imp_con_intereses=" + Imp_con_intereses + ", Imp_solicitado=" + Imp_solicitado
 				+ ", Nro_cuenta_deposito=" + Nro_cuenta_deposito + ", Plazo_pago_meses=" + Plazo_pago_meses
 				+ ", Monto_pago_por_mes=" + Monto_pago_por_mes + ", Cant_cuotas=" + Cant_cuotas + ", Est_prestamo="
 				+ Est_prestamo + "";
 	}
+		
 	
 	
 	
