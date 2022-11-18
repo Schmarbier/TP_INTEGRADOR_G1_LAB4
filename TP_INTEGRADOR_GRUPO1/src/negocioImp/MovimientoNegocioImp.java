@@ -16,5 +16,9 @@ public class MovimientoNegocioImp implements MovimientoNegocio{
 		return mdao.readAll();
 	}
 
+	@Override
+	public int dineroTotal() {
+		return mdao.dineroTotal();
+	}
 
 }

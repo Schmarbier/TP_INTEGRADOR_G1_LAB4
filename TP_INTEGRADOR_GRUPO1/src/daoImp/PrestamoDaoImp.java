@@ -146,4 +146,5 @@ public class PrestamoDaoImp implements PrestamoDao{
 	    
 	    return p;
 	}
+
 }

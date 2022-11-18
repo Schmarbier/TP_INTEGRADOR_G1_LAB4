@@ -41,9 +41,6 @@ public class ServletAdmin extends HttpServlet {
     public ServletAdmin() {
         super();
     }
-
- /* <%  if(request.getAttribute("aceptado").equals(true)) {%> <p class="alert alert-success" role="alert">Solicitud de prestamo aceptada</p> <%}%>
-    <%  if(request.getAttribute("rechazado").equals(true)) {%> <p class="alert alert-danger" role="alert">Solicitud de prestamo rechazada</p> <%}%>*/
     
     ClienteNegocioImp cneg = new ClienteNegocioImp();
 	CuentaDaoImp cuneg = new CuentaDaoImp();

@@ -1,5 +1,6 @@
 package daoImp;
 
+import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -34,6 +35,31 @@ public class MovimientoDaoImp implements MovimientoDao{
 			e.printStackTrace();
 		}
 		return list;
+	}
+	
+	@Override
+	public int dineroTotal() {
+		Integer dinero = 0;
+		Connection conexion = Conexion.getConexion().getSQLConexion();
+		PreparedStatement statement;
+		
+		try
+		{
+			statement = conexion.prepareStatement("SELECT SUM(Saldo) From cuentas WHERE Estado = 1");
+			ResultSet resultado = statement.executeQuery();
+			resultado.next();
+			dinero = resultado.getInt(1);
+		} 
+		catch (SQLException e) 
+		{
+			e.printStackTrace();
+			try {
+				conexion.rollback();
+			} catch (SQLException e1) {
+				e1.printStackTrace();
+			}
+		}
+		return dinero;
 	}
 	
 	private Movimiento get(ResultSet resultSet) throws SQLException {
