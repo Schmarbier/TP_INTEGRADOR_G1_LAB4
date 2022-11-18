@@ -48,6 +48,7 @@
             <th scope="col">Monto de pago (por mes)</th>
             <th scope="col">Cantidad de cuotas</th>
             <th scope="col">Fecha de vencimiento de cuota</th>
+            <th scope="col">Estado</th>
     </tr>
   </thead>
   <tbody>
@@ -71,6 +72,7 @@
 						<td><%=c.getPlazo_pago_meses() %></td>
 						<td><%=c.getMonto_pago_por_mes() %></td>
 						<td><%=c.getCant_cuotas() %></td>	
+						<td><%=c.getEst_prestamo().getDescripcion()%></td>	
 					</tr>
 			<%  } 
 			}
@@ -124,13 +126,6 @@
 			<%  } 
 			}
 		%>
-    <tr>
-      <th scope="row">19/08/2022</th>
-      <td>Transferencia</td>
-      <td>Se realizo la tranferencia de 30mil pesos a la cuenta nº 12312412</td>
-      <td>$30.000</td>
-    </tr>
-    <tr>
   </tbody>
 </table>
 </div>

@@ -13,6 +13,7 @@ import javax.servlet.http.HttpServletResponse;
 import daoImp.CuentaDaoImp;
 import entidades.Cliente;
 import entidades.Cuenta;
+import entidades.EstadosPrestamo;
 import entidades.Genero;
 import entidades.Localidad;
 import entidades.Movimiento;
@@ -41,6 +42,9 @@ public class ServletAdmin extends HttpServlet {
         super();
     }
 
+ /* <%  if(request.getAttribute("aceptado").equals(true)) {%> <p class="alert alert-success" role="alert">Solicitud de prestamo aceptada</p> <%}%>
+    <%  if(request.getAttribute("rechazado").equals(true)) {%> <p class="alert alert-danger" role="alert">Solicitud de prestamo rechazada</p> <%}%>*/
+    
     ClienteNegocioImp cneg = new ClienteNegocioImp();
 	CuentaDaoImp cuneg = new CuentaDaoImp();
 	CuentaNegocioImp neg = new CuentaNegocioImp();
@@ -54,11 +58,12 @@ public class ServletAdmin extends HttpServlet {
 	Provincia p = new Provincia();
 	Localidad l = new Localidad();
 	Prestamo pres = new Prestamo();
+	EstadosPrestamo ep = new EstadosPrestamo();
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
 		if(request.getParameter("LReportes")!=null) {
-		    ArrayList<Prestamo> ListaPrestamos = (ArrayList<Prestamo>) pneg.Prestamos();
+		    ArrayList<Prestamo> ListaPrestamos = (ArrayList<Prestamo>) pneg.readAll();
 		    ArrayList<Movimiento> ListaMovimientos = (ArrayList<Movimiento>) mneg.readAll();
 			request.setAttribute("prestamos", ListaPrestamos);
 			request.setAttribute("movimientos", ListaMovimientos);
@@ -67,7 +72,9 @@ public class ServletAdmin extends HttpServlet {
 		}
 		
 		if(request.getParameter("LPrestamos")!=null) {
-		    ArrayList<Prestamo> ListaPrestamos = (ArrayList<Prestamo>) pneg.SolicitudesPrestamos();
+			ep.setEst_prestamo(3);
+			pres.setEst_prestamo(ep);
+		    ArrayList<Prestamo> ListaPrestamos = (ArrayList<Prestamo>) pneg.Prestamos(pres);
 			request.setAttribute("prestamos", ListaPrestamos);
 			RequestDispatcher rd = request.getRequestDispatcher("/Prestamos.jsp");
 			rd.forward(request, response);
@@ -75,22 +82,30 @@ public class ServletAdmin extends HttpServlet {
 		
         if(request.getParameter("btnAceptarSolicitud")!=null) {
 			pres.setNro_prestamo(Integer.parseInt(request.getParameter("nroPrestamo").toString()));
-			pres.setEst_prestamo(1);
+			ep.setEst_prestamo(1);
+			pres.setEst_prestamo(ep);
 			pneg.RespuestaSolicitud(pres);
 			
-		    ArrayList<Prestamo> ListaPrestamos = (ArrayList<Prestamo>) pneg.SolicitudesPrestamos();
+			ep.setEst_prestamo(3);
+			pres.setEst_prestamo(ep);
+		    ArrayList<Prestamo> ListaPrestamos = (ArrayList<Prestamo>) pneg.Prestamos(pres);
 			request.setAttribute("prestamos", ListaPrestamos);
+			request.setAttribute("aceptado", true);
 			RequestDispatcher rd = request.getRequestDispatcher("/Prestamos.jsp");
 			rd.forward(request, response);
 		}
         
         if(request.getParameter("btnRechazarSolicitud")!=null) {
         	pres.setNro_prestamo(Integer.parseInt(request.getParameter("nroPrestamo").toString()));
-			pres.setEst_prestamo(2);
+        	ep.setEst_prestamo(2);
+			pres.setEst_prestamo(ep);
 			pneg.RespuestaSolicitud(pres);
 			
-		    ArrayList<Prestamo> ListaPrestamos = (ArrayList<Prestamo>) pneg.SolicitudesPrestamos();
+			ep.setEst_prestamo(3);
+			pres.setEst_prestamo(ep);
+		    ArrayList<Prestamo> ListaPrestamos = (ArrayList<Prestamo>) pneg.Prestamos(pres);
 			request.setAttribute("prestamos", ListaPrestamos);
+			request.setAttribute("rechazado", true);
 			RequestDispatcher rd = request.getRequestDispatcher("/Prestamos.jsp");
 			rd.forward(request, response);
 		}
@@ -194,7 +209,9 @@ public class ServletAdmin extends HttpServlet {
 		}
 		
 		if(request.getParameter("LPrestamos")!=null) {
-		    ArrayList<Prestamo> ListaPrestamos = (ArrayList<Prestamo>) pneg.SolicitudesPrestamos();
+			ep.setEst_prestamo(3);
+			pres.setEst_prestamo(ep);
+		    ArrayList<Prestamo> ListaPrestamos = (ArrayList<Prestamo>) pneg.Prestamos(pres);
 			request.setAttribute("prestamos", ListaPrestamos);
 			RequestDispatcher rd = request.getRequestDispatcher("/Prestamos.jsp");
 			rd.forward(request, response);

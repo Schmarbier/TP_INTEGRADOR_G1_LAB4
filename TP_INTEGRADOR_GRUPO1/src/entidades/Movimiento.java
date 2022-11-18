@@ -13,7 +13,8 @@ public class Movimiento {
 	    ///CONSTRUCTORES
 		public Movimiento() {}
 
-		public Movimiento(int nro_Movimiento, int nro_Cuenta, String fecha, TipoMovimiento tipo_Mov, float importe, String detalle) {
+		public Movimiento(int nro_Movimiento, int nro_Cuenta, String fecha, TipoMovimiento tipo_Mov, float importe,
+				String detalle) {
 			super();
 			Nro_Movimiento = nro_Movimiento;
 			Nro_Cuenta = nro_Cuenta;
@@ -72,11 +73,13 @@ public class Movimiento {
 			Detalle = detalle;
 		}
 
+		///METODO TOSTRING()
 		@Override
 		public String toString() {
-			return "Movimiento [Nro_Movimiento=" + Nro_Movimiento + ", Nro_Cuenta=" + Nro_Cuenta + ", Fecha=" + Fecha
-					+ ", Importe=" + Importe + ", Detalle=" + Detalle + "]";
-		}
+			return "Nro_Movimiento=" + Nro_Movimiento + ", Nro_Cuenta=" + Nro_Cuenta + ", Fecha=" + Fecha
+					+ ", Tipo_Mov=" + Tipo_Mov + ", Importe=" + Importe + ", Detalle=" + Detalle + "";
+		}		
+		
 		
 		
 }

@@ -11,15 +11,15 @@ import negocio.PrestamoNegocio;
 public class PrestamoNegocioImp implements PrestamoNegocio{
 
 	PrestamoDao pdao = new PrestamoDaoImp();
-
-	@Override
-	public List<Prestamo> SolicitudesPrestamos() {
-		return pdao.SolicitudesPrestamos();
-	}
 	
 	@Override
-	public List<Prestamo> Prestamos() {
-		return pdao.Prestamos();
+	public List<Prestamo> readAll(){
+		return pdao.readAll();
+	}
+
+	@Override
+	public List<Prestamo> Prestamos(Prestamo p) {
+		return pdao.Prestamos(p);
 	}
 
 	@Override

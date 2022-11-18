@@ -18,6 +18,7 @@
 <div class="parteDer">
    <h3 class="titulo"> Prestamos </h3>    
 <form method="post" action="ServletAdmin">
+	
     	<p>Filtrar por: </p>
     	<div class="input-group mb-3 w-50">
 		    	<select name="ddlFiltro" class="form-control">
@@ -45,6 +46,7 @@
             <th>Plazo de pago (meses)</th>
             <th>Monto de pago (por mes)</th>
             <th>Cantidad de cuotas</th>
+            <th>Estado</th>        
             <th></th>
             <th></th>
 	        </tr>
@@ -74,6 +76,7 @@
 								<td><%=c.getPlazo_pago_meses()%><input type="hidden" name="plaPag" value="<%=c.getPlazo_pago_meses()%>"></td>
 								<td><%=c.getMonto_pago_por_mes()%><input type="hidden" name="montPag" value="<%=c.getMonto_pago_por_mes()%>"></td>
 								<td><%=c.getCant_cuotas()%><input type="hidden" name="cantCuo" value="<%=c.getCant_cuotas()%>"></td>
+								<td><%=c.getEst_prestamo().getDescripcion()%><input type="hidden" name="cantCuo" value="<%=c.getEst_prestamo().getDescripcion()%>"></td>
 								<td><input type="submit" name="btnAceptarSolicitud" value="Aceptar" 
 								class="btn btn-outline-success"
 								 onclick="window.location.href='ServletAdmin?btnAceptarSolicitud=1'"></input></td>
