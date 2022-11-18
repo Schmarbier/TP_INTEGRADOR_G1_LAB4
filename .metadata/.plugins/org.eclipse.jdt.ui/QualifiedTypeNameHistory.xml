@@ -24,7 +24,7 @@
 <fullyQualifiedTypeName name="negocio.MovimientoNegocio"/>
 <fullyQualifiedTypeName name="dao.MovimientoDao"/>
 <fullyQualifiedTypeName name="daoImp.MovimientoDaoImp"/>
-<fullyQualifiedTypeName name="negocioImp.MovimientoNegocioImp"/>
 <fullyQualifiedTypeName name="entidades.EstadosPrestamo"/>
 <fullyQualifiedTypeName name="entidades.TipoMovimiento"/>
+<fullyQualifiedTypeName name="negocioImp.MovimientoNegocioImp"/>
 </qualifiedTypeNameHistroy>
