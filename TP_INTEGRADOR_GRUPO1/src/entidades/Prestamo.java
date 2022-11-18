@@ -8,7 +8,7 @@ public class Prestamo {
 	private String Fecha;
 	private float Imp_con_intereses;
 	private float Imp_solicitado;
-	private String Nro_cuenta_deposito;
+	private int Nro_cuenta_deposito;
 	private int Plazo_pago_meses;
 	private float Monto_pago_por_mes;
 	private int Cant_cuotas;
@@ -18,7 +18,7 @@ public class Prestamo {
     public Prestamo() {}
 	
 	public Prestamo(int nro_prestamo, Cliente nro_cliente, String fecha, float imp_con_intereses, float imp_solicitado,
-			String nro_cuenta_deposito, int plazo_pago_meses, float monto_pago_por_mes, int cant_cuotas,
+			int nro_cuenta_deposito, int plazo_pago_meses, float monto_pago_por_mes, int cant_cuotas,
 			EstadosPrestamo est_prestamo) {
 		super();
 		Nro_prestamo = nro_prestamo;
@@ -74,11 +74,11 @@ public class Prestamo {
 		Imp_solicitado = imp_solicitado;
 	}
 
-	public String getNro_cuenta_deposito() {
+	public int getNro_cuenta_deposito() {
 		return Nro_cuenta_deposito;
 	}
 
-	public void setNro_cuenta_deposito(String nro_cuenta_deposito) {
+	public void setNro_cuenta_deposito(int nro_cuenta_deposito) {
 		Nro_cuenta_deposito = nro_cuenta_deposito;
 	}
 

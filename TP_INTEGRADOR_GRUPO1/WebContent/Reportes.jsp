@@ -47,7 +47,6 @@
             <th scope="col">Plazo de pago (meses)</th>
             <th scope="col">Monto de pago (por mes)</th>
             <th scope="col">Cantidad de cuotas</th>
-            <th scope="col">Fecha de vencimiento de cuota</th>
             <th scope="col">Estado</th>
     </tr>
   </thead>
