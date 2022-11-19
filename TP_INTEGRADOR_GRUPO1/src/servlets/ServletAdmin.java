@@ -198,6 +198,27 @@ public class ServletAdmin extends HttpServlet {
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
+		if(request.getParameter("btnFiltrarPres")!=null) {
+			if(request.getParameter("presIni").toString().equals("") && request.getParameter("presFin").toString().equals("") || request.getParameter("presIni").toString().length()!=0 && request.getParameter("presFin").toString().length()!=0) {
+				ArrayList<Prestamo> ListaPrestamos = (ArrayList<Prestamo>) pneg.prestamoXfecha(request.getParameter("presIni").toString(), request.getParameter("presFin").toString(), request.getParameter("filtroPre").toString());
+				request.setAttribute("prestamos", ListaPrestamos);
+			}
+			else {
+			    ArrayList<Prestamo> ListaPrestamos = (ArrayList<Prestamo>) pneg.readAll();
+				request.setAttribute("prestamos", ListaPrestamos);
+				request.setAttribute("errorPrestamo", true);
+			}
+			RequestDispatcher rd = request.getRequestDispatcher("/Prestamos.jsp");
+			rd.forward(request, response);
+		}
+		
+		if(request.getParameter("btnMostrarPres")!=null) {
+			ArrayList<Prestamo> ListaPrestamos = (ArrayList<Prestamo>) pneg.readAll();
+			request.setAttribute("prestamos", ListaPrestamos);
+			RequestDispatcher rd = request.getRequestDispatcher("/Prestamos.jsp");
+			rd.forward(request, response);
+		}
+		
 		if(request.getParameter("filtrarPrestamos")!=null) {
 		    ArrayList<Prestamo> ListaPrestamos = (ArrayList<Prestamo>) pneg.obtenerPrestamosQueryCustom(request.getParameter("ddlFiltro").toString(), request.getParameter("txtFiltro").toString());
 			request.setAttribute("prestamos", ListaPrestamos);
