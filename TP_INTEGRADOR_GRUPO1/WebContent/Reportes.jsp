@@ -87,7 +87,32 @@
 					</tr>
 			<%  } 
 			}
-		%>
+  %>
+    <%  
+				ArrayList<Prestamo> listaPrestamosFiltrada = null;
+				if(request.getAttribute("prestamosFiltrados")!=null)
+				{
+					listaPrestamosFiltrada = (ArrayList<Prestamo>) request.getAttribute("prestamosFiltrados");
+				}
+	    		if(listaPrestamosFiltrada!=null){
+					for(Prestamo c:listaPrestamosFiltrada) 
+					{
+						%>
+					<tr>  
+						<td><%=c.getNro_prestamo()%></td>     
+						<td><%=c.getNro_cliente().getNro_Cliente()%></td>   
+						<td><%=c.getFecha()%></td>
+						<td><%=c.getImp_solicitado()%></td> 
+						<td><%=c.getImp_con_intereses() %></td>  
+						<td><%=c.getNro_cuenta_deposito() %></td>
+						<td><%=c.getPlazo_pago_meses() %></td>
+						<td><%=c.getMonto_pago_por_mes() %></td>
+						<td><%=c.getCant_cuotas() %></td>	
+						<td><%=c.getEst_prestamo().getDescripcion()%></td>	
+					</tr>
+			<%  } 
+			}
+  %>
   </tbody>
 </table>
 <br><br>
@@ -119,9 +144,9 @@
   <tbody>
   <%  
 				ArrayList<Movimiento> listaMovimientos = null;
-				if(request.getAttribute("movimientos")!=null)
+				if(session.getAttribute("movimientos")!=null)
 				{
-					listaMovimientos = (ArrayList<Movimiento>) request.getAttribute("movimientos");
+					listaMovimientos = (ArrayList<Movimiento>) session.getAttribute("movimientos");
 				}
 	    		if(listaMovimientos!=null){
 					for(Movimiento c:listaMovimientos) 
@@ -137,7 +162,7 @@
 					</tr>
 			<%  } 
 			}
-		%>
+  %>
   </tbody>
 </table>
 </div>

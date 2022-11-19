@@ -60,11 +60,11 @@ public class ServletAdmin extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
 		if(request.getParameter("LReportes")!=null) {
-		    ArrayList<Prestamo> ListaPrestamos = (ArrayList<Prestamo>) pneg.readAll();
-		    ArrayList<Movimiento> ListaMovimientos = (ArrayList<Movimiento>) mneg.readAll();
+			ArrayList<Prestamo> ListaPrestamos = (ArrayList<Prestamo>) pneg.readAll();
 			request.setAttribute("prestamos", ListaPrestamos);
-			request.setAttribute("movimientos", ListaMovimientos);
-			RequestDispatcher rd = request.getRequestDispatcher("/Reportes.jsp");
+		    ArrayList<Movimiento> ListaMovimientos = (ArrayList<Movimiento>) mneg.readAll();
+		    request.setAttribute("movimientos", ListaMovimientos);
+		    RequestDispatcher rd = request.getRequestDispatcher("/Reportes.jsp");
 			rd.forward(request, response);
 		}
 		
@@ -213,9 +213,9 @@ public class ServletAdmin extends HttpServlet {
 		}
 		
 		if(request.getParameter("btnMostrarPres")!=null) {
-			ArrayList<Prestamo> ListaPrestamos = (ArrayList<Prestamo>) pneg.readAll();
-			request.setAttribute("prestamos", ListaPrestamos);
-			RequestDispatcher rd = request.getRequestDispatcher("/Prestamos.jsp");
+		    ArrayList<Prestamo> listaPrestamosFiltrada = (ArrayList<Prestamo>) pneg.readAll();
+			request.setAttribute("prestamosFiltrados", listaPrestamosFiltrada);
+			RequestDispatcher rd = request.getRequestDispatcher("/Reportes.jsp");
 			rd.forward(request, response);
 		}
 		

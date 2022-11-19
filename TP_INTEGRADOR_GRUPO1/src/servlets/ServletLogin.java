@@ -43,7 +43,7 @@ public class ServletLogin extends HttpServlet {
 	LocalidadNegocioImp lneg = new LocalidadNegocioImp();
     ClienteNegocioImp cneg = new ClienteNegocioImp();
     MovimientoNegocioImp mneg = new MovimientoNegocioImp();
-    
+;    
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
 		if(request.getParameter("btnLogin")!=null) {
@@ -98,7 +98,7 @@ public class ServletLogin extends HttpServlet {
 	public void cargarDatos( HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException 
 	{
 		HttpSession session = request.getSession();
-
+		
 		ArrayList<TipoCuenta> listTipoCuenta = (ArrayList<TipoCuenta>) tcneg.readAll();
 		session.setAttribute("TipoCuenta", listTipoCuenta);
 
