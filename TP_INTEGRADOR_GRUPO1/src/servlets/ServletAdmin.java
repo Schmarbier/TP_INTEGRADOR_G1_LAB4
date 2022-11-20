@@ -158,7 +158,12 @@ public class ServletAdmin extends HttpServlet {
 	    }
     
     	
-    	
+       if(request.getParameter("nuevoNroCli")!=null) {
+    	    int maxId = cneg.obtenerProxId();
+   		    request.setAttribute("nuevoNroCli", maxId);
+			RequestDispatcher rd = request.getRequestDispatcher("/AltaClientes.jsp");
+	        rd.forward(request, response);
+		}
     	
     	
     	
@@ -313,6 +318,8 @@ public class ServletAdmin extends HttpServlet {
 			
 			if(alta==true) {
 				request.setAttribute("exito", alta);
+				int maxId = cneg.obtenerProxId();
+	   		    request.setAttribute("nuevoNroCli", maxId);
 				RequestDispatcher rd = request.getRequestDispatcher("/AltaClientes.jsp");   
 			    rd.forward(request, response);
 			}

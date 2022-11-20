@@ -36,8 +36,8 @@
 <br><br>
 <span>Dinero total depositado en el banco actualmente: <b>$ <%= total %></b></span>
 <br><br>
-<span>Prestamos desde: </span><input type="text" name="presIni" placeholder="dd/mm/aaaa"  pattern="\d{1,2}/\d{1,2}/\d{4}" title="La fecha no es v&aacute;lida"></input>
-<span> Hasta: </span><input type="text" name="presFin" placeholder="dd/mm/aaaa"  pattern="\d{1,2}/\d{1,2}/\d{4}" title="La fecha no es v&aacute;lida"/></input>
+<span>Prestamos desde: </span><input type="text" name="presIni" placeholder="dd/mm/aaaa""  pattern="\d{1,2}/\d{1,2}/\d{4}" title="La fecha no es v&aacute;lida"></input>
+<span> Hasta: </span><input type="text" name="presFin" placeholder="dd/mm/aaaa""  pattern="\d{1,2}/\d{1,2}/\d{4}" title="La fecha no es v&aacute;lida"/></input>
 <span>Filtrar por: </span>
 <select name="filtroPre">
 				<option value="Todo">Todos</option>
@@ -92,8 +92,8 @@
   </tbody>
 </table>
 <br><br>
-<span>Movimientos desde: </span><input type="text" name="movIni" placeholder="dd/mm/aaaa"   title="La fecha no es v&aacute;lida"/></input>
-<span> Hasta: </span><input type="text" name="movFin" placeholder="dd/mm/aaaa"   title="La fecha no es v&aacute;lida"/></input>
+<span>Movimientos desde: </span><input type="text" name="movIni" placeholder="dd/mm/aaaa"" pattern="\d{1,2}/\d{1,2}/\d{4}"  title="La fecha no es v&aacute;lida"/></input>
+<span> Hasta: </span><input type="text" name="movFin" placeholder="dd/mm/aaaa"  pattern="\d{1,2}/\d{1,2}/\d{4}"  title="La fecha no es v&aacute;lida"/></input>
 <span>Filtrar por: </span>
 <select name="filtroMov">
 				<option value="Todo">Todos</option>

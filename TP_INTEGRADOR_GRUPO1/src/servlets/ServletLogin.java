@@ -104,10 +104,10 @@ public class ServletLogin extends HttpServlet {
 	    
 		ArrayList<TipoCuenta> listTipoCuenta = (ArrayList<TipoCuenta>) tcneg.readAll();
 		session.setAttribute("TipoCuenta", listTipoCuenta);
-
+		
 		int maxId = cneg.obtenerProxId();
 		session.setAttribute("ncli", maxId);
-		
+		    
 		int dinero = mneg.dineroTotal();
 		session.setAttribute("total", dinero);
 	    
