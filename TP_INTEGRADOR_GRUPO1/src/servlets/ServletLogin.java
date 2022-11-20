@@ -14,7 +14,9 @@ import javax.servlet.http.HttpSession;
 import entidades.Usuario;
 import entidades.Genero;
 import entidades.Localidad;
+import entidades.Movimiento;
 import entidades.Nacionalidad;
+import entidades.Prestamo;
 import entidades.Provincia;
 import entidades.TipoCuenta;
 import negocioImp.UsuarioNegocioImp;
@@ -23,6 +25,7 @@ import negocioImp.GeneroNegocioImp;
 import negocioImp.LocalidadNegocioImp;
 import negocioImp.MovimientoNegocioImp;
 import negocioImp.NacionalidadNegocioImp;
+import negocioImp.PrestamoNegocioImp;
 import negocioImp.ProvinciaNegocioImp;
 import negocioImp.TipoCuentaNegocioImp;
 
@@ -43,7 +46,8 @@ public class ServletLogin extends HttpServlet {
 	LocalidadNegocioImp lneg = new LocalidadNegocioImp();
     ClienteNegocioImp cneg = new ClienteNegocioImp();
     MovimientoNegocioImp mneg = new MovimientoNegocioImp();
-;    
+    PrestamoNegocioImp pneg = new PrestamoNegocioImp();    
+    
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
 		if(request.getParameter("btnLogin")!=null) {
@@ -99,6 +103,12 @@ public class ServletLogin extends HttpServlet {
 	{
 		HttpSession session = request.getSession();
 		
+		ArrayList<Prestamo> ListaPrestamos = (ArrayList<Prestamo>) pneg.readAll();		
+		session.setAttribute("prestamos", ListaPrestamos);
+		
+	    ArrayList<Movimiento> ListaMovimientos = (ArrayList<Movimiento>) mneg.readAll();
+	    session.setAttribute("movimientos", ListaMovimientos);
+	    
 		ArrayList<TipoCuenta> listTipoCuenta = (ArrayList<TipoCuenta>) tcneg.readAll();
 		session.setAttribute("TipoCuenta", listTipoCuenta);
 

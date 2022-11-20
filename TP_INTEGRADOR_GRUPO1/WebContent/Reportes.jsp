@@ -22,12 +22,12 @@
 <form method="post" action="ServletAdmin">
 <% if(request.getAttribute("errorPrestamo")!=null){
    		if(request.getAttribute("errorPrestamo").equals(true)){%>
-   			<p class="alert alert-danger" role="alert">Debe completar ambas fechas</p>
+   			<p class="alert alert-danger" role="alert">Debe completar ambas fechas para filtrar el prestamo</p>
    		<%} 
     }%>
     <% if(request.getAttribute("errorMovimiento")!=null){
    		if(request.getAttribute("errorMovimiento").equals(true)){%>
-   			<p class="alert alert-danger" role="alert">Debe completar ambas fechas</p>
+   			<p class="alert alert-danger" role="alert">Debe completar ambas fechas para filtrar el movimiento</p>
    		<%} 
     }%>
 <%   int total=0;
@@ -44,8 +44,8 @@
 				<option value="2">Rechazados</option>
 </select> 
 <br><br>
-<input type="submit" name="btnFiltrarPres" value="Filtrar" class="btn btn-primary" onclick="window.location.href='ServletAdmin?btnFiltrarPres=1'"></input>
-<input type="submit" name="btnMostrarPres" value="Mostrar todos" class="btn btn-secondary" onclick="window.location.href='ServletAdmin?btnMostrarPres=1'"></input>
+<input type="submit" name="btnFiltrarPres" value="Filtrar" class="btn btn-primary" ></input>
+<input type="submit" name="btnMostrarPres" value="Mostrar todos" class="btn btn-secondary" ></input>
 <br><br>
 <table class="table">
   <thead>
@@ -65,9 +65,9 @@
   <tbody>
   <%  
 				ArrayList<Prestamo> listaPrestamos = null;
-				if(request.getAttribute("prestamos")!=null)
+				if(session.getAttribute("prestamos")!=null)
 				{
-					listaPrestamos = (ArrayList<Prestamo>) request.getAttribute("prestamos");
+					listaPrestamos = (ArrayList<Prestamo>) session.getAttribute("prestamos");
 				}
 	    		if(listaPrestamos!=null){
 					for(Prestamo c:listaPrestamos) 
@@ -89,13 +89,13 @@
 			}
   %>
     <%  
-				ArrayList<Prestamo> listaPrestamosFiltrada = null;
+				ArrayList<Prestamo> ListaPrestamosFiltrada = null;
 				if(request.getAttribute("prestamosFiltrados")!=null)
 				{
-					listaPrestamosFiltrada = (ArrayList<Prestamo>) request.getAttribute("prestamosFiltrados");
+					ListaPrestamosFiltrada = (ArrayList<Prestamo>) request.getAttribute("prestamosFiltrados");
 				}
-	    		if(listaPrestamosFiltrada!=null){
-					for(Prestamo c:listaPrestamosFiltrada) 
+	    		if(ListaPrestamosFiltrada!=null){
+					for(Prestamo c:ListaPrestamosFiltrada) 
 					{
 						%>
 					<tr>  
@@ -116,19 +116,18 @@
   </tbody>
 </table>
 <br><br>
-<span>Movimientos desde: </span><input type="text" name="movIni" placeholder="dd/mm/aaaa" required pattern="\d{1,2}/\d{1,2}/\d{4}" title="La fecha no es v&aacute;lida"/></input>
-<span> Hasta: </span><input type="text" name="movFin" placeholder="dd/mm/aaaa" required pattern="\d{1,2}/\d{1,2}/\d{4}" title="La fecha no es v&aacute;lida"/></input>
+<span>Movimientos desde: </span><input type="text" name="movIni" placeholder="dd/mm/aaaa"  pattern="\d{1,2}/\d{1,2}/\d{4}" title="La fecha no es v&aacute;lida"/></input>
+<span> Hasta: </span><input type="text" name="movFin" placeholder="dd/mm/aaaa"  pattern="\d{1,2}/\d{1,2}/\d{4}" title="La fecha no es v&aacute;lida"/></input>
 <span>Filtrar por: </span>
 <select name="filtroMov">
-                <option value="Todos">Todos</option>
 				<option value="1">Altas de cuenta</option>
 				<option value="2">Altas de prestamo</option>
 				<option value="3">Pagos de prestamo</option>
 				<option value="4">Transferencias</option>
 </select> 
 <br><br>
-<input type="submit" name="btnFiltrarMov" value="Filtrar" class="btn btn-primary" onclick="window.location.href='ServletAdmin?btnFiltrarMov=1'"></input>
-<input type="submit" name="btnMostrarMov" value="Mostrar todos" class="btn btn-secondary" onclick="window.location.href='ServletAdmin?btnMostrarMov=1'"></input>
+<input type="submit" name="btnFiltrarMov" value="Filtrar" class="btn btn-primary" ></input>
+<input type="submit" name="btnMostrarMov" value="Mostrar todos" class="btn btn-secondary" ></input>
 <br><br>
 <table class="table">
   <thead>
