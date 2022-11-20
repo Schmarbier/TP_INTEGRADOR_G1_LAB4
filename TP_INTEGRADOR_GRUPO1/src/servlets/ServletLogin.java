@@ -14,18 +14,14 @@ import javax.servlet.http.HttpSession;
 import entidades.Usuario;
 import entidades.Genero;
 import entidades.Localidad;
-import entidades.Movimiento;
 import entidades.Nacionalidad;
-import entidades.Prestamo;
 import entidades.Provincia;
 import entidades.TipoCuenta;
 import negocioImp.UsuarioNegocioImp;
 import negocioImp.ClienteNegocioImp;
 import negocioImp.GeneroNegocioImp;
 import negocioImp.LocalidadNegocioImp;
-import negocioImp.MovimientoNegocioImp;
 import negocioImp.NacionalidadNegocioImp;
-import negocioImp.PrestamoNegocioImp;
 import negocioImp.ProvinciaNegocioImp;
 import negocioImp.TipoCuentaNegocioImp;
 
@@ -45,7 +41,6 @@ public class ServletLogin extends HttpServlet {
 	ProvinciaNegocioImp provneg = new ProvinciaNegocioImp();
 	LocalidadNegocioImp lneg = new LocalidadNegocioImp();
     ClienteNegocioImp cneg = new ClienteNegocioImp();
-    MovimientoNegocioImp mneg = new MovimientoNegocioImp();
     
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
@@ -107,9 +102,6 @@ public class ServletLogin extends HttpServlet {
 		
 		int maxId = cneg.obtenerProxId();
 		session.setAttribute("ncli", maxId);
-		    
-		int dinero = mneg.dineroTotal();
-		session.setAttribute("total", dinero);
 	    
 	    ArrayList<Genero> listGeneros = (ArrayList<Genero>) gneg.readAll();
 		session.setAttribute("generos", listGeneros);

@@ -56,12 +56,14 @@ public class ServletAdmin extends HttpServlet {
 	Localidad l = new Localidad();
 	Prestamo pres = new Prestamo();
 	EstadosPrestamo ep = new EstadosPrestamo();
+	int dinero = mneg.dineroTotal();
+	ArrayList<Prestamo> ListaPrestamos = (ArrayList<Prestamo>) pneg.readAll();
+    ArrayList<Movimiento> ListaMovimientos = (ArrayList<Movimiento>) mneg.readAll();
 	
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
 		if(request.getParameter("LReportes")!=null) {
-			ArrayList<Prestamo> ListaPrestamos = (ArrayList<Prestamo>) pneg.readAll();
-		    ArrayList<Movimiento> ListaMovimientos = (ArrayList<Movimiento>) mneg.readAll();
+			request.setAttribute("total", dinero);
 		    request.setAttribute("movimientos", ListaMovimientos);
 		    request.setAttribute("prestamos", ListaPrestamos);
 		    RequestDispatcher rd = request.getRequestDispatcher("/Reportes.jsp");
@@ -69,9 +71,7 @@ public class ServletAdmin extends HttpServlet {
 		}
 		
 		if(request.getParameter("LPrestamos")!=null) {
-			ep.setEst_prestamo(3);
-			pres.setEst_prestamo(ep);
-		    ArrayList<Prestamo> ListaPrestamos = (ArrayList<Prestamo>) pneg.Prestamos(pres);
+		    ArrayList<Prestamo> ListaPrestamos = (ArrayList<Prestamo>) pneg.Solicitudes();
 			request.setAttribute("prestamos", ListaPrestamos);
 			RequestDispatcher rd = request.getRequestDispatcher("/Prestamos.jsp");
 			rd.forward(request, response);
@@ -79,30 +79,16 @@ public class ServletAdmin extends HttpServlet {
 		
         if(request.getParameter("btnAceptarSolicitud")!=null) {
 			pres.setNro_prestamo(Integer.parseInt(request.getParameter("nroPrestamo").toString()));
-			ep.setEst_prestamo(1);
-			pres.setEst_prestamo(ep);
-			pneg.RespuestaSolicitud(pres);
-			
-			ep.setEst_prestamo(3);
-			pres.setEst_prestamo(ep);
-		    ArrayList<Prestamo> ListaPrestamos = (ArrayList<Prestamo>) pneg.Prestamos(pres);
-			request.setAttribute("prestamos", ListaPrestamos);
-			request.setAttribute("aceptado", true);
+		    if(pneg.aprobarPrestamo(pres)) request.setAttribute("aceptado", true);
+			request.setAttribute("prestamos", pneg.Solicitudes());
 			RequestDispatcher rd = request.getRequestDispatcher("/Prestamos.jsp");
 			rd.forward(request, response);
 		}
         
         if(request.getParameter("btnRechazarSolicitud")!=null) {
         	pres.setNro_prestamo(Integer.parseInt(request.getParameter("nroPrestamo").toString()));
-        	ep.setEst_prestamo(2);
-			pres.setEst_prestamo(ep);
-			pneg.RespuestaSolicitud(pres);
-			
-			ep.setEst_prestamo(3);
-			pres.setEst_prestamo(ep);
-		    ArrayList<Prestamo> ListaPrestamos = (ArrayList<Prestamo>) pneg.Prestamos(pres);
-			request.setAttribute("prestamos", ListaPrestamos);
-			request.setAttribute("rechazado", true);
+		    if(pneg.rechazarPrestamo(pres)) request.setAttribute("rechazado", true);
+			request.setAttribute("prestamos", pneg.Solicitudes());
 			RequestDispatcher rd = request.getRequestDispatcher("/Prestamos.jsp");
 			rd.forward(request, response);
 		}
@@ -205,11 +191,11 @@ public class ServletAdmin extends HttpServlet {
 
 		if(request.getParameter("btnFiltrarPres")!=null) {
 			if(request.getParameter("presIni").toString().equals("") && request.getParameter("presFin").toString().equals("") || request.getParameter("presIni").toString().length()>0 && request.getParameter("presFin").toString().length()>0) {
-				ArrayList<Prestamo> ListaPrestamos = (ArrayList<Prestamo>) pneg.prestamoXfecha(request.getParameter("presIni").toString(), request.getParameter("presFin").toString(), request.getParameter("filtroPre").toString());
-				request.setAttribute("prestamos", ListaPrestamos);
+				ArrayList<Prestamo> ListaPrestamosFiltrada = (ArrayList<Prestamo>) pneg.prestamoXfecha(request.getParameter("presIni").toString(), request.getParameter("presFin").toString(), request.getParameter("filtroPre").toString());
+				request.setAttribute("prestamos", ListaPrestamosFiltrada);
 			}
 			else request.setAttribute("errorPrestamo", true);
-			ArrayList<Movimiento> ListaMovimientos = (ArrayList<Movimiento>) mneg.readAll();
+			request.setAttribute("total", dinero);
 		    request.setAttribute("movimientos", ListaMovimientos);
 			RequestDispatcher rd = request.getRequestDispatcher("/Reportes.jsp");
 			rd.forward(request, response);
@@ -217,19 +203,18 @@ public class ServletAdmin extends HttpServlet {
 		
 		if(request.getParameter("btnFiltrarMov")!=null) {
 			if(request.getParameter("movIni").toString().equals("") && request.getParameter("movFin").toString().equals("") || request.getParameter("movIni").toString().length()>0 && request.getParameter("movFin").toString().length()>0) {
-				ArrayList<Movimiento> ListaMovimientos = (ArrayList<Movimiento>) mneg.movimientoXfecha(request.getParameter("movIni").toString(), request.getParameter("movFin").toString(), request.getParameter("filtroMov").toString());
-				request.setAttribute("movimientos", ListaMovimientos);
+				ArrayList<Movimiento> ListaMovimientosFiltrada = (ArrayList<Movimiento>) mneg.movimientoXfecha(request.getParameter("movIni").toString(), request.getParameter("movFin").toString(), request.getParameter("filtroMov").toString());
+				request.setAttribute("movimientos", ListaMovimientosFiltrada);
 			}
 			else request.setAttribute("errorMovimiento", true);
-			ArrayList<Prestamo> ListaPrestamos = (ArrayList<Prestamo>) pneg.readAll();
+			request.setAttribute("total", dinero);
 		    request.setAttribute("prestamos", ListaPrestamos);
 			RequestDispatcher rd = request.getRequestDispatcher("/Reportes.jsp");
 			rd.forward(request, response);
 		}
 		
 		if(request.getParameter("btnMostrarMov")!=null) {
-			ArrayList<Prestamo> ListaPrestamos = (ArrayList<Prestamo>) pneg.readAll();
-		    ArrayList<Movimiento> ListaMovimientos = (ArrayList<Movimiento>) mneg.readAll();
+			request.setAttribute("total", dinero);
 		    request.setAttribute("movimientos", ListaMovimientos);
 		    request.setAttribute("prestamos", ListaPrestamos);
 		    RequestDispatcher rd = request.getRequestDispatcher("/Reportes.jsp");
@@ -237,8 +222,7 @@ public class ServletAdmin extends HttpServlet {
 		}
 		
 		if(request.getParameter("btnMostrarPres")!=null) {
-			ArrayList<Prestamo> ListaPrestamos = (ArrayList<Prestamo>) pneg.readAll();
-		    ArrayList<Movimiento> ListaMovimientos = (ArrayList<Movimiento>) mneg.readAll();
+			request.setAttribute("total", dinero);
 		    request.setAttribute("movimientos", ListaMovimientos);
 		    request.setAttribute("prestamos", ListaPrestamos);
 		    RequestDispatcher rd = request.getRequestDispatcher("/Reportes.jsp");
@@ -253,9 +237,7 @@ public class ServletAdmin extends HttpServlet {
 		}
 		
 		if(request.getParameter("LPrestamos")!=null) {
-			ep.setEst_prestamo(3);
-			pres.setEst_prestamo(ep);
-		    ArrayList<Prestamo> ListaPrestamos = (ArrayList<Prestamo>) pneg.Prestamos(pres);
+		    ArrayList<Prestamo> ListaPrestamos = (ArrayList<Prestamo>) pneg.Solicitudes();
 			request.setAttribute("prestamos", ListaPrestamos);
 			RequestDispatcher rd = request.getRequestDispatcher("/Prestamos.jsp");
 			rd.forward(request, response);
