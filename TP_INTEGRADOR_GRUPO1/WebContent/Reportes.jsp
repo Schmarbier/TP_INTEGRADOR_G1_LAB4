@@ -89,31 +89,6 @@
 			<%  } 
 			}
   %>
-    <%  
-				ArrayList<Prestamo> ListaPrestamosFiltrada = null;
-				if(request.getAttribute("prestamosFiltrados")!=null)
-				{
-					ListaPrestamosFiltrada = (ArrayList<Prestamo>) request.getAttribute("prestamosFiltrados");
-				}
-	    		if(ListaPrestamosFiltrada!=null){
-					for(Prestamo c:ListaPrestamosFiltrada) 
-					{
-						%>
-					<tr>  
-						<td><%=c.getNro_prestamo()%></td>     
-						<td><%=c.getNro_cliente().getNro_Cliente()%></td>   
-						<td><%=c.getFecha()%></td>
-						<td><%=c.getImp_solicitado()%></td> 
-						<td><%=c.getImp_con_intereses() %></td>  
-						<td><%=c.getNro_cuenta_deposito() %></td>
-						<td><%=c.getPlazo_pago_meses() %></td>
-						<td><%=c.getMonto_pago_por_mes() %></td>
-						<td><%=c.getCant_cuotas() %></td>	
-						<td><%=c.getEst_prestamo().getDescripcion()%></td>	
-					</tr>
-			<%  } 
-			}
-  %>
   </tbody>
 </table>
 <br><br>
@@ -151,27 +126,6 @@
 				}
 	    		if(listaMovimientos!=null){
 					for(Movimiento c:listaMovimientos) 
-					{
-						%>
-					<tr>  
-						<td><%=c.getNro_Movimiento()%></td>     
-						<td><%=c.getNro_Cuenta()%></td>
-						<td><%=c.getFecha()%></td> 
-						<td><%=c.getTipo_Mov().getDescripcion() %></td>  
-						<td><%=c.getImporte() %></td>
-						<td><%=c.getDetalle() %></td>											
-					</tr>
-			<%  } 
-			}
-  %>
-   <%  
-				ArrayList<Movimiento> listaMovimientosFiltrada = null;
-				if(request.getAttribute("movimientosFiltrados")!=null)
-				{
-					listaMovimientosFiltrada = (ArrayList<Movimiento>) request.getAttribute("movimientosFiltrados");
-				}
-	    		if(listaMovimientosFiltrada!=null){
-					for(Movimiento c:listaMovimientosFiltrada) 
 					{
 						%>
 					<tr>  
