@@ -18,7 +18,16 @@
 <div class="parteDer">
    <h3 class="titulo"> Prestamos </h3>    
 <form method="post" action="ServletAdmin">
-	
+	<% if(request.getAttribute("aceptado")!=null){
+   		if(request.getAttribute("aceptado").equals(true)){%>
+   			<p class="alert alert-success" role="alert">Solicitud de prestamo aceptada</p>
+   		<%} 
+    }%>
+    <% if(request.getAttribute("rechazado")!=null){
+   		if(request.getAttribute("rechazado").equals(true)){%>
+   			<p class="alert alert-danger" role="alert">Solicitud de prestamo rechazada</p>
+   		<%} 
+    }%>
     	<p>Filtrar por: </p>
     	<div class="input-group mb-3 w-50">
 		    	<select name="ddlFiltro" class="form-control">

@@ -18,7 +18,6 @@ public class PrestamoDaoImp implements PrestamoDao{
 	private static final String prestamos = "SELECT prestamos.Nro_prestamo, prestamos.Nro_cliente, prestamos.Fecha, prestamos.Imp_con_intereses, prestamos.Imp_solicitado, prestamos.Nro_cuenta_deposito, prestamos.Plazo_pago_meses, prestamos.Monto_pago_por_mes, prestamos.Cant_cuotas, estadosPrestamos.Descripcion FROM prestamos INNER JOIN estadosPrestamos ON prestamos.Est_prestamo = estadosPrestamos.Est_prestamo WHERE prestamos.Est_prestamo = ?";
 	private static final String readAll = "SELECT prestamos.Nro_prestamo, prestamos.Nro_cliente, prestamos.Fecha, prestamos.Imp_con_intereses, prestamos.Imp_solicitado, prestamos.Nro_cuenta_deposito, prestamos.Plazo_pago_meses, prestamos.Monto_pago_por_mes, prestamos.Cant_cuotas, estadosPrestamos.Descripcion FROM prestamos INNER JOIN estadosPrestamos ON prestamos.Est_prestamo = estadosPrestamos.Est_prestamo WHERE prestamos.Est_prestamo = 1 OR prestamos.Est_prestamo = 2";
 	private static final String respuesta = "UPDATE prestamos SET Est_prestamo = ?  WHERE Nro_prestamo = ?";
-
 	
 	@Override
 	public List<Prestamo> Prestamos(Prestamo p) {
@@ -146,4 +145,37 @@ public class PrestamoDaoImp implements PrestamoDao{
 	    
 	    return p;
 	}
+
+	@Override
+	public List<Prestamo> prestamoXfecha(String fecha1, String fecha2, String filtro) {
+		Connection conexion = Conexion.getConexion().getSQLConexion();
+		ArrayList<Prestamo> lista = new ArrayList<Prestamo>();
+		String Query = "";
+		
+		if(fecha1.length() == 0 && fecha2.length() == 0) {
+			Query = "SELECT prestamos.Nro_prestamo, prestamos.Nro_cliente, prestamos.Fecha, prestamos.Imp_con_intereses, prestamos.Imp_solicitado, prestamos.Nro_cuenta_deposito, prestamos.Plazo_pago_meses, prestamos.Monto_pago_por_mes, prestamos.Cant_cuotas, estadosPrestamos.Descripcion FROM prestamos INNER JOIN estadosPrestamos ON prestamos.Est_prestamo = estadosPrestamos.Est_prestamo WHERE prestamos.Est_prestamo = " + filtro + ""; 
+		}
+		else {
+			Query = "SELECT prestamos.Nro_prestamo, prestamos.Nro_cliente, prestamos.Fecha, prestamos.Imp_con_intereses, prestamos.Imp_solicitado, prestamos.Nro_cuenta_deposito, prestamos.Plazo_pago_meses, prestamos.Monto_pago_por_mes, prestamos.Cant_cuotas, estadosPrestamos.Descripcion FROM prestamos INNER JOIN estadosPrestamos ON prestamos.Est_prestamo = estadosPrestamos.Est_prestamo WHERE prestamos.Fecha BETWEEN '"+ fecha1 +"' AND '"+ fecha2 +"'";///prestamos.Est_prestamo = " + filtro + "
+		}
+
+		try{
+			ResultSet rs = null;
+
+			Statement st = conexion.createStatement();
+			rs = st.executeQuery(Query);
+
+			// Cargo lista
+			while(rs.next()){
+				lista.add(get(rs));
+			}
+		}catch(Exception e){
+			e.printStackTrace();
+		}finally{
+		
+		}
+		
+		return lista;
+	}
+
 }

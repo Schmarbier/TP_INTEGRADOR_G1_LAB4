@@ -32,4 +32,9 @@ public class PrestamoNegocioImp implements PrestamoNegocio{
 		return pdao.obtenerPrestamosQueryCustom(consulta, filtro);
 	}
 
+	@Override
+	public List<Prestamo> prestamoXfecha(String fecha1, String fecha2, String filtro) {
+		return pdao.prestamoXfecha(fecha1, fecha2, filtro);
+	}
+
 }

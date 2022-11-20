@@ -41,9 +41,6 @@ public class ServletAdmin extends HttpServlet {
     public ServletAdmin() {
         super();
     }
-
- /* <%  if(request.getAttribute("aceptado").equals(true)) {%> <p class="alert alert-success" role="alert">Solicitud de prestamo aceptada</p> <%}%>
-    <%  if(request.getAttribute("rechazado").equals(true)) {%> <p class="alert alert-danger" role="alert">Solicitud de prestamo rechazada</p> <%}%>*/
     
     ClienteNegocioImp cneg = new ClienteNegocioImp();
 	CuentaDaoImp cuneg = new CuentaDaoImp();
@@ -62,14 +59,14 @@ public class ServletAdmin extends HttpServlet {
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
-		if(request.getParameter("LReportes")!=null) {
-		    ArrayList<Prestamo> ListaPrestamos = (ArrayList<Prestamo>) pneg.readAll();
+		/*if(request.getParameter("LReportes")!=null) {
+			ArrayList<Prestamo> ListaPrestamos = (ArrayList<Prestamo>) pneg.readAll();
 		    ArrayList<Movimiento> ListaMovimientos = (ArrayList<Movimiento>) mneg.readAll();
-			request.setAttribute("prestamos", ListaPrestamos);
-			request.setAttribute("movimientos", ListaMovimientos);
-			RequestDispatcher rd = request.getRequestDispatcher("/Reportes.jsp");
+		    request.setAttribute("movimientos", ListaMovimientos);
+		    request.setAttribute("prestamos", ListaPrestamos);
+		    RequestDispatcher rd = request.getRequestDispatcher("/Reportes.jsp");
 			rd.forward(request, response);
-		}
+		}*/
 		
 		if(request.getParameter("LPrestamos")!=null) {
 			ep.setEst_prestamo(3);
@@ -201,6 +198,36 @@ public class ServletAdmin extends HttpServlet {
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
+		if(request.getParameter("btnFiltrarPres")!=null) {
+			if(request.getParameter("presIni").toString().equals("") && request.getParameter("presFin").toString().equals("") || request.getParameter("presIni").toString().length()>0 && request.getParameter("presFin").toString().length()>0) {
+				ArrayList<Prestamo> ListaPrestamosFiltrada = (ArrayList<Prestamo>) pneg.prestamoXfecha(request.getParameter("presIni").toString(), request.getParameter("presFin").toString(), request.getParameter("filtroPre").toString());
+				request.setAttribute("prestamosFiltrados", ListaPrestamosFiltrada);
+			}
+			else request.setAttribute("errorPrestamo", true);
+			RequestDispatcher rd = request.getRequestDispatcher("/Reportes.jsp");
+			rd.forward(request, response);
+		}
+		
+		if(request.getParameter("btnFiltrarMov")!=null) {
+			if(request.getParameter("movIni").toString().equals("") && request.getParameter("movFin").toString().equals("") || request.getParameter("movIni").toString().length()>0 && request.getParameter("movFin").toString().length()>0) {
+				ArrayList<Prestamo> ListaMovimientosFiltrada = (ArrayList<Prestamo>) pneg.prestamoXfecha(request.getParameter("movIni").toString(), request.getParameter("movFin").toString(), request.getParameter("filtroMov").toString());
+				request.setAttribute("movimientosFiltrados", ListaMovimientosFiltrada);
+			}
+			else request.setAttribute("errorMovimiento", true);
+			RequestDispatcher rd = request.getRequestDispatcher("/Reportes.jsp");
+			rd.forward(request, response);
+		}
+		
+		if(request.getParameter("btnMostrarMov")!=null) {
+		    RequestDispatcher rd = request.getRequestDispatcher("/Reportes.jsp");
+			rd.forward(request, response);
+		}
+		
+		if(request.getParameter("btnMostrarPres")!=null) {
+		    RequestDispatcher rd = request.getRequestDispatcher("/Reportes.jsp");
+			rd.forward(request, response);
+		}
+		
 		if(request.getParameter("filtrarPrestamos")!=null) {
 		    ArrayList<Prestamo> ListaPrestamos = (ArrayList<Prestamo>) pneg.obtenerPrestamosQueryCustom(request.getParameter("ddlFiltro").toString(), request.getParameter("txtFiltro").toString());
 			request.setAttribute("prestamos", ListaPrestamos);
