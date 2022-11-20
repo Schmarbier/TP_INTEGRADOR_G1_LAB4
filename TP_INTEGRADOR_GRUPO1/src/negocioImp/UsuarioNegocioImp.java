@@ -1,6 +1,5 @@
 package negocioImp;
 
-import dao.UsuarioDao;
 import daoImp.UsuarioDaoImp;
 import entidades.Usuario;
 import negocio.UsuarioNegocio;
