@@ -56,17 +56,17 @@ public class ServletAdmin extends HttpServlet {
 	Localidad l = new Localidad();
 	Prestamo pres = new Prestamo();
 	EstadosPrestamo ep = new EstadosPrestamo();
-
+	
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
-		/*if(request.getParameter("LReportes")!=null) {
+		if(request.getParameter("LReportes")!=null) {
 			ArrayList<Prestamo> ListaPrestamos = (ArrayList<Prestamo>) pneg.readAll();
 		    ArrayList<Movimiento> ListaMovimientos = (ArrayList<Movimiento>) mneg.readAll();
 		    request.setAttribute("movimientos", ListaMovimientos);
 		    request.setAttribute("prestamos", ListaPrestamos);
 		    RequestDispatcher rd = request.getRequestDispatcher("/Reportes.jsp");
 			rd.forward(request, response);
-		}*/
+		}
 		
 		if(request.getParameter("LPrestamos")!=null) {
 			ep.setEst_prestamo(3);
@@ -210,7 +210,7 @@ public class ServletAdmin extends HttpServlet {
 		
 		if(request.getParameter("btnFiltrarMov")!=null) {
 			if(request.getParameter("movIni").toString().equals("") && request.getParameter("movFin").toString().equals("") || request.getParameter("movIni").toString().length()>0 && request.getParameter("movFin").toString().length()>0) {
-				ArrayList<Prestamo> ListaMovimientosFiltrada = (ArrayList<Prestamo>) pneg.prestamoXfecha(request.getParameter("movIni").toString(), request.getParameter("movFin").toString(), request.getParameter("filtroMov").toString());
+				ArrayList<Movimiento> ListaMovimientosFiltrada = (ArrayList<Movimiento>) mneg.movimientoXfecha(request.getParameter("movIni").toString(), request.getParameter("movFin").toString(), request.getParameter("filtroMov").toString());
 				request.setAttribute("movimientosFiltrados", ListaMovimientosFiltrada);
 			}
 			else request.setAttribute("errorMovimiento", true);

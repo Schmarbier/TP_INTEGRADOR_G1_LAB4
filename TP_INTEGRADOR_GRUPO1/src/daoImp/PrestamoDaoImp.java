@@ -16,7 +16,7 @@ import entidades.Prestamo;
 public class PrestamoDaoImp implements PrestamoDao{
 
 	private static final String prestamos = "SELECT prestamos.Nro_prestamo, prestamos.Nro_cliente, prestamos.Fecha, prestamos.Imp_con_intereses, prestamos.Imp_solicitado, prestamos.Nro_cuenta_deposito, prestamos.Plazo_pago_meses, prestamos.Monto_pago_por_mes, prestamos.Cant_cuotas, estadosPrestamos.Descripcion FROM prestamos INNER JOIN estadosPrestamos ON prestamos.Est_prestamo = estadosPrestamos.Est_prestamo WHERE prestamos.Est_prestamo = ?";
-	private static final String readAll = "SELECT prestamos.Nro_prestamo, prestamos.Nro_cliente, prestamos.Fecha, prestamos.Imp_con_intereses, prestamos.Imp_solicitado, prestamos.Nro_cuenta_deposito, prestamos.Plazo_pago_meses, prestamos.Monto_pago_por_mes, prestamos.Cant_cuotas, estadosPrestamos.Descripcion FROM prestamos INNER JOIN estadosPrestamos ON prestamos.Est_prestamo = estadosPrestamos.Est_prestamo WHERE prestamos.Est_prestamo = 1 OR prestamos.Est_prestamo = 2";
+	private static final String readAll = "SELECT * FROM vistaPrestamos";
 	private static final String respuesta = "UPDATE prestamos SET Est_prestamo = ?  WHERE Nro_prestamo = ?";
 	
 	@Override
@@ -130,17 +130,17 @@ public class PrestamoDaoImp implements PrestamoDao{
 		EstadosPrestamo ep = new EstadosPrestamo();
 		Prestamo p = new Prestamo();
 	    
-	    p.setNro_prestamo(resultSet.getInt("prestamos.Nro_prestamo"));
-		c.setNro_Cliente(resultSet.getInt("prestamos.Nro_cliente"));
+	    p.setNro_prestamo(resultSet.getInt("Nro_prestamo"));
+		c.setNro_Cliente(resultSet.getInt("Nro_cliente"));
 		p.setNro_cliente(c);
-		p.setFecha(resultSet.getString("prestamos.Fecha"));
-		p.setImp_con_intereses(resultSet.getFloat("prestamos.Imp_con_intereses"));
-		p.setImp_solicitado(resultSet.getFloat("prestamos.Imp_solicitado"));
-		p.setNro_cuenta_deposito(resultSet.getInt("prestamos.Nro_cuenta_deposito"));
-	    p.setPlazo_pago_meses(resultSet.getInt("prestamos.Plazo_pago_meses"));
-		p.setMonto_pago_por_mes(resultSet.getFloat("prestamos.Monto_pago_por_mes"));
-	    p.setCant_cuotas(resultSet.getInt("prestamos.Cant_cuotas"));
-	    ep.setDescripcion(resultSet.getString("estadosPrestamos.Descripcion"));
+		p.setFecha(resultSet.getString("Fecha"));
+		p.setImp_con_intereses(resultSet.getFloat("Imp_con_intereses"));
+		p.setImp_solicitado(resultSet.getFloat("Imp_solicitado"));
+		p.setNro_cuenta_deposito(resultSet.getInt("Nro_cuenta_deposito"));
+	    p.setPlazo_pago_meses(resultSet.getInt("Plazo_pago_meses"));
+		p.setMonto_pago_por_mes(resultSet.getFloat("Monto_pago_por_mes"));
+	    p.setCant_cuotas(resultSet.getInt("Cant_cuotas"));
+	    ep.setDescripcion(resultSet.getString("Descripcion"));
 	    p.setEst_prestamo(ep);
 	    
 	    return p;
@@ -152,11 +152,13 @@ public class PrestamoDaoImp implements PrestamoDao{
 		ArrayList<Prestamo> lista = new ArrayList<Prestamo>();
 		String Query = "";
 		
-		if(fecha1.length() == 0 && fecha2.length() == 0) {
-			Query = "SELECT prestamos.Nro_prestamo, prestamos.Nro_cliente, prestamos.Fecha, prestamos.Imp_con_intereses, prestamos.Imp_solicitado, prestamos.Nro_cuenta_deposito, prestamos.Plazo_pago_meses, prestamos.Monto_pago_por_mes, prestamos.Cant_cuotas, estadosPrestamos.Descripcion FROM prestamos INNER JOIN estadosPrestamos ON prestamos.Est_prestamo = estadosPrestamos.Est_prestamo WHERE prestamos.Est_prestamo = " + filtro + ""; 
+		if(filtro.toString()!= "Todo") {
+			if(fecha1.length() != 0 && fecha2.length() != 0) Query = "SELECT * FROM vistaPrestamos WHERE Est_prestamo = " + filtro + " AND Fecha BETWEEN '"+ fecha1 +"' AND '"+ fecha2 +"'";
+			else Query = "SELECT * FROM vistaPrestamos WHERE Est_prestamo = " + filtro + "";
 		}
-		else {
-			Query = "SELECT prestamos.Nro_prestamo, prestamos.Nro_cliente, prestamos.Fecha, prestamos.Imp_con_intereses, prestamos.Imp_solicitado, prestamos.Nro_cuenta_deposito, prestamos.Plazo_pago_meses, prestamos.Monto_pago_por_mes, prestamos.Cant_cuotas, estadosPrestamos.Descripcion FROM prestamos INNER JOIN estadosPrestamos ON prestamos.Est_prestamo = estadosPrestamos.Est_prestamo WHERE prestamos.Fecha BETWEEN '"+ fecha1 +"' AND '"+ fecha2 +"'";///prestamos.Est_prestamo = " + filtro + "
+		if(filtro.equals("Todo")) {
+			if(fecha1.length() != 0 && fecha2.length() != 0) Query = "SELECT * FROM vistaPrestamos WHERE Fecha BETWEEN '"+ fecha1 +"' AND '"+ fecha2 +"'";
+			else Query = "SELECT * FROM vistaPrestamos";
 		}
 
 		try{

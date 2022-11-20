@@ -21,4 +21,9 @@ public class MovimientoNegocioImp implements MovimientoNegocio{
 		return mdao.dineroTotal();
 	}
 
+	@Override
+	public List<Movimiento> movimientoXfecha(String fecha1, String fecha2, String filtro) {
+		return mdao.movimientoXfecha(fecha1, fecha2, filtro);
+	}
+
 }

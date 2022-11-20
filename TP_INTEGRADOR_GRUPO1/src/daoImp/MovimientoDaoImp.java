@@ -4,11 +4,13 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
 import dao.MovimientoDao;
 import entidades.Movimiento;
+import entidades.Prestamo;
 import entidades.TipoMovimiento;
 
 public class MovimientoDaoImp implements MovimientoDao{
@@ -75,6 +77,40 @@ public class MovimientoDaoImp implements MovimientoDao{
 		m.setDetalle(resultSet.getString("Detalle"));
 
 		return m;
+	}
+
+	@Override
+	public List<Movimiento> movimientoXfecha(String fecha1, String fecha2, String filtro) {
+		Connection conexion = Conexion.getConexion().getSQLConexion();
+		ArrayList<Movimiento> lista = new ArrayList<Movimiento>();
+		String Query = "";
+		
+		if(filtro.toString()!= "Todo") {
+			if(fecha1.length() != 0 && fecha2.length() != 0) Query = "SELECT * FROM vistaMovimientos WHERE Tipo_mov = " + filtro + " AND Fecha BETWEEN '"+ fecha1 +"' AND '"+ fecha2 +"'";
+			else Query = "SELECT * FROM vistaMovimientos WHERE Tipo_mov = " + filtro + "";
+		}
+		if(filtro.equals("Todo")) {
+			if(fecha1.length() != 0 && fecha2.length() != 0) Query = "SELECT * FROM vistaMovimientos WHERE Fecha BETWEEN '"+ fecha1 +"' AND '"+ fecha2 +"'";
+			else Query = "SELECT * FROM vistaMovimientos";
+		}
+
+		try{
+			ResultSet rs = null;
+
+			Statement st = conexion.createStatement();
+			rs = st.executeQuery(Query);
+
+			// Cargo lista
+			while(rs.next()){
+				lista.add(get(rs));
+			}
+		}catch(Exception e){
+			e.printStackTrace();
+		}finally{
+		
+		}
+		
+		return lista;
 	}
 
 
