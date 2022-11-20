@@ -46,7 +46,6 @@ public class ServletLogin extends HttpServlet {
 	LocalidadNegocioImp lneg = new LocalidadNegocioImp();
     ClienteNegocioImp cneg = new ClienteNegocioImp();
     MovimientoNegocioImp mneg = new MovimientoNegocioImp();
-    PrestamoNegocioImp pneg = new PrestamoNegocioImp();    
     
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
@@ -102,19 +101,13 @@ public class ServletLogin extends HttpServlet {
 	public void cargarDatos( HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException 
 	{
 		HttpSession session = request.getSession();
-		
-		ArrayList<Prestamo> ListaPrestamos = (ArrayList<Prestamo>) pneg.readAll();		
-		session.setAttribute("prestamos", ListaPrestamos);
-		
-	    ArrayList<Movimiento> ListaMovimientos = (ArrayList<Movimiento>) mneg.readAll();
-	    session.setAttribute("movimientos", ListaMovimientos);
 	    
 		ArrayList<TipoCuenta> listTipoCuenta = (ArrayList<TipoCuenta>) tcneg.readAll();
 		session.setAttribute("TipoCuenta", listTipoCuenta);
-
+		
 		int maxId = cneg.obtenerProxId();
 		session.setAttribute("ncli", maxId);
-		
+		    
 		int dinero = mneg.dineroTotal();
 		session.setAttribute("total", dinero);
 	    

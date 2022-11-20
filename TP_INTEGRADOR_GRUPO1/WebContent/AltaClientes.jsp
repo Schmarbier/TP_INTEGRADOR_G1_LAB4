@@ -23,7 +23,9 @@
    
 <form method="post" action="ServletAdmin">
       <%   int nroCli=0;
-           if(session.getAttribute("ncli")!=null) nroCli = Integer.parseInt(session.getAttribute("ncli").toString()); %>
+           if(session.getAttribute("ncli")!=null) nroCli = Integer.parseInt(session.getAttribute("ncli").toString());
+           if(request.getAttribute("nuevoNroCli")!=null) nroCli = Integer.parseInt(request.getAttribute("nuevoNroCli").toString());
+      %>
 	  <p>  Cliente Numero:  <%= nroCli %> </p>
       <p>  Nombre:  <input type="text" name="nombre" placeholder="Ingrese un nombre"
            maxlength="30" required pattern="[A-Za-zñÑ]+" title="Ingrese solo letras" />

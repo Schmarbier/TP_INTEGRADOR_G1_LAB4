@@ -36,10 +36,11 @@
 <br><br>
 <span>Dinero total depositado en el banco actualmente: <b>$ <%= total %></b></span>
 <br><br>
-<span>Prestamos desde: </span><input type="text" name="presIni" placeholder="dd/mm/aaaa"  pattern="\d{1,2}/\d{1,2}/\d{4}" title="La fecha no es v&aacute;lida"></input>
-<span> Hasta: </span><input type="text" name="presFin" placeholder="dd/mm/aaaa"  pattern="\d{1,2}/\d{1,2}/\d{4}" title="La fecha no es v&aacute;lida"/></input>
+<span>Prestamos desde: </span><input type="text" name="presIni" placeholder="dd/mm/aaaa""  pattern="\d{1,2}/\d{1,2}/\d{4}" title="La fecha no es v&aacute;lida"></input>
+<span> Hasta: </span><input type="text" name="presFin" placeholder="dd/mm/aaaa""  pattern="\d{1,2}/\d{1,2}/\d{4}" title="La fecha no es v&aacute;lida"/></input>
 <span>Filtrar por: </span>
 <select name="filtroPre">
+				<option value="Todo">Todos</option>
 				<option value="1">Aprobados</option>
 				<option value="2">Rechazados</option>
 </select> 
@@ -65,9 +66,9 @@
   <tbody>
   <%  
 				ArrayList<Prestamo> listaPrestamos = null;
-				if(session.getAttribute("prestamos")!=null)
+				if(request.getAttribute("prestamos")!=null)
 				{
-					listaPrestamos = (ArrayList<Prestamo>) session.getAttribute("prestamos");
+					listaPrestamos = (ArrayList<Prestamo>) request.getAttribute("prestamos");
 				}
 	    		if(listaPrestamos!=null){
 					for(Prestamo c:listaPrestamos) 
@@ -88,38 +89,14 @@
 			<%  } 
 			}
   %>
-    <%  
-				ArrayList<Prestamo> ListaPrestamosFiltrada = null;
-				if(request.getAttribute("prestamosFiltrados")!=null)
-				{
-					ListaPrestamosFiltrada = (ArrayList<Prestamo>) request.getAttribute("prestamosFiltrados");
-				}
-	    		if(ListaPrestamosFiltrada!=null){
-					for(Prestamo c:ListaPrestamosFiltrada) 
-					{
-						%>
-					<tr>  
-						<td><%=c.getNro_prestamo()%></td>     
-						<td><%=c.getNro_cliente().getNro_Cliente()%></td>   
-						<td><%=c.getFecha()%></td>
-						<td><%=c.getImp_solicitado()%></td> 
-						<td><%=c.getImp_con_intereses() %></td>  
-						<td><%=c.getNro_cuenta_deposito() %></td>
-						<td><%=c.getPlazo_pago_meses() %></td>
-						<td><%=c.getMonto_pago_por_mes() %></td>
-						<td><%=c.getCant_cuotas() %></td>	
-						<td><%=c.getEst_prestamo().getDescripcion()%></td>	
-					</tr>
-			<%  } 
-			}
-  %>
   </tbody>
 </table>
 <br><br>
-<span>Movimientos desde: </span><input type="text" name="movIni" placeholder="dd/mm/aaaa"  pattern="\d{1,2}/\d{1,2}/\d{4}" title="La fecha no es v&aacute;lida"/></input>
-<span> Hasta: </span><input type="text" name="movFin" placeholder="dd/mm/aaaa"  pattern="\d{1,2}/\d{1,2}/\d{4}" title="La fecha no es v&aacute;lida"/></input>
+<span>Movimientos desde: </span><input type="text" name="movIni" placeholder="dd/mm/aaaa"" pattern="\d{1,2}/\d{1,2}/\d{4}"  title="La fecha no es v&aacute;lida"/></input>
+<span> Hasta: </span><input type="text" name="movFin" placeholder="dd/mm/aaaa"  pattern="\d{1,2}/\d{1,2}/\d{4}"  title="La fecha no es v&aacute;lida"/></input>
 <span>Filtrar por: </span>
 <select name="filtroMov">
+				<option value="Todo">Todos</option>
 				<option value="1">Altas de cuenta</option>
 				<option value="2">Altas de prestamo</option>
 				<option value="3">Pagos de prestamo</option>
@@ -143,9 +120,9 @@
   <tbody>
   <%  
 				ArrayList<Movimiento> listaMovimientos = null;
-				if(session.getAttribute("movimientos")!=null)
+				if(request.getAttribute("movimientos")!=null)
 				{
-					listaMovimientos = (ArrayList<Movimiento>) session.getAttribute("movimientos");
+					listaMovimientos = (ArrayList<Movimiento>) request.getAttribute("movimientos");
 				}
 	    		if(listaMovimientos!=null){
 					for(Movimiento c:listaMovimientos) 

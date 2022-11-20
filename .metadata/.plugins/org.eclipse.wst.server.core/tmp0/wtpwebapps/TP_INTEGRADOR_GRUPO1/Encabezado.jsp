@@ -31,7 +31,7 @@
 		   <li class="nav-item dropdown">
 		      <a class="nav-link dropdown-toggle" href="#" id="navbardrop" data-toggle="dropdown">Clientes</a>
 		      <div class="dropdown-menu">
-		        <a class="dropdown-item" href="AltaClientes.jsp">Alta cliente</a>
+		        <a class="dropdown-item" href="ServletAdmin?nuevoNroCli=1">Alta cliente</a>
 		        <a class="dropdown-item" href="BajaClientes.jsp">Baja cliente</a>
 
 		        <a class="dropdown-item" href="ServletAdmin?ParamModifCLI=1">Modificar cliente</a>
@@ -53,7 +53,7 @@
 		      <a class="nav-link" href="ServletAdmin?LPrestamos=1">Prestamos</a>
 		    </li>
 		    <li class="nav-item">
-		      <a class="nav-link" href="Reportes.jsp">Informes y/o Reportes</a>
+		      <a class="nav-link" href="ServletAdmin?LReportes=1">Informes y/o Reportes</a>
 		    </li>
 		<% }
 		   else {
