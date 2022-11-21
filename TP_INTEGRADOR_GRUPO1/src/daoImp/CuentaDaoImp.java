@@ -7,8 +7,6 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 
-import java.sql.CallableStatement;
-
 import dao.CuentaDao;
 import entidades.Cuenta;
 import entidades.TipoCuenta;

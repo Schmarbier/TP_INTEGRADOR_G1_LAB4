@@ -42,8 +42,8 @@ public class ServletLogin extends HttpServlet {
 	NacionalidadNegocioImp nneg = new NacionalidadNegocioImp();
 	ProvinciaNegocioImp provneg = new ProvinciaNegocioImp();
 	LocalidadNegocioImp lneg = new LocalidadNegocioImp();
-    ClienteNegocioImp cneg = new ClienteNegocioImp();
-    CuentaNegocioImp cuentaNeg = new CuentaNegocioImp();
+    	ClienteNegocioImp cneg = new ClienteNegocioImp();
+    	CuentaNegocioImp cuentaNeg = new CuentaNegocioImp();
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
@@ -99,10 +99,10 @@ public class ServletLogin extends HttpServlet {
 	public void cargarDatos( HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException 
 	{
 		HttpSession session = request.getSession();
-
+	    
 		ArrayList<TipoCuenta> listTipoCuenta = (ArrayList<TipoCuenta>) tcneg.readAll();
 		session.setAttribute("TipoCuenta", listTipoCuenta);
-
+		
 		int maxId = cneg.obtenerProxId();
 		session.setAttribute("ncli", maxId);
 	    

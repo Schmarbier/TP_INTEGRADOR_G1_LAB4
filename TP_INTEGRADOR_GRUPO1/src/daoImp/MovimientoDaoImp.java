@@ -1,8 +1,10 @@
 package daoImp;
 
+import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -12,7 +14,7 @@ import entidades.TipoMovimiento;
 
 public class MovimientoDaoImp implements MovimientoDao{
 
-	private static final String readAll = "SELECT * FROM vistaMovimientos";
+	private static final String readAll = "SELECT Nro_Movimiento,Nro_cuenta,fecha_dmy as fecha,Tipo_mov,Descripcion,Importe,Detalle FROM vistaMovimientos";
 	
 	@Override
 	public List<Movimiento> readAll() {
@@ -36,6 +38,31 @@ public class MovimientoDaoImp implements MovimientoDao{
 		return list;
 	}
 	
+	@Override
+	public int dineroTotal() {
+		Integer dinero = 0;
+		Connection conexion = Conexion.getConexion().getSQLConexion();
+		PreparedStatement statement;
+		
+		try
+		{
+			statement = conexion.prepareStatement("SELECT SUM(Saldo) From cuentas WHERE Estado = 1");
+			ResultSet resultado = statement.executeQuery();
+			resultado.next();
+			dinero = resultado.getInt(1);
+		} 
+		catch (SQLException e) 
+		{
+			e.printStackTrace();
+			try {
+				conexion.rollback();
+			} catch (SQLException e1) {
+				e1.printStackTrace();
+			}
+		}
+		return dinero;
+	}
+	
 	private Movimiento get(ResultSet resultSet) throws SQLException {
 		Movimiento m = new Movimiento();
 		TipoMovimiento tm = new TipoMovimiento();
@@ -49,6 +76,40 @@ public class MovimientoDaoImp implements MovimientoDao{
 		m.setDetalle(resultSet.getString("Detalle"));
 
 		return m;
+	}
+
+	@Override
+	public List<Movimiento> movimientoXfecha(String fecha1, String fecha2, String filtro) {
+		Connection conexion = Conexion.getConexion().getSQLConexion();
+		ArrayList<Movimiento> lista = new ArrayList<Movimiento>();
+		String Query = "";
+		
+		if(filtro.toString()!= "Todo") {
+			if(fecha1.length() != 0 && fecha2.length() != 0) Query = readAll +" WHERE Tipo_mov = " + filtro + " AND fecha_dmy BETWEEN '"+ fecha1 +"' AND '"+ fecha2 +"'";
+			else Query = readAll +" WHERE Tipo_mov = " + filtro + "";
+		}
+		if(filtro.equals("Todo")){ 
+			if(fecha1.length() != 0 && fecha2.length() != 0) Query = readAll+" WHERE fecha_dmy BETWEEN '"+fecha1+"' AND '"+fecha2+"'";
+			else Query = readAll;
+		}
+
+		try{
+			ResultSet rs = null;
+
+			Statement st = conexion.createStatement();
+			rs = st.executeQuery(Query);
+
+			// Cargo lista
+			while(rs.next()){
+				lista.add(get(rs));
+			}
+		}catch(Exception e){
+			e.printStackTrace();
+		}finally{
+		
+		}
+		
+		return lista;
 	}
 
 

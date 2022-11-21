@@ -2,9 +2,7 @@ package negocioImp;
 
 import java.util.ArrayList;
 
-import dao.ClienteDao;
 import dao.CuentaDao;
-import daoImp.ClienteDaoImp;
 import daoImp.CuentaDaoImp;
 import entidades.Cuenta;
 import negocio.CuentaNegocio;

@@ -18,18 +18,28 @@ public class PrestamoNegocioImp implements PrestamoNegocio{
 	}
 
 	@Override
-	public List<Prestamo> Prestamos(Prestamo p) {
-		return pdao.Prestamos(p);
-	}
-
-	@Override
-	public boolean RespuestaSolicitud(Prestamo p) {
-		return pdao.RespuestaSolicitud(p);
+	public List<Prestamo> Solicitudes() {
+		return pdao.Solicitudes();
 	}
 
 	@Override
 	public ArrayList<Prestamo> obtenerPrestamosQueryCustom(String consulta, String filtro) {
 		return pdao.obtenerPrestamosQueryCustom(consulta, filtro);
+	}
+
+	@Override
+	public List<Prestamo> prestamoXfecha(String fecha1, String fecha2, String filtro) {
+		return pdao.prestamoXfecha(fecha1, fecha2, filtro);
+	}
+
+	@Override
+	public boolean aprobarPrestamo(Prestamo p) {
+		return pdao.aprobarPrestamo(p);
+	}
+
+	@Override
+	public boolean rechazarPrestamo(Prestamo p) {
+		return pdao.rechazarPrestamo(p);
 	}
 
 }
