@@ -85,12 +85,12 @@ public class MovimientoDaoImp implements MovimientoDao{
 		String Query = "";
 		
 		if(filtro.toString()!= "Todo") {
-			if(fecha1.length() != 0 && fecha2.length() != 0) Query = "SELECT Nro_Movimiento,Nro_cuenta,fecha_dmy as fecha,Tipo_mov,Descripcion,Importe,Detalle FROM vistaMovimientos WHERE Tipo_mov = " + filtro + " AND fecha_dmy BETWEEN '"+ fecha1 +"' AND '"+ fecha2 +"'";
-			else Query = "SELECT Nro_Movimiento,Nro_cuenta,fecha_dmy as fecha,Tipo_mov,Descripcion,Importe,Detalle FROM vistaMovimientos WHERE Tipo_mov = " + filtro + "";
+			if(fecha1.length() != 0 && fecha2.length() != 0) Query = readAll +" WHERE Tipo_mov = " + filtro + " AND fecha_dmy BETWEEN '"+ fecha1 +"' AND '"+ fecha2 +"'";
+			else Query = readAll +" WHERE Tipo_mov = " + filtro + "";
 		}
-		if(filtro.equals("Todo")) {
-			if(fecha1.length() != 0 && fecha2.length() != 0) Query = "SELECT Nro_Movimiento,Nro_cuenta,fecha_dmy as fecha,Tipo_mov,Descripcion,Importe,Detalle FROM vistaMovimientos WHERE fecha_dmy BETWEEN '"+ fecha1 +"' AND '"+ fecha2 +"'";
-			else Query = "SELECT Nro_Movimiento,Nro_cuenta,fecha_dmy as fecha,Tipo_mov,Descripcion,Importe,Detalle FROM vistaMovimientos";
+		if(filtro.equals("Todo")){ 
+			if(fecha1.length() != 0 && fecha2.length() != 0) Query = readAll+" WHERE fecha_dmy BETWEEN '"+fecha1+"' AND '"+fecha2+"'";
+			else Query = readAll;
 		}
 
 		try{
