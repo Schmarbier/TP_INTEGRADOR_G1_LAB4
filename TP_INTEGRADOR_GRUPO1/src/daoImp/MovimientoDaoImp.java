@@ -14,7 +14,7 @@ import entidades.TipoMovimiento;
 
 public class MovimientoDaoImp implements MovimientoDao{
 
-	private static final String readAll = "SELECT * FROM vistaMovimientos";
+	private static final String readAll = "SELECT Nro_Movimiento,Nro_cuenta,fecha_dmy as fecha,Tipo_mov,Descripcion,Importe,Detalle FROM vistaMovimientos";
 	
 	@Override
 	public List<Movimiento> readAll() {
@@ -85,12 +85,12 @@ public class MovimientoDaoImp implements MovimientoDao{
 		String Query = "";
 		
 		if(filtro.toString()!= "Todo") {
-			if(fecha1.length() != 0 && fecha2.length() != 0) Query = "SELECT * FROM vistaMovimientos WHERE Tipo_mov = " + filtro + " AND Fecha BETWEEN '"+ fecha1 +"' AND '"+ fecha2 +"'";
-			else Query = "SELECT * FROM vistaMovimientos WHERE Tipo_mov = " + filtro + "";
+			if(fecha1.length() != 0 && fecha2.length() != 0) Query = "SELECT Nro_Movimiento,Nro_cuenta,fecha_dmy as fecha,Tipo_mov,Descripcion,Importe,Detalle FROM vistaMovimientos WHERE Tipo_mov = " + filtro + " AND fecha_dmy BETWEEN '"+ fecha1 +"' AND '"+ fecha2 +"'";
+			else Query = "SELECT Nro_Movimiento,Nro_cuenta,fecha_dmy as fecha,Tipo_mov,Descripcion,Importe,Detalle FROM vistaMovimientos WHERE Tipo_mov = " + filtro + "";
 		}
 		if(filtro.equals("Todo")) {
-			if(fecha1.length() != 0 && fecha2.length() != 0) Query = "SELECT * FROM vistaMovimientos WHERE Fecha BETWEEN '"+ fecha1 +"' AND '"+ fecha2 +"'";
-			else Query = "SELECT * FROM vistaMovimientos";
+			if(fecha1.length() != 0 && fecha2.length() != 0) Query = "SELECT Nro_Movimiento,Nro_cuenta,fecha_dmy as fecha,Tipo_mov,Descripcion,Importe,Detalle FROM vistaMovimientos WHERE fecha_dmy BETWEEN '"+ fecha1 +"' AND '"+ fecha2 +"'";
+			else Query = "SELECT Nro_Movimiento,Nro_cuenta,fecha_dmy as fecha,Tipo_mov,Descripcion,Importe,Detalle FROM vistaMovimientos";
 		}
 
 		try{
