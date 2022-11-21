@@ -17,7 +17,7 @@ public class PrestamoDaoImp implements PrestamoDao{
 
 	private static final String aceptar = "{CALL spAprobarPrestamo(?)}";
 	private static final String rechazar = "{CALL spRechazarPrestamo(?)}";
-	private static final String solicitudes = "SELECT prestamos.Nro_prestamo, prestamos.Nro_cliente, prestamos.Fecha, prestamos.Imp_con_intereses, prestamos.Imp_solicitado, prestamos.Nro_cuenta_deposito, prestamos.Plazo_pago_meses, prestamos.Monto_pago_por_mes, prestamos.Cant_cuotas, estadosPrestamos.Descripcion FROM prestamos INNER JOIN estadosPrestamos ON prestamos.Est_prestamo = estadosPrestamos.Est_prestamo WHERE prestamos.Est_prestamo = 3";
+	private static final String solicitudes = "SELECT prestamos.Nro_prestamo, prestamos.Nro_cliente, DATE_FORMAT(fecha,'%d/%m/%Y') AS fecha, prestamos.Imp_con_intereses, prestamos.Imp_solicitado, prestamos.Nro_cuenta_deposito, prestamos.Plazo_pago_meses, prestamos.Monto_pago_por_mes, prestamos.Cant_cuotas, estadosPrestamos.Descripcion FROM prestamos INNER JOIN estadosPrestamos ON prestamos.Est_prestamo = estadosPrestamos.Est_prestamo WHERE prestamos.Est_prestamo = 3";
 	private static final String readAll = "SELECT * FROM vistaPrestamos";
 	
 	@Override
@@ -111,8 +111,8 @@ public class PrestamoDaoImp implements PrestamoDao{
 		String Query = "";
 		
 		if(filtro.length()!=0) {
-			if(consulta.toString()!="Todo") Query = "SELECT prestamos.Nro_prestamo, prestamos.Nro_cliente, prestamos.Fecha, prestamos.Imp_con_intereses, prestamos.Imp_solicitado, prestamos.Nro_cuenta_deposito, prestamos.Plazo_pago_meses, prestamos.Monto_pago_por_mes, prestamos.Cant_cuotas, estadosPrestamos.Descripcion FROM prestamos INNER JOIN estadosPrestamos ON prestamos.Est_prestamo = estadosPrestamos.Est_prestamo WHERE prestamos.Est_prestamo = 3 AND " + consulta + " = '" + filtro + "'";
-			else Query = "SELECT prestamos.Nro_prestamo, prestamos.Nro_cliente, prestamos.Fecha, "+
+			if(consulta.toString()!="Todo") Query = "SELECT prestamos.Nro_prestamo, prestamos.Nro_cliente, DATE_FORMAT(fecha,'%d/%m/%Y') AS fecha, prestamos.Imp_con_intereses, prestamos.Imp_solicitado, prestamos.Nro_cuenta_deposito, prestamos.Plazo_pago_meses, prestamos.Monto_pago_por_mes, prestamos.Cant_cuotas, estadosPrestamos.Descripcion FROM prestamos INNER JOIN estadosPrestamos ON prestamos.Est_prestamo = estadosPrestamos.Est_prestamo WHERE prestamos.Est_prestamo = 3 AND " + consulta + " = '" + filtro + "'";
+			else Query = "SELECT prestamos.Nro_prestamo, prestamos.Nro_cliente, DATE_FORMAT(fecha,'%d/%m/%Y %H:%i:%s') AS fecha, "+
 				 "prestamos.Imp_con_intereses, prestamos.Imp_solicitado, prestamos.Nro_cuenta_deposito, "+
 			     "prestamos.Plazo_pago_meses, prestamos.Monto_pago_por_mes, prestamos.Cant_cuotas, "+
 				 "estadosPrestamos.Descripcion FROM prestamos INNER JOIN estadosPrestamos ON prestamos.Est_prestamo = estadosPrestamos.Est_prestamo "+
