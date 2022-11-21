@@ -17,15 +17,9 @@ public class PrestamoDaoImp implements PrestamoDao{
 
 	private static final String aceptar = "{CALL spAprobarPrestamo(?)}";
 	private static final String rechazar = "{CALL spRechazarPrestamo(?)}";
-<<<<<<< HEAD
 	private static final String solicitudes = "SELECT Nro_prestamo, fecha_dmy as fecha, Imp_con_intereses, Imp_solicitado, Nro_cuenta_deposito, Plazo_pago_meses, Monto_pago_por_mes, Cant_cuotas, Descripcion, Est_prestamo,Nro_cliente FROM vistaSolicitudes";
 	private static final String readAll = "SELECT Nro_prestamo, fecha_dmy as fecha, Imp_con_intereses, Imp_solicitado, Nro_cuenta_deposito, Plazo_pago_meses, Monto_pago_por_mes, Cant_cuotas, Descripcion, Est_prestamo,Nro_cliente FROM vistaPrestamos"; 
-;
-=======
-	private static final String solicitudes = "SELECT prestamos.Nro_prestamo, prestamos.Nro_cliente, prestamos.Fecha, prestamos.Imp_con_intereses, prestamos.Imp_solicitado, prestamos.Nro_cuenta_deposito, prestamos.Plazo_pago_meses, prestamos.Monto_pago_por_mes, prestamos.Cant_cuotas, estadosPrestamos.Descripcion FROM prestamos INNER JOIN estadosPrestamos ON prestamos.Est_prestamo = estadosPrestamos.Est_prestamo WHERE prestamos.Est_prestamo = 3";
-	private static final String readAll = "SELECT * FROM vistaPrestamos";
->>>>>>> parent of c3ceca1 (nada)
-	
+
 	@Override
     public boolean aprobarPrestamo(Prestamo p) {
 			boolean aprobado = false;
@@ -117,19 +111,10 @@ public class PrestamoDaoImp implements PrestamoDao{
 		String Query = "";
 		
 		if(filtro.length()!=0) {
-<<<<<<< HEAD
 			if(consulta.toString()!="Todo") Query = "SELECT Nro_prestamo, fecha_dmy as fecha, Imp_con_intereses, Imp_solicitado, Nro_cuenta_deposito, Plazo_pago_meses, Monto_pago_por_mes, Cant_cuotas, Descripcion, Est_prestamo,Nro_cliente FROM vistaSolicitudes WHERE " + consulta + " = '" + filtro + "'";
 			else Query = "SELECT Nro_prestamo, fecha_dmy as fecha, Imp_con_intereses, Imp_solicitado, "+
 			      "Nro_cuenta_deposito, Plazo_pago_meses, Monto_pago_por_mes, Cant_cuotas, Descripcion, "+
 				  "Est_prestamo,Nro_cliente FROM vistaSolicitudes WHERE " + 
-=======
-			if(consulta.toString()!="Todo") Query = "SELECT prestamos.Nro_prestamo, prestamos.Nro_cliente, prestamos.Fecha, prestamos.Imp_con_intereses, prestamos.Imp_solicitado, prestamos.Nro_cuenta_deposito, prestamos.Plazo_pago_meses, prestamos.Monto_pago_por_mes, prestamos.Cant_cuotas, estadosPrestamos.Descripcion FROM prestamos INNER JOIN estadosPrestamos ON prestamos.Est_prestamo = estadosPrestamos.Est_prestamo WHERE prestamos.Est_prestamo = 3 AND " + consulta + " = '" + filtro + "'";
-			else Query = "SELECT prestamos.Nro_prestamo, prestamos.Nro_cliente, prestamos.Fecha, "+
-				 "prestamos.Imp_con_intereses, prestamos.Imp_solicitado, prestamos.Nro_cuenta_deposito, "+
-			     "prestamos.Plazo_pago_meses, prestamos.Monto_pago_por_mes, prestamos.Cant_cuotas, "+
-				 "estadosPrestamos.Descripcion FROM prestamos INNER JOIN estadosPrestamos ON prestamos.Est_prestamo = estadosPrestamos.Est_prestamo "+
-			     "WHERE prestamos.Est_prestamo = 3 AND" + 
->>>>>>> parent of c3ceca1 (nada)
 			     "(" +
 			     "Nro_prestamo = " + filtro + " or " + 
 			     "Nro_cliente = " + filtro + " or " + 
