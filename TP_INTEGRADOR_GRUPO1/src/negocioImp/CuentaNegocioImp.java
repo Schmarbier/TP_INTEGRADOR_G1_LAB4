@@ -58,4 +58,9 @@ public class CuentaNegocioImp implements CuentaNegocio{
 	public int totalCuentasPorCliente(int nroCliente) {
 		return cdao.totalCuentasPorCliente(nroCliente);
 	}
+
+	@Override
+	public ArrayList<Cuenta> getCuentasXCliente(String nomCuenta) {
+		return cdao.getCuentasXCliente(nomCuenta);
+	}
 }

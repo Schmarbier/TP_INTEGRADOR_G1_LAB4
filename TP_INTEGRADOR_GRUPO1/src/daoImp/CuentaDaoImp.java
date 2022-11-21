@@ -308,4 +308,38 @@ public class CuentaDaoImp implements CuentaDao {
 		return total;
 	}
 
+	@Override
+	public ArrayList<Cuenta> getCuentasXCliente(String nombreUsu) {
+Connection conexion = Conexion.getConexion().getSQLConexion();
+		
+		ArrayList<Cuenta> lista = new ArrayList<Cuenta>();
+		String Query ="SELECT Nro_Cuenta from cuentas as a inner join clientes as b \r\n" + 
+				"on a.Nro_cliente = b.Nro_Cliente where b.Usuario = '" + nombreUsu + "'";
+		
+		try{
+			ResultSet rs = null;
+
+			Statement st = conexion.createStatement();
+			rs = st.executeQuery(Query);
+
+			// Cargo lista
+			while(rs.next()){
+				Cuenta cuenta = new Cuenta();
+				cuenta.setNro_cuenta(rs.getInt("Nro_cuenta"));
+				cuenta.setCbu("1");
+				cuenta.setFecha_creacion("1");
+				cuenta.setNro_cliente(0);
+				cuenta.setSaldo(1);
+				cuenta.setTipo_cuenta(new TipoCuenta(1,"asd"));
+				lista.add(cuenta);
+			}
+		}catch(Exception e){
+			e.printStackTrace();
+		}finally{
+		
+		}
+		
+		return lista;
+	}
+
 }

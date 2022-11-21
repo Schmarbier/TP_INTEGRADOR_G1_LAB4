@@ -20,4 +20,6 @@ public interface CuentaNegocio {
 	public boolean modificarCuenta(Cuenta c);
 	
 	public int totalCuentasPorCliente(int nroCliente);
+	
+	public ArrayList<Cuenta> getCuentasXCliente(String NomUsuario);
 }

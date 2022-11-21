@@ -21,4 +21,6 @@ public interface CuentaDao {
 	
 	public int totalCuentasPorCliente(int nroCliente);
 	
+	public ArrayList<Cuenta> getCuentasXCliente(String numero);
+	
 }

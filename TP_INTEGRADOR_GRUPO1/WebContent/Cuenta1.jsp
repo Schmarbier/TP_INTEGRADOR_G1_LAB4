@@ -14,6 +14,42 @@
 <jsp:include page="Encabezado.jsp" />  
 
 
+<div class="container-sm border">
+	<div class="row mt-3">
+		<div class="col m-5 d-flex flex-column">
+			<p class="h3 text-center mb-4">Informacion de la cuenta</p>
+			<div class="input-group mb-3">
+			  <div class="input-group-prepend">
+			    <span class="input-group-text" id="basic-addon1">CBU</span>
+			  </div>
+			  <input type="text" class="form-control" placeholder="Username" aria-label="Username" aria-describedby="basic-addon1">
+			</div>
+			<div class="input-group mb-3">
+			  <div class="input-group-prepend">
+			    <span class="input-group-text" id="basic-addon1">Saldo</span>
+			  </div>
+			  <input type="text" class="form-control" placeholder="Username" aria-label="Username" aria-describedby="basic-addon1">
+			</div>
+			<div class="input-group mb-3">
+			  <div class="input-group-prepend">
+			    <span class="input-group-text" id="basic-addon1">Tipo de cuenta</span>
+			  </div>
+			  <input type="text" class="form-control" placeholder="Username" aria-label="Username" aria-describedby="basic-addon1">
+			</div>
+			<div class="input-group mb-3">
+			  <div class="input-group-prepend">
+			    <span class="input-group-text" id="basic-addon1">Fecha de creacion</span>
+			  </div>
+			  <input type="text" class="form-control" placeholder="Username" aria-label="Username" aria-describedby="basic-addon1">
+			</div>
+			<button type="button" class="btn btn-primary btn btn-block">Transferir dinero</button>
+		</div>
+		<div class="col m-5">
+			<p class="h3 text-center mb-4">Movimientos</p>
+		</div>
+	</div>
+</div>
+
 
 <div class="parteDer">
    <h3 class="titulo"> Cuenta 1 </h3> 

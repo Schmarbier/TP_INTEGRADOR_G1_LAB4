@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import entidades.Usuario;
+import entidades.Cuenta;
 import entidades.Genero;
 import entidades.Localidad;
 import entidades.Nacionalidad;
@@ -19,6 +20,7 @@ import entidades.Provincia;
 import entidades.TipoCuenta;
 import negocioImp.UsuarioNegocioImp;
 import negocioImp.ClienteNegocioImp;
+import negocioImp.CuentaNegocioImp;
 import negocioImp.GeneroNegocioImp;
 import negocioImp.LocalidadNegocioImp;
 import negocioImp.NacionalidadNegocioImp;
@@ -41,6 +43,7 @@ public class ServletLogin extends HttpServlet {
 	ProvinciaNegocioImp provneg = new ProvinciaNegocioImp();
 	LocalidadNegocioImp lneg = new LocalidadNegocioImp();
     ClienteNegocioImp cneg = new ClienteNegocioImp();
+    CuentaNegocioImp cuentaNeg = new CuentaNegocioImp();
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
@@ -77,9 +80,9 @@ public class ServletLogin extends HttpServlet {
 			}
 			else {
 				request.setAttribute("error", true);
+				RequestDispatcher rd = request.getRequestDispatcher("Login.jsp");   
+				rd.forward(request, response);   
 			}
-			RequestDispatcher rd = request.getRequestDispatcher("Login.jsp");   
-			rd.forward(request, response);   
 		}
 		
 		
@@ -115,6 +118,11 @@ public class ServletLogin extends HttpServlet {
 		ArrayList<Localidad> listaLocalidad = (ArrayList<Localidad>) lneg.readAll();
 		session.setAttribute("localidades", listaLocalidad);
 		
+		ArrayList<Cuenta> listaCuentas = (ArrayList<Cuenta>) cuentaNeg.getCuentasXCliente(request.getParameter("txtUsuario").toString());
+		for(Cuenta c:listaCuentas) {
+			
+		}
+		session.setAttribute("CuentasEnCuenta", listaCuentas);
 	}	
 	
 }
