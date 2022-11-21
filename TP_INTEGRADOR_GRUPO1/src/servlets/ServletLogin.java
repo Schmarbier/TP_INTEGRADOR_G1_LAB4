@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import entidades.Usuario;
+import entidades.Cliente;
 import entidades.Genero;
 import entidades.Localidad;
 import entidades.Movimiento;
@@ -54,6 +55,8 @@ public class ServletLogin extends HttpServlet {
 			String contrasena = request.getParameter("txtPassword");
 			
 			HttpSession session = request.getSession();
+			
+			session.setAttribute("cliente",null);
 
 			Usuario usu = new Usuario();
 			usu.setUsuario(usuario);
@@ -67,17 +70,40 @@ public class ServletLogin extends HttpServlet {
 				
 				// guardo el usuario y su tipo, y establezco su pagina por defecto 
 				session.setAttribute("nombreUsurio", usu.getUsuario());
+				
+				// Usuario administrador
 				if(neg.esAdmin(usu)) {
 					session.setAttribute("usuarioAdmin", true);
 
 					RequestDispatcher rd = request.getRequestDispatcher("AltaClientes.jsp"); 
 					rd.forward(request, response);   
 				}
+				// usuario cliente
 				else {
 					session.setAttribute("usuarioAdmin", false);
-
-					RequestDispatcher rd = request.getRequestDispatcher("Cuenta1.jsp");   
-					rd.forward(request, response); 
+					
+					Cliente cli = new Cliente();
+					ClienteNegocioImp cn = new ClienteNegocioImp();
+					cli = cn.getClientePorUsuario(usu.getUsuario());
+					
+					if (cli!=null) {
+						
+						//Verifico si el cliente esta activo
+						if(cli.getEstado()==true) {
+							
+							// Gardo cliente en una variable session
+							session.setAttribute("cliente",cli);
+							
+							// Ingreso a la aplicación
+							RequestDispatcher rd = request.getRequestDispatcher("Cuenta1.jsp");   
+							rd.forward(request, response); 
+							
+						}
+						else request.setAttribute("usuarioInactivo", true);
+						
+					}
+					//  cliente no existe
+					else request.setAttribute("error", true);
 				}
 			}
 			else {

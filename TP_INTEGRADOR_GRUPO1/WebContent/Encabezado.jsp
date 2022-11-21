@@ -76,7 +76,7 @@
 		      </div>
 		    </li>
 		    <li class="nav-item">
-		    	<a class="nav-link" href="../cliente/MisDatos.jsp">Datos personales</a>
+		    	<a class="nav-link" href="MisDatos.jsp">Datos personales</a>
 		    </li>
 		<% }
 		%>

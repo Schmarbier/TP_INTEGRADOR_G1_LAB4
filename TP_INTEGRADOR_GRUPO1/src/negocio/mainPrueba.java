@@ -6,10 +6,13 @@ import java.util.ArrayList;
 import entidades.Cuenta;
 import entidades.TipoCuenta;
 import entidades.Usuario;
+import entidades.Cliente;
 import negocioImp.CuentaNegocioImp;
 import negocioImp.TipoCuentaNegocioImp;
+import negocioImp.ClienteNegocioImp;
 import daoImp.TipoCuentaDaoImp;
 import daoImp.CuentaDaoImp;
+import daoImp.ClienteDaoImp;
 import negocioImp.UsuarioNegocioImp;
 
 public class mainPrueba {
@@ -64,11 +67,15 @@ public class mainPrueba {
 		if(res) System.out.print("Cuenta dada de baja- "+cu.toString());
 		else System.out.print("Cuenta no dada de baja o no encontrada");
 
-		*/
-
 		CuentaNegocioImp cn = new CuentaNegocioImp();
 		int tot = cn.totalCuentasPorCliente(2);
 		System.out.print("total cuentas por cliente- "+tot);
 
+		*/
+
+		ClienteNegocioImp cn = new ClienteNegocioImp();
+		Cliente cli = cn.getClientePorUsuario("FerLoto");
+		if (cli!=null) System.out.print("cliente- "+cli.toString());
+		else System.out.print("cliente no existe ");
 	}
 }

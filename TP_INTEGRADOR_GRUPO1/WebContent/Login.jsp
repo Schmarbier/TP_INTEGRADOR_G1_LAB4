@@ -41,26 +41,11 @@
 		         <% if (request.getAttribute("error")!=null){ %>
 		         	<p style="text-align:center;font-size: xx-small; color: red;"><strong>Ingrese un usuario y contraseña correcta</strong></p>
 		         <%} %>
+		         <% if (request.getAttribute("usuarioInactivo")!=null){ %>
+		         	<p style="text-align:center;font-size: xx-small; color: red;"><strong>Usuario Inactivo</strong></p>
+		         <%} %>
 		         </div>
 			</div>
 		</form>
 </body>
-
-
-<!--session.setAttribute("TipoUsurio", "usuario");
-	if(request.getParameter("btnLogin")!=null)
-	{
-		String usuario = request.getParameter("txtUsuario");
-		String apellido = request.getParameter("txtPassword");
-		if(usuario.contentEquals("admin")){
-			session.setAttribute("TipoUsurio", "admin");
-			response.sendRedirect("ServletAdmin?Param=1");
-		}
-		else{
-			response.sendRedirect("Cuenta1.jsp");
-		}
-		session.setAttribute("nombreUsurio", usuario);
-	}-->
-
-
 </html>

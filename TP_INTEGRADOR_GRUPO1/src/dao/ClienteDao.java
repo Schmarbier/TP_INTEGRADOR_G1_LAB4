@@ -16,8 +16,6 @@ public interface ClienteDao {
 	public ArrayList<Cliente> LeerSegunUsuario(String User);
 	public boolean update(Cliente cli);
 	
-	
-	
 	public ArrayList<Cliente> CargarSegunCondicion(String condicion, int Codigo);
-	
+	public Cliente getClientePorUsuario(String usu);
 }
