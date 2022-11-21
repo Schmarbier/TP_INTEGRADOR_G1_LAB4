@@ -110,27 +110,8 @@ public class PrestamoDaoImp implements PrestamoDao{
 		ArrayList<Prestamo> lista = new ArrayList<Prestamo>();
 		String Query = "";
 		
-		if(filtro.length()!=0) {
-			if(consulta.toString()!="Todo") Query = "SELECT Nro_prestamo, fecha_dmy as fecha, Imp_con_intereses, Imp_solicitado, Nro_cuenta_deposito, Plazo_pago_meses, Monto_pago_por_mes, Cant_cuotas, Descripcion, Est_prestamo,Nro_cliente FROM vistaSolicitudes WHERE " + consulta + " = '" + filtro + "'";
-			else Query = "SELECT Nro_prestamo, fecha_dmy as fecha, Imp_con_intereses, Imp_solicitado, "+
-			      "Nro_cuenta_deposito, Plazo_pago_meses, Monto_pago_por_mes, Cant_cuotas, Descripcion, "+
-				  "Est_prestamo,Nro_cliente FROM vistaSolicitudes WHERE " + 
-			     "(" +
-			     "Nro_prestamo = " + filtro + " or " + 
-			     "Nro_cliente = " + filtro + " or " + 
-			     "fecha_dmy = '" + filtro + "' or " + 
-			     "Imp_con_intereses = " + filtro + " or " + 
-			     "Imp_solicitado = " + filtro + " or " + 
-			     "Nro_cuenta_deposito = " + filtro + " or " + 
-			     "Plazo_pago_meses = " + filtro + " or " +
-			     "Monto_pago_por_mes = " + filtro + " or " +
-			     "Cant_cuotas = " + filtro + " or " +
-			     "Descripcion LIKE '%" + filtro + "%'" +
-			      ")";
-		}
-		if(filtro.length() == 0 || consulta.toString()=="Todo") {
-			Query = solicitudes;
-		}
+		if(filtro.length()!=0 && consulta.toString()!="Todo") Query = solicitudes+" WHERE " + consulta + " = '" + filtro + "'";
+		if(consulta.toString()=="Todo") Query = solicitudes; 
 
 		try{
 			ResultSet rs = null;
@@ -180,12 +161,12 @@ public class PrestamoDaoImp implements PrestamoDao{
 		String Query = "";
 		
 		if(filtro.toString()!= "Todo") {
-			if(fecha1.length() != 0 && fecha2.length() != 0) Query = "SELECT Nro_prestamo, fecha_dmy as fecha, Imp_con_intereses, Imp_solicitado, Nro_cuenta_deposito, Plazo_pago_meses, Monto_pago_por_mes, Cant_cuotas, Descripcion, Est_prestamo,Nro_cliente FROM vistaPrestamos WHERE Est_prestamo = " + filtro + " AND fecha_dmy BETWEEN '"+ fecha1 +"' AND '"+ fecha2 +"'";
-			else Query = "SELECT Nro_prestamo, fecha_dmy as fecha, Imp_con_intereses, Imp_solicitado, Nro_cuenta_deposito, Plazo_pago_meses, Monto_pago_por_mes, Cant_cuotas, Descripcion, Est_prestamo,Nro_cliente FROM vistaPrestamos WHERE Est_prestamo = " + filtro + "";
+			if(fecha1.length() != 0 && fecha2.length() != 0) Query = readAll+" WHERE Est_prestamo = " + filtro + " AND fecha_dmy BETWEEN '"+ fecha1 +"' AND '"+ fecha2 +"'";
+			else Query = readAll+" WHERE Est_prestamo = " + filtro + "";
 		}
 		if(filtro.equals("Todo")) {
-			if(fecha1.length() != 0 && fecha2.length() != 0) Query = "SELECT Nro_prestamo, fecha_dmy as fecha, Imp_con_intereses, Imp_solicitado, Nro_cuenta_deposito, Plazo_pago_meses, Monto_pago_por_mes, Cant_cuotas, Descripcion, Est_prestamo,Nro_cliente FROM vistaPrestamos WHERE fecha_dmy BETWEEN '"+ fecha1 +"' AND '"+ fecha2 +"'";
-			else Query = "SELECT Nro_prestamo, fecha_dmy as fecha, Imp_con_intereses, Imp_solicitado, Nro_cuenta_deposito, Plazo_pago_meses, Monto_pago_por_mes, Cant_cuotas, Descripcion, Est_prestamo,Nro_cliente FROM vistaPrestamos";
+			if(fecha1.length() != 0 && fecha2.length() != 0) Query = readAll+" WHERE fecha_dmy BETWEEN '"+ fecha1 +"' AND '"+ fecha2 +"'";
+			else Query = readAll;
 		}
 
 		try{
