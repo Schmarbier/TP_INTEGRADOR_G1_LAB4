@@ -17,9 +17,9 @@ public class PrestamoDaoImp implements PrestamoDao{
 
 	private static final String aceptar = "{CALL spAprobarPrestamo(?)}";
 	private static final String rechazar = "{CALL spRechazarPrestamo(?)}";
-	private static final String solicitudes = "SELECT prestamos.Nro_prestamo, prestamos.Nro_cliente, prestamos.Fecha, prestamos.Imp_con_intereses, prestamos.Imp_solicitado, prestamos.Nro_cuenta_deposito, prestamos.Plazo_pago_meses, prestamos.Monto_pago_por_mes, prestamos.Cant_cuotas, estadosPrestamos.Descripcion FROM prestamos INNER JOIN estadosPrestamos ON prestamos.Est_prestamo = estadosPrestamos.Est_prestamo WHERE prestamos.Est_prestamo = 3";
-	private static final String readAll = "SELECT * FROM vistaPrestamos";
-	
+	private static final String solicitudes = "SELECT Nro_prestamo, fecha_dmy as fecha, Imp_con_intereses, Imp_solicitado, Nro_cuenta_deposito, Plazo_pago_meses, Monto_pago_por_mes, Cant_cuotas, Descripcion, Est_prestamo,Nro_cliente FROM vistaSolicitudes";
+	private static final String readAll = "SELECT Nro_prestamo, fecha_dmy as fecha, Imp_con_intereses, Imp_solicitado, Nro_cuenta_deposito, Plazo_pago_meses, Monto_pago_por_mes, Cant_cuotas, Descripcion, Est_prestamo,Nro_cliente FROM vistaPrestamos"; 
+
 	@Override
     public boolean aprobarPrestamo(Prestamo p) {
 			boolean aprobado = false;
@@ -111,23 +111,21 @@ public class PrestamoDaoImp implements PrestamoDao{
 		String Query = "";
 		
 		if(filtro.length()!=0) {
-			if(consulta.toString()!="Todo") Query = "SELECT prestamos.Nro_prestamo, prestamos.Nro_cliente, prestamos.Fecha, prestamos.Imp_con_intereses, prestamos.Imp_solicitado, prestamos.Nro_cuenta_deposito, prestamos.Plazo_pago_meses, prestamos.Monto_pago_por_mes, prestamos.Cant_cuotas, estadosPrestamos.Descripcion FROM prestamos INNER JOIN estadosPrestamos ON prestamos.Est_prestamo = estadosPrestamos.Est_prestamo WHERE prestamos.Est_prestamo = 3 AND " + consulta + " = '" + filtro + "'";
-			else Query = "SELECT prestamos.Nro_prestamo, prestamos.Nro_cliente, prestamos.Fecha, "+
-				 "prestamos.Imp_con_intereses, prestamos.Imp_solicitado, prestamos.Nro_cuenta_deposito, "+
-			     "prestamos.Plazo_pago_meses, prestamos.Monto_pago_por_mes, prestamos.Cant_cuotas, "+
-				 "estadosPrestamos.Descripcion FROM prestamos INNER JOIN estadosPrestamos ON prestamos.Est_prestamo = estadosPrestamos.Est_prestamo "+
-			     "WHERE prestamos.Est_prestamo = 3 AND" + 
+			if(consulta.toString()!="Todo") Query = "SELECT Nro_prestamo, fecha_dmy as fecha, Imp_con_intereses, Imp_solicitado, Nro_cuenta_deposito, Plazo_pago_meses, Monto_pago_por_mes, Cant_cuotas, Descripcion, Est_prestamo,Nro_cliente FROM vistaSolicitudes WHERE " + consulta + " = '" + filtro + "'";
+			else Query = "SELECT Nro_prestamo, fecha_dmy as fecha, Imp_con_intereses, Imp_solicitado, "+
+			      "Nro_cuenta_deposito, Plazo_pago_meses, Monto_pago_por_mes, Cant_cuotas, Descripcion, "+
+				  "Est_prestamo,Nro_cliente FROM vistaSolicitudes WHERE " + 
 			     "(" +
-			     "prestamos.Nro_prestamo = " + filtro + " or " + 
-			     "prestamos.Nro_cliente = " + filtro + " or " + 
-			     "prestamos.Fecha = '" + filtro + "' or " + 
-			     "prestamos.Imp_con_intereses = " + filtro + " or " + 
-			     "prestamos.Imp_solicitado = " + filtro + " or " + 
-			     "prestamos.Nro_cuenta_deposito = " + filtro + " or " + 
-			     "prestamos.Plazo_pago_meses = " + filtro + " or " +
-			     "prestamos.Monto_pago_por_mes = " + filtro + " or " +
-			     "prestamos.Cant_cuotas = " + filtro + " or " +
-			     "estadosPrestamos.Descripcion LIKE '%" + filtro + "%'" +
+			     "Nro_prestamo = " + filtro + " or " + 
+			     "Nro_cliente = " + filtro + " or " + 
+			     "fecha_dmy = '" + filtro + "' or " + 
+			     "Imp_con_intereses = " + filtro + " or " + 
+			     "Imp_solicitado = " + filtro + " or " + 
+			     "Nro_cuenta_deposito = " + filtro + " or " + 
+			     "Plazo_pago_meses = " + filtro + " or " +
+			     "Monto_pago_por_mes = " + filtro + " or " +
+			     "Cant_cuotas = " + filtro + " or " +
+			     "Descripcion LIKE '%" + filtro + "%'" +
 			      ")";
 		}
 		if(filtro.length() == 0 || consulta.toString()=="Todo") {
@@ -182,12 +180,12 @@ public class PrestamoDaoImp implements PrestamoDao{
 		String Query = "";
 		
 		if(filtro.toString()!= "Todo") {
-			if(fecha1.length() != 0 && fecha2.length() != 0) Query = "SELECT * FROM vistaPrestamos WHERE Est_prestamo = " + filtro + " AND Fecha BETWEEN '"+ fecha1 +"' AND '"+ fecha2 +"'";
-			else Query = "SELECT * FROM vistaPrestamos WHERE Est_prestamo = " + filtro + "";
+			if(fecha1.length() != 0 && fecha2.length() != 0) Query = "SELECT Nro_prestamo, fecha_dmy as fecha, Imp_con_intereses, Imp_solicitado, Nro_cuenta_deposito, Plazo_pago_meses, Monto_pago_por_mes, Cant_cuotas, Descripcion, Est_prestamo,Nro_cliente FROM vistaPrestamos WHERE Est_prestamo = " + filtro + " AND fecha_dmy BETWEEN '"+ fecha1 +"' AND '"+ fecha2 +"'";
+			else Query = "SELECT Nro_prestamo, fecha_dmy as fecha, Imp_con_intereses, Imp_solicitado, Nro_cuenta_deposito, Plazo_pago_meses, Monto_pago_por_mes, Cant_cuotas, Descripcion, Est_prestamo,Nro_cliente FROM vistaPrestamos WHERE Est_prestamo = " + filtro + "";
 		}
 		if(filtro.equals("Todo")) {
-			if(fecha1.length() != 0 && fecha2.length() != 0) Query = "SELECT * FROM vistaPrestamos WHERE Fecha BETWEEN '"+ fecha1 +"' AND '"+ fecha2 +"'";
-			else Query = "SELECT * FROM vistaPrestamos";
+			if(fecha1.length() != 0 && fecha2.length() != 0) Query = "SELECT Nro_prestamo, fecha_dmy as fecha, Imp_con_intereses, Imp_solicitado, Nro_cuenta_deposito, Plazo_pago_meses, Monto_pago_por_mes, Cant_cuotas, Descripcion, Est_prestamo,Nro_cliente FROM vistaPrestamos WHERE fecha_dmy BETWEEN '"+ fecha1 +"' AND '"+ fecha2 +"'";
+			else Query = "SELECT Nro_prestamo, fecha_dmy as fecha, Imp_con_intereses, Imp_solicitado, Nro_cuenta_deposito, Plazo_pago_meses, Monto_pago_por_mes, Cant_cuotas, Descripcion, Est_prestamo,Nro_cliente FROM vistaPrestamos";
 		}
 
 		try{
