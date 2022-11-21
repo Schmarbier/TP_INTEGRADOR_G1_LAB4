@@ -5761,6 +5761,7 @@ Caused by: org.eclipse.aether.transfer.ArtifactNotFoundException: Could not find
 
 !ENTRY org.eclipse.recommenders.models.rcp 1 0 2022-11-20 20:02:26.478
 !MESSAGE org.eclipse.recommenders:index::zip:0.0.0 could not be resolved from the model repositories. Are you offline?
+<<<<<<< HEAD
 !SESSION 2022-11-21 12:51:23.293 -----------------------------------------------
 eclipse.buildId=4.7.2.M20171130-0510
 java.version=1.8.0_341
@@ -6028,3 +6029,5 @@ Caused by: java.lang.IllegalStateException: BundleContext is no longer valid
 	at java.lang.reflect.Method.invoke(Unknown Source)
 	at org.eclipse.oomph.util.ReflectUtil.invokeMethod(ReflectUtil.java:117)
 	... 8 more
+=======
+>>>>>>> parent of c3ceca1 (nada)
