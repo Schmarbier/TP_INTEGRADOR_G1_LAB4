@@ -21,7 +21,6 @@ import entidades.Nacionalidad;
 import entidades.Prestamo;
 import entidades.Provincia;
 import entidades.TipoCuenta;
-import entidades.TipoUsuario;
 import entidades.Usuario;
 import negocioImp.ClienteNegocioImp;
 import negocioImp.CuentaNegocioImp;
@@ -57,56 +56,60 @@ public class ServletAdmin extends HttpServlet {
 	Prestamo pres = new Prestamo();
 	EstadosPrestamo ep = new EstadosPrestamo();
 	
+	///FUNCION QUE CARGA LOS DATOS DE REPORTES ADMIN
+	public void cargarReportes( HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException 
+	{	    
+		int dinero = mneg.dineroTotal();
+		ArrayList<Prestamo> ListaPrestamos = (ArrayList<Prestamo>) pneg.readAll();
+	    ArrayList<Movimiento> ListaMovimientos = (ArrayList<Movimiento>) mneg.readAll();
+		request.setAttribute("total", dinero);
+	    request.setAttribute("movimientos", ListaMovimientos);
+	    request.setAttribute("prestamos", ListaPrestamos);
+		
+	}
+	
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
+		///LISTA REPORTES ADMIN
 		if(request.getParameter("LReportes")!=null) {
-			ArrayList<Prestamo> ListaPrestamos = (ArrayList<Prestamo>) pneg.readAll();
-		    ArrayList<Movimiento> ListaMovimientos = (ArrayList<Movimiento>) mneg.readAll();
-		    request.setAttribute("movimientos", ListaMovimientos);
-		    request.setAttribute("prestamos", ListaPrestamos);
+			cargarReportes(request,response);
 		    RequestDispatcher rd = request.getRequestDispatcher("/Reportes.jsp");
 			rd.forward(request, response);
 		}
 		
+		///LISTA PRESTAMOS SOLICITADOS ADMIN
 		if(request.getParameter("LPrestamos")!=null) {
-			ep.setEst_prestamo(3);
-			pres.setEst_prestamo(ep);
-		    ArrayList<Prestamo> ListaPrestamos = (ArrayList<Prestamo>) pneg.Prestamos(pres);
+		    ArrayList<Prestamo> ListaPrestamos = (ArrayList<Prestamo>) pneg.Solicitudes();
 			request.setAttribute("prestamos", ListaPrestamos);
 			RequestDispatcher rd = request.getRequestDispatcher("/Prestamos.jsp");
 			rd.forward(request, response);
 		}
 		
+		///ACEPTA SOLICITUD DE PRESTAMO ADMIN
         if(request.getParameter("btnAceptarSolicitud")!=null) {
 			pres.setNro_prestamo(Integer.parseInt(request.getParameter("nroPrestamo").toString()));
-			ep.setEst_prestamo(1);
-			pres.setEst_prestamo(ep);
-			pneg.RespuestaSolicitud(pres);
-			
-			ep.setEst_prestamo(3);
-			pres.setEst_prestamo(ep);
-		    ArrayList<Prestamo> ListaPrestamos = (ArrayList<Prestamo>) pneg.Prestamos(pres);
-			request.setAttribute("prestamos", ListaPrestamos);
-			request.setAttribute("aceptado", true);
+		    if(pneg.aprobarPrestamo(pres)) request.setAttribute("aceptado", true);
+			request.setAttribute("prestamos", pneg.Solicitudes());
 			RequestDispatcher rd = request.getRequestDispatcher("/Prestamos.jsp");
 			rd.forward(request, response);
 		}
         
+        ///RECHAZA SOLICITUD DE PRESTAMO ADMIN
         if(request.getParameter("btnRechazarSolicitud")!=null) {
         	pres.setNro_prestamo(Integer.parseInt(request.getParameter("nroPrestamo").toString()));
-        	ep.setEst_prestamo(2);
-			pres.setEst_prestamo(ep);
-			pneg.RespuestaSolicitud(pres);
-			
-			ep.setEst_prestamo(3);
-			pres.setEst_prestamo(ep);
-		    ArrayList<Prestamo> ListaPrestamos = (ArrayList<Prestamo>) pneg.Prestamos(pres);
-			request.setAttribute("prestamos", ListaPrestamos);
-			request.setAttribute("rechazado", true);
+		    if(pneg.rechazarPrestamo(pres)) request.setAttribute("rechazado", true);
+			request.setAttribute("prestamos", pneg.Solicitudes());
 			RequestDispatcher rd = request.getRequestDispatcher("/Prestamos.jsp");
 			rd.forward(request, response);
 		}
-
+        
+        ///MUESTRA EL NUMERO DE CLIENTE PROXIMO A DAR DE ALTA
+        if(request.getParameter("nuevoNroCli")!=null) {
+     	    int maxId = cneg.obtenerProxId();
+    		    request.setAttribute("nuevoNroCli", maxId);
+ 			RequestDispatcher rd = request.getRequestDispatcher("/AltaClientes.jsp");
+ 	        rd.forward(request, response);
+ 		} 
 		
 		//AL HACER CLICK EN 
 		if(request.getParameter("ParamListarCLI")!=null) {
@@ -145,8 +148,6 @@ public class ServletAdmin extends HttpServlet {
 	        rd.forward(request, response);
 		}
 	    
-	    
-	    
     	if(request.getParameter("btnModificarCuenta")!=null) {
 	    	
 	    	ArrayList<Cuenta> lista = (ArrayList<Cuenta>) neg.obtenerCuentaPorNr_cuenta(request.getParameter("nroCuenta"));
@@ -155,18 +156,7 @@ public class ServletAdmin extends HttpServlet {
 	    	System.out.println("entro mod cuenta");
 	    	RequestDispatcher rd = request.getRequestDispatcher("/ModifCuenta.jsp");   
 	        rd.forward(request, response);
-	    }
-    
-    	
-       if(request.getParameter("nuevoNroCli")!=null) {
-    	    int maxId = cneg.obtenerProxId();
-   		    request.setAttribute("nuevoNroCli", maxId);
-			RequestDispatcher rd = request.getRequestDispatcher("/AltaClientes.jsp");
-	        rd.forward(request, response);
-		}
-    	
-    	
-    	
+	    } 	
     	
     	if(request.getParameter("Genero")!=null) {
     		int codigo = Integer.parseInt(request.getParameter("Genero"));
@@ -203,48 +193,59 @@ public class ServletAdmin extends HttpServlet {
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
+		///FILTRA LOS PRESTAMOS EN REPORTES ADMIN
 		if(request.getParameter("btnFiltrarPres")!=null) {
+			ArrayList<Prestamo> ListaPrestamos = null;
 			if(request.getParameter("presIni").toString().equals("") && request.getParameter("presFin").toString().equals("") || request.getParameter("presIni").toString().length()>0 && request.getParameter("presFin").toString().length()>0) {
-				ArrayList<Prestamo> ListaPrestamos = (ArrayList<Prestamo>) pneg.prestamoXfecha(request.getParameter("presIni").toString(), request.getParameter("presFin").toString(), request.getParameter("filtroPre").toString());
-				request.setAttribute("prestamos", ListaPrestamos);
+			      ListaPrestamos = (ArrayList<Prestamo>) pneg.prestamoXfecha(request.getParameter("presIni").toString(), request.getParameter("presFin").toString(), request.getParameter("filtroPre").toString());
 			}
-			else request.setAttribute("errorPrestamo", true);
-			ArrayList<Movimiento> ListaMovimientos = (ArrayList<Movimiento>) mneg.readAll();
+			else {
+			    ListaPrestamos = (ArrayList<Prestamo>) pneg.readAll();
+				request.setAttribute("errorPrestamo", true);
+			}
+			int dinero = mneg.dineroTotal();
+		    ArrayList<Movimiento> ListaMovimientos = (ArrayList<Movimiento>) mneg.readAll();
+			request.setAttribute("prestamos", ListaPrestamos);
+			request.setAttribute("total", dinero);
 		    request.setAttribute("movimientos", ListaMovimientos);
 			RequestDispatcher rd = request.getRequestDispatcher("/Reportes.jsp");
 			rd.forward(request, response);
 		}
 		
+		///FILTRA LOS MOVIMIENTOS EN REPORTES ADMIN
 		if(request.getParameter("btnFiltrarMov")!=null) {
+			ArrayList<Movimiento> ListaMovimientos = null;
 			if(request.getParameter("movIni").toString().equals("") && request.getParameter("movFin").toString().equals("") || request.getParameter("movIni").toString().length()>0 && request.getParameter("movFin").toString().length()>0) {
-				ArrayList<Movimiento> ListaMovimientos = (ArrayList<Movimiento>) mneg.movimientoXfecha(request.getParameter("movIni").toString(), request.getParameter("movFin").toString(), request.getParameter("filtroMov").toString());
-				request.setAttribute("movimientos", ListaMovimientos);
+			    ListaMovimientos = (ArrayList<Movimiento>) mneg.movimientoXfecha(request.getParameter("movIni").toString(), request.getParameter("movFin").toString(), request.getParameter("filtroMov").toString());
 			}
-			else request.setAttribute("errorMovimiento", true);
+			else {
+			    ListaMovimientos = (ArrayList<Movimiento>) mneg.readAll();
+				request.setAttribute("errorMovimiento", true);
+			}
+			int dinero = mneg.dineroTotal();
 			ArrayList<Prestamo> ListaPrestamos = (ArrayList<Prestamo>) pneg.readAll();
+			request.setAttribute("movimientos", ListaMovimientos);
+			request.setAttribute("total", dinero);
 		    request.setAttribute("prestamos", ListaPrestamos);
 			RequestDispatcher rd = request.getRequestDispatcher("/Reportes.jsp");
 			rd.forward(request, response);
 		}
 		
+		///BOTON MOSTRAR TODOS LOS MOVIMIENTOS EN REPORTES ADMIN
 		if(request.getParameter("btnMostrarMov")!=null) {
-			ArrayList<Prestamo> ListaPrestamos = (ArrayList<Prestamo>) pneg.readAll();
-		    ArrayList<Movimiento> ListaMovimientos = (ArrayList<Movimiento>) mneg.readAll();
-		    request.setAttribute("movimientos", ListaMovimientos);
-		    request.setAttribute("prestamos", ListaPrestamos);
+			cargarReportes(request,response);
 		    RequestDispatcher rd = request.getRequestDispatcher("/Reportes.jsp");
 			rd.forward(request, response);
 		}
 		
+		///BOTON MOSTRAR TODOS LOS PRESTAMOS EN REPORTES ADMIN
 		if(request.getParameter("btnMostrarPres")!=null) {
-			ArrayList<Prestamo> ListaPrestamos = (ArrayList<Prestamo>) pneg.readAll();
-		    ArrayList<Movimiento> ListaMovimientos = (ArrayList<Movimiento>) mneg.readAll();
-		    request.setAttribute("movimientos", ListaMovimientos);
-		    request.setAttribute("prestamos", ListaPrestamos);
+			cargarReportes(request,response);
 		    RequestDispatcher rd = request.getRequestDispatcher("/Reportes.jsp");
 			rd.forward(request, response);
 		}
 		
+		///FILTRA LOS PRESTAMOS SOLICITADOS EN PRESTAMOS ADMIN
 		if(request.getParameter("filtrarPrestamos")!=null) {
 		    ArrayList<Prestamo> ListaPrestamos = (ArrayList<Prestamo>) pneg.obtenerPrestamosQueryCustom(request.getParameter("ddlFiltro").toString(), request.getParameter("txtFiltro").toString());
 			request.setAttribute("prestamos", ListaPrestamos);
@@ -252,17 +253,16 @@ public class ServletAdmin extends HttpServlet {
 			rd.forward(request, response);
 		}
 		
+		///CARGA LA LISTA DE PRESTAMOS SOLICITADOS EN PRESTAMOS ADMIN
 		if(request.getParameter("LPrestamos")!=null) {
-			ep.setEst_prestamo(3);
-			pres.setEst_prestamo(ep);
-		    ArrayList<Prestamo> ListaPrestamos = (ArrayList<Prestamo>) pneg.Prestamos(pres);
+		    ArrayList<Prestamo> ListaPrestamos = (ArrayList<Prestamo>) pneg.Solicitudes();
 			request.setAttribute("prestamos", ListaPrestamos);
 			RequestDispatcher rd = request.getRequestDispatcher("/Prestamos.jsp");
 			rd.forward(request, response);
 		}
 		
+		///CONFIRMA EL ALTA DEL CLIENTE
             if(request.getParameter("AceptarAgregar")!=null) {
-
             boolean alta = true;
             
 			if(request.getParameter("contra").toString().compareTo(request.getParameter("contra2").toString())!=0)
@@ -270,28 +270,24 @@ public class ServletAdmin extends HttpServlet {
 				alta = false;
 				request.setAttribute("errorContraseña", alta);
 				RequestDispatcher rd = request.getRequestDispatcher("/AltaClientes.jsp");   
-		        rd.forward(request, response);
-		        return;
+			    rd.forward(request, response);
+			    return;
 			}
 			
 			u.setUsuario(request.getParameter("usuario").toString());
-			u.setTipo_Us(new TipoUsuario(2,"Cliente"));
-			u.setContrasenia(request.getParameter("contra").toString());
-			u.setEstado(true);
 			
 			if(uneg.existeNombreUsuario(u)) {
 				alta = false;
 				request.setAttribute("usuarioExistente", alta);
 				RequestDispatcher rd = request.getRequestDispatcher("/AltaClientes.jsp");   
-		        rd.forward(request, response);
-		        return;
+			    rd.forward(request, response);
+			    return;
 			}
 
 			g.setCod_genero(Integer.parseInt(request.getParameter("genero").toString()));
 			n.setCod_nacionalidad(Integer.parseInt(request.getParameter("nacionalidad").toString()));
 			p.setCod_provincia(Integer.parseInt(request.getParameter("provincia").toString()));
 			l.setCod_localidad(Integer.parseInt(request.getParameter("localidad").toString()));
-
 				
 			c.setNombre(request.getParameter("nombre").toString());
 			c.setApellido(request.getParameter("apellido").toString());
@@ -311,21 +307,19 @@ public class ServletAdmin extends HttpServlet {
 			if(cneg.insert(c) == false) {
 				alta = false;
 				request.setAttribute("error", alta);
-				RequestDispatcher rd = request.getRequestDispatcher("/AltaClientes.jsp");   
-		        rd.forward(request, response);
-		        return;
 			}
 			
 			if(alta==true) {
 				request.setAttribute("exito", alta);
 				int maxId = cneg.obtenerProxId();
 	   		    request.setAttribute("nuevoNroCli", maxId);
-				RequestDispatcher rd = request.getRequestDispatcher("/AltaClientes.jsp");   
-			    rd.forward(request, response);
 			}
+			RequestDispatcher rd = request.getRequestDispatcher("/AltaClientes.jsp");   
+		    rd.forward(request, response);
 		        
        }
        
+       ///BOTON DE ELIMINAR CLIENTE
        if(request.getParameter("AceptarEliminar")!=null) {
 			boolean baja = false;
 			Cliente c = new Cliente();

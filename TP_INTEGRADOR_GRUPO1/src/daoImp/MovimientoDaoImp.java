@@ -9,13 +9,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 import dao.MovimientoDao;
+import entidades.Cuenta;
 import entidades.Movimiento;
-import entidades.Prestamo;
 import entidades.TipoMovimiento;
 
 public class MovimientoDaoImp implements MovimientoDao{
 
-	private static final String readAll = "SELECT * FROM vistaMovimientos";
+	private static final String readAll = "SELECT Nro_Movimiento,Nro_cuenta,fecha_dmy as fecha,Tipo_mov,Descripcion,Importe,Detalle FROM vistaMovimientos";
 	
 	@Override
 	public List<Movimiento> readAll() {
@@ -86,12 +86,12 @@ public class MovimientoDaoImp implements MovimientoDao{
 		String Query = "";
 		
 		if(filtro.toString()!= "Todo") {
-			if(fecha1.length() != 0 && fecha2.length() != 0) Query = "SELECT * FROM vistaMovimientos WHERE Tipo_mov = " + filtro + " AND Fecha BETWEEN '"+ fecha1 +"' AND '"+ fecha2 +"'";
-			else Query = "SELECT * FROM vistaMovimientos WHERE Tipo_mov = " + filtro + "";
+			if(fecha1.length() != 0 && fecha2.length() != 0) Query = readAll +" WHERE Tipo_mov = " + filtro + " AND fecha_dmy BETWEEN '"+ fecha1 +"' AND '"+ fecha2 +"'";
+			else Query = readAll +" WHERE Tipo_mov = " + filtro + "";
 		}
-		if(filtro.equals("Todo")) {
-			if(fecha1.length() != 0 && fecha2.length() != 0) Query = "SELECT * FROM vistaMovimientos WHERE Fecha BETWEEN '"+ fecha1 +"' AND '"+ fecha2 +"'";
-			else Query = "SELECT * FROM vistaMovimientos";
+		if(filtro.equals("Todo")){ 
+			if(fecha1.length() != 0 && fecha2.length() != 0) Query = readAll+" WHERE fecha_dmy BETWEEN '"+fecha1+"' AND '"+fecha2+"'";
+			else Query = readAll;
 		}
 
 		try{
@@ -111,6 +111,71 @@ public class MovimientoDaoImp implements MovimientoDao{
 		}
 		
 		return lista;
+	}
+
+	@Override
+	public List<Movimiento> getMovCuenta(Cuenta c) {
+		Connection conexion = Conexion.getConexion().getSQLConexion();
+		ArrayList<Movimiento> lista = new ArrayList<Movimiento>();
+		String Query = "SELECT * from vistaMovimientos where Nro_Cuenta = " + c.getNro_cuenta();
+		try{
+			ResultSet rs = null;
+
+			Statement st = conexion.createStatement();
+			rs = st.executeQuery(Query);
+
+			// Cargo lista
+			while(rs.next()){
+				Movimiento m = new Movimiento();
+				TipoMovimiento tm = new TipoMovimiento();
+				
+				m.setNro_Movimiento(rs.getInt("Nro_Movimiento"));
+				m.setNro_Cuenta(rs.getInt("Nro_cuenta"));
+				m.setFecha(rs.getString("fecha_dmy"));
+				tm.setDescripcion(rs.getString("Descripcion"));
+				m.setTipo_Mov(tm);
+				m.setImporte(rs.getFloat("Importe"));
+				m.setDetalle(rs.getString("Detalle"));
+				lista.add(m);
+			}
+		}catch(Exception e){
+			e.printStackTrace();
+		}finally{
+		
+		}
+		System.out.println(lista.toString());
+		return lista;
+	}
+
+	@Override
+	public boolean ejecutarTransferencia(String origen, String destino, float importe) {
+		boolean rt = true;
+
+        Connection conexion = Conexion.getConexion().getSQLConexion();
+		try
+		{
+			PreparedStatement statement = conexion.prepareStatement("{CALL spEjecutarTransferencia(?,?,?)}");
+			statement.setInt(1, Integer.parseInt(origen));
+			statement.setInt(2, Integer.parseInt(destino));
+			statement.setFloat(3, importe);
+			// statement.execute();
+
+			// En lugar de execute uso executeQuery para obtener el resulset 
+			// que me devuelve el nroCuenta asignado o -1 en caso que falle
+			ResultSet rs1 = statement.executeQuery();
+
+			// Si devolvio algun mensaje de error entonces retorno falso
+		    while(rs1.next()) {
+		    	if(rs1.getInt("NRO") == -1) {
+		    		rt = false;
+		    	}
+		    }			
+		} 
+		catch (SQLException e) 
+		{
+			e.printStackTrace();
+		}
+		return rt;
 	}
 
 

@@ -15,20 +15,64 @@ import entidades.Prestamo;
 
 public class PrestamoDaoImp implements PrestamoDao{
 
-	private static final String prestamos = "SELECT prestamos.Nro_prestamo, prestamos.Nro_cliente, prestamos.Fecha, prestamos.Imp_con_intereses, prestamos.Imp_solicitado, prestamos.Nro_cuenta_deposito, prestamos.Plazo_pago_meses, prestamos.Monto_pago_por_mes, prestamos.Cant_cuotas, estadosPrestamos.Descripcion FROM prestamos INNER JOIN estadosPrestamos ON prestamos.Est_prestamo = estadosPrestamos.Est_prestamo WHERE prestamos.Est_prestamo = ?";
-	private static final String readAll = "SELECT * FROM vistaPrestamos";
-	private static final String respuesta = "UPDATE prestamos SET Est_prestamo = ?  WHERE Nro_prestamo = ?";
+	private static final String aceptar = "{CALL spAprobarPrestamo(?)}";
+	private static final String rechazar = "{CALL spRechazarPrestamo(?)}";
+	private static final String solicitudes = "SELECT Nro_prestamo, fecha_dmy as fecha, Imp_con_intereses, Imp_solicitado, Nro_cuenta_deposito, Plazo_pago_meses, Monto_pago_por_mes, Cant_cuotas, Descripcion, Est_prestamo,Nro_cliente FROM vistaSolicitudes";
+	private static final String readAll = "SELECT Nro_prestamo, fecha_dmy as fecha, Imp_con_intereses, Imp_solicitado, Nro_cuenta_deposito, Plazo_pago_meses, Monto_pago_por_mes, Cant_cuotas, Descripcion, Est_prestamo,Nro_cliente FROM vistaPrestamos"; 
+
+	@Override
+    public boolean aprobarPrestamo(Prestamo p) {
+			boolean aprobado = false;
+			Connection conexion = Conexion.getConexion().getSQLConexion();
+			try
+			{
+				PreparedStatement statement = conexion.prepareStatement(aceptar);
+				statement.setInt(1, p.getNro_prestamo());
+				// En lugar de execute uso executeQuery para obtener el resulset que me devuelve en caso que falle
+				// statement.execute();
+				ResultSet rs1 = statement.executeQuery();
+			    while(rs1.next()) {
+			    	aprobado = true;
+			    }			
+			} 
+			catch (SQLException e) 
+			{
+				e.printStackTrace();
+			}
+			return aprobado;
+    }
+    
+	@Override
+    public boolean rechazarPrestamo(Prestamo p) {
+			boolean rechazado = false;
+			Connection conexion = Conexion.getConexion().getSQLConexion();
+			try
+			{
+				PreparedStatement statement = conexion.prepareStatement(rechazar);
+				statement.setInt(1, p.getNro_prestamo());
+				// En lugar de execute uso executeQuery para obtener el resulset que me devuelve en caso que falle
+				// statement.execute();
+				ResultSet rs1 = statement.executeQuery();
+			    while(rs1.next()) {
+			    	rechazado = true;
+			    }			
+			} 
+			catch (SQLException e) 
+			{
+				e.printStackTrace();
+			}
+			return rechazado;
+    }
 	
 	@Override
-	public List<Prestamo> Prestamos(Prestamo p) {
+	public List<Prestamo> Solicitudes() {
 		PreparedStatement Statement;
 		ResultSet resultSet;
 		ArrayList<Prestamo> ListaPrestamos = new ArrayList<Prestamo>();
 		Conexion conexion = Conexion.getConexion();
 		
 		try {
-			Statement = conexion.getSQLConexion().prepareStatement(prestamos);
-			Statement.setInt(1, p.getEst_prestamo().getEst_prestamo());
+			Statement = conexion.getSQLConexion().prepareStatement(solicitudes);
 			resultSet = Statement.executeQuery();
 			while(resultSet.next()) {
 				ListaPrestamos.add(get(resultSet));
@@ -59,29 +103,6 @@ public class PrestamoDaoImp implements PrestamoDao{
 		}
 		return ListaPrestamos;
 	}
-
-	@Override
-	public boolean RespuestaSolicitud(Prestamo p) {
-		PreparedStatement statement;
-		Connection conexion = Conexion.getConexion().getSQLConexion();
-		boolean confirmacion = false;
-		
-		try {
-			statement = conexion.prepareStatement(respuesta);
-			statement.setInt(1, p.getEst_prestamo().getEst_prestamo());
-			statement.setInt(2, p.getNro_prestamo());
-			
-			if(statement.executeUpdate()>0){
-				conexion.commit();
-				confirmacion = true;
-			}
-		}
-		catch( SQLException e) {
-			e.printStackTrace();
-		}
-		
-		return confirmacion;
-	}
 	
    @Override
    public ArrayList<Prestamo> obtenerPrestamosQueryCustom(String consulta, String filtro) {
@@ -89,21 +110,8 @@ public class PrestamoDaoImp implements PrestamoDao{
 		ArrayList<Prestamo> lista = new ArrayList<Prestamo>();
 		String Query = "";
 		
-		if(consulta.equals("Todo") && filtro.equals("")) {
-			Query = "SELECT prestamos.Nro_prestamo, prestamos.Nro_cliente, prestamos.Fecha, prestamos.Imp_con_intereses, prestamos.Imp_solicitado, prestamos.Nro_cuenta_deposito, prestamos.Plazo_pago_meses, prestamos.Monto_pago_por_mes, prestamos.Cant_cuotas, estadosPrestamos.Descripcion FROM prestamos INNER JOIN estadosPrestamos ON prestamos.Est_prestamo = estadosPrestamos.Est_prestamo WHERE prestamos.Est_prestamo = 3 AND " + 
-					"prestamos.Nro_prestamo LIKE '%" + filtro + "%' or " + 
-					"prestamos.Nro_cliente LIKE '%" + filtro + "%' or " + 
-					"prestamos.Fecha LIKE '%" + filtro + "%' or " + 
-					"prestamos.Imp_con_intereses LIKE '%" + filtro + "%' or " + 
-					"prestamos.Imp_solicitado LIKE '%" + filtro + "%' or " + 
-					"prestamos.Nro_cuenta_deposito LIKE '%" + filtro + "%' or " + 
-					"prestamos.Plazo_pago_meses LIKE '%" + filtro + "%' or " + 
-					"prestamos.Monto_pago_por_mes LIKE '%" + filtro + "%' or " + 
-					"prestamos.Cant_cuotas LIKE '%" + filtro + "%'";
-		}
-		else {
-			Query = "SELECT prestamos.Nro_prestamo, prestamos.Nro_cliente, prestamos.Fecha, prestamos.Imp_con_intereses, prestamos.Imp_solicitado, prestamos.Nro_cuenta_deposito, prestamos.Plazo_pago_meses, prestamos.Monto_pago_por_mes, prestamos.Cant_cuotas, estadosPrestamos.Descripcion FROM prestamos INNER JOIN estadosPrestamos ON prestamos.Est_prestamo = estadosPrestamos.Est_prestamo WHERE prestamos.Est_prestamo = 3 AND " + consulta + " LIKE '%" + filtro + "%'";
-		}
+		if(filtro.length()!=0 && consulta.toString()!="Todo") Query = solicitudes+" WHERE " + consulta + " = '" + filtro + "'";
+		if(consulta.toString()=="Todo") Query = solicitudes; 
 
 		try{
 			ResultSet rs = null;
@@ -153,12 +161,12 @@ public class PrestamoDaoImp implements PrestamoDao{
 		String Query = "";
 		
 		if(filtro.toString()!= "Todo") {
-			if(fecha1.length() != 0 && fecha2.length() != 0) Query = "SELECT * FROM vistaPrestamos WHERE Est_prestamo = " + filtro + " AND Fecha BETWEEN '"+ fecha1 +"' AND '"+ fecha2 +"'";
-			else Query = "SELECT * FROM vistaPrestamos WHERE Est_prestamo = " + filtro + "";
+			if(fecha1.length() != 0 && fecha2.length() != 0) Query = readAll+" WHERE Est_prestamo = " + filtro + " AND fecha_dmy BETWEEN '"+ fecha1 +"' AND '"+ fecha2 +"'";
+			else Query = readAll+" WHERE Est_prestamo = " + filtro + "";
 		}
 		if(filtro.equals("Todo")) {
-			if(fecha1.length() != 0 && fecha2.length() != 0) Query = "SELECT * FROM vistaPrestamos WHERE Fecha BETWEEN '"+ fecha1 +"' AND '"+ fecha2 +"'";
-			else Query = "SELECT * FROM vistaPrestamos";
+			if(fecha1.length() != 0 && fecha2.length() != 0) Query = readAll+" WHERE fecha_dmy BETWEEN '"+ fecha1 +"' AND '"+ fecha2 +"'";
+			else Query = readAll;
 		}
 
 		try{

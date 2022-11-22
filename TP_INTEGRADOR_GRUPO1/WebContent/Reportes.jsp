@@ -31,7 +31,7 @@
    		<%} 
     }%>
 <%   int total=0;
-     if(session.getAttribute("total")!=null) total = Integer.parseInt(session.getAttribute("total").toString()); %>
+     if(request.getAttribute("total")!=null) total = Integer.parseInt(request.getAttribute("total").toString()); %>
 <div>
 <br><br>
 <span>Dinero total depositado en el banco actualmente: <b>$ <%= total %></b></span>

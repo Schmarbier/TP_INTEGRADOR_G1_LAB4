@@ -34,7 +34,7 @@
 				  <option value="Todo">Todo</option>
 				  <option value="Nro_prestamo">Numero de prestamo</option>
 				  <option value="Nro_cliente">Numero de cliente</option>
-				  <option value="Fecha">Fecha de solicitud</option>
+				  <option value="fecha_dmy">Fecha de solicitud</option>
 				</select>
 				<input type="text" class="form-control" name="txtFiltro" placehorder="Busqueda">
     		<div class="input-group-append">

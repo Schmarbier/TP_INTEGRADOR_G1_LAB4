@@ -2,9 +2,7 @@ package negocioImp;
 
 import java.util.ArrayList;
 
-import dao.ClienteDao;
 import dao.CuentaDao;
-import daoImp.ClienteDaoImp;
 import daoImp.CuentaDaoImp;
 import entidades.Cuenta;
 import negocio.CuentaNegocio;
@@ -57,5 +55,10 @@ public class CuentaNegocioImp implements CuentaNegocio{
 	@Override
 	public int totalCuentasPorCliente(int nroCliente) {
 		return cdao.totalCuentasPorCliente(nroCliente);
+	}
+
+	@Override
+	public ArrayList<Cuenta> getCuentasXCliente(String nomCuenta) {
+		return cdao.getCuentasXCliente(nomCuenta);
 	}
 }

@@ -13,20 +13,18 @@ import javax.servlet.http.HttpSession;
 
 import entidades.Usuario;
 import entidades.Cliente;
+import entidades.Cuenta;
 import entidades.Genero;
 import entidades.Localidad;
-import entidades.Movimiento;
 import entidades.Nacionalidad;
-import entidades.Prestamo;
 import entidades.Provincia;
 import entidades.TipoCuenta;
 import negocioImp.UsuarioNegocioImp;
 import negocioImp.ClienteNegocioImp;
+import negocioImp.CuentaNegocioImp;
 import negocioImp.GeneroNegocioImp;
 import negocioImp.LocalidadNegocioImp;
-import negocioImp.MovimientoNegocioImp;
 import negocioImp.NacionalidadNegocioImp;
-import negocioImp.PrestamoNegocioImp;
 import negocioImp.ProvinciaNegocioImp;
 import negocioImp.TipoCuentaNegocioImp;
 
@@ -45,9 +43,9 @@ public class ServletLogin extends HttpServlet {
 	NacionalidadNegocioImp nneg = new NacionalidadNegocioImp();
 	ProvinciaNegocioImp provneg = new ProvinciaNegocioImp();
 	LocalidadNegocioImp lneg = new LocalidadNegocioImp();
-    ClienteNegocioImp cneg = new ClienteNegocioImp();
-    MovimientoNegocioImp mneg = new MovimientoNegocioImp();
-    
+    	ClienteNegocioImp cneg = new ClienteNegocioImp();
+    	CuentaNegocioImp cuentaNeg = new CuentaNegocioImp();
+
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
 		if(request.getParameter("btnLogin")!=null) {
@@ -108,9 +106,9 @@ public class ServletLogin extends HttpServlet {
 			}
 			else {
 				request.setAttribute("error", true);
+				RequestDispatcher rd = request.getRequestDispatcher("Login.jsp");   
+				rd.forward(request, response);   
 			}
-			RequestDispatcher rd = request.getRequestDispatcher("Login.jsp");   
-			rd.forward(request, response);   
 		}
 		
 		
@@ -133,9 +131,6 @@ public class ServletLogin extends HttpServlet {
 		
 		int maxId = cneg.obtenerProxId();
 		session.setAttribute("ncli", maxId);
-		    
-		int dinero = mneg.dineroTotal();
-		session.setAttribute("total", dinero);
 	    
 	    ArrayList<Genero> listGeneros = (ArrayList<Genero>) gneg.readAll();
 		session.setAttribute("generos", listGeneros);
@@ -149,6 +144,8 @@ public class ServletLogin extends HttpServlet {
 		ArrayList<Localidad> listaLocalidad = (ArrayList<Localidad>) lneg.readAll();
 		session.setAttribute("localidades", listaLocalidad);
 		
+		ArrayList<Cuenta> listaCuentas = (ArrayList<Cuenta>) cuentaNeg.getCuentasXCliente(request.getParameter("txtUsuario").toString());
+		session.setAttribute("CuentasEnCuenta", listaCuentas);
 	}	
 	
 }
