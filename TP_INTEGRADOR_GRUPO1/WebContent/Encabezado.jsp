@@ -1,4 +1,6 @@
 <head>
+	<%@page import="entidades.Cuenta"%>
+	<%@page import="java.util.ArrayList"%>
 	<!-- Latest compiled and minified CSS -->
 	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css">
 	
@@ -61,9 +63,19 @@
 		   <li class="nav-item dropdown">
 		      <a class="nav-link dropdown-toggle" href="#" id="navbardrop" data-toggle="dropdown">Cuentas</a>
 		      <div class="dropdown-menu">
-		        <a class="dropdown-item" href="Cuenta1.jsp">Cuenta 1</a>
-		        <a class="dropdown-item" href="Cuenta2.jsp">Cuenta 2</a>
-		        <a class="dropdown-item" href="Cuenta3.jsp">Cuenta 3</a>
+		      	<%  
+					ArrayList<Cuenta> lista = null;
+					if(session.getAttribute("CuentasEnCuenta")!=null)
+					{
+						lista = (ArrayList<Cuenta>) session.getAttribute("CuentasEnCuenta");
+					}
+		    		if(lista!=null){
+		    			int nro = 0;
+						for(Cuenta c:lista) 
+						{ nro++;%>
+						<a class="dropdown-item" href="ServletRomanNO_TOCAR?RNcuenta=<%=c.getNro_cuenta()%>">Cuenta <%=nro%></a>
+					  <%}
+					 }%>
 		      </div>
 		    </li>
 		    <li class="nav-item dropdown">

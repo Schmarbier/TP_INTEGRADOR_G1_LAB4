@@ -87,8 +87,6 @@ public class CuentaDaoImp implements CuentaDao {
 			Query = "SELECT a.Nro_cuenta, a.Nro_cliente, a.Fecha_creacion, a.Tipo_cuenta, b.Descripcion, a.Cbu, a.Saldo from cuentas as a inner join tiposcuentas as b on a.Tipo_cuenta = b.Tipo_cuenta WHERE " + consulta +" LIKE '%" + filtro + "%'";
 		}
 		
-		System.out.println(Query);
-		System.out.println(consulta);
 		try{
 			ResultSet rs = null;
 
@@ -304,6 +302,74 @@ public class CuentaDaoImp implements CuentaDao {
 		
 		}
 		return total;
+	}
+
+	@Override
+	public ArrayList<Cuenta> getCuentasXCliente(String nombreUsu) {
+Connection conexion = Conexion.getConexion().getSQLConexion();
+		
+		ArrayList<Cuenta> lista = new ArrayList<Cuenta>();
+		String Query ="SELECT Nro_Cuenta from cuentas as a inner join clientes as b \r\n" + 
+				"on a.Nro_cliente = b.Nro_Cliente where b.Usuario = '" + nombreUsu + "'";
+		
+		try{
+			ResultSet rs = null;
+
+			Statement st = conexion.createStatement();
+			rs = st.executeQuery(Query);
+
+			// Cargo lista
+			while(rs.next()){
+				Cuenta cuenta = new Cuenta();
+				cuenta.setNro_cuenta(rs.getInt("Nro_cuenta"));
+				cuenta.setCbu("1");
+				cuenta.setFecha_creacion("1");
+				cuenta.setNro_cliente(0);
+				cuenta.setSaldo(1);
+				cuenta.setTipo_cuenta(new TipoCuenta(1,"asd"));
+				lista.add(cuenta);
+			}
+		}catch(Exception e){
+			e.printStackTrace();
+		}finally{
+		
+		}
+		
+		return lista;
+	}
+
+	@Override
+	public Cuenta getCuentaXcbu(String cbu) {
+		Cuenta cuenta = new Cuenta();
+		
+		PreparedStatement statement;
+		Connection conexion = Conexion.getConexion().getSQLConexion();
+		try 
+		{
+			statement = conexion.prepareStatement("SELECT * from vistaCuentasCBU Where Cbu = " + cbu);
+			
+			ResultSet rs = null;
+			
+			rs = statement.executeQuery();
+			
+			// Cargo lista
+			if(rs.next()){
+				cuenta.setNro_cuenta(rs.getInt("Nro_cuenta"));
+				cuenta.setNro_cliente(rs.getInt("Nro_cliente"));
+				cuenta.setFecha_creacion(rs.getString("Fecha_creacion"));
+				cuenta.setTipo_cuenta(new TipoCuenta(rs.getInt("tipo_cuenta"),rs.getString("b.Descripcion")));
+				cuenta.setCbu(rs.getString("Cbu"));
+				cuenta.setSaldo(rs.getFloat("Saldo"));
+			}
+			else cuenta = null;
+		} 
+		catch (SQLException e) 
+		{
+			e.printStackTrace();
+		}finally{
+		
+		}
+		return cuenta;
 	}
 
 }
