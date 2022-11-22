@@ -119,9 +119,6 @@ public class ServletLogin extends HttpServlet {
 		session.setAttribute("localidades", listaLocalidad);
 		
 		ArrayList<Cuenta> listaCuentas = (ArrayList<Cuenta>) cuentaNeg.getCuentasXCliente(request.getParameter("txtUsuario").toString());
-		for(Cuenta c:listaCuentas) {
-			
-		}
 		session.setAttribute("CuentasEnCuenta", listaCuentas);
 	}	
 	

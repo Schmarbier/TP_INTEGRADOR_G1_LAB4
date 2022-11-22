@@ -87,8 +87,6 @@ public class CuentaDaoImp implements CuentaDao {
 			Query = "SELECT a.Nro_cuenta, a.Nro_cliente, a.Fecha_creacion, a.Tipo_cuenta, b.Descripcion, a.Cbu, a.Saldo from cuentas as a inner join tiposcuentas as b on a.Tipo_cuenta = b.Tipo_cuenta WHERE " + consulta +" LIKE '%" + filtro + "%'";
 		}
 		
-		System.out.println(Query);
-		System.out.println(consulta);
 		try{
 			ResultSet rs = null;
 
@@ -338,6 +336,40 @@ Connection conexion = Conexion.getConexion().getSQLConexion();
 		}
 		
 		return lista;
+	}
+
+	@Override
+	public Cuenta getCuentaXcbu(String cbu) {
+		Cuenta cuenta = new Cuenta();
+		
+		PreparedStatement statement;
+		Connection conexion = Conexion.getConexion().getSQLConexion();
+		try 
+		{
+			statement = conexion.prepareStatement("SELECT * from vistaCuentasCBU Where Cbu = " + cbu);
+			
+			ResultSet rs = null;
+			
+			rs = statement.executeQuery();
+			
+			// Cargo lista
+			if(rs.next()){
+				cuenta.setNro_cuenta(rs.getInt("Nro_cuenta"));
+				cuenta.setNro_cliente(rs.getInt("Nro_cliente"));
+				cuenta.setFecha_creacion(rs.getString("Fecha_creacion"));
+				cuenta.setTipo_cuenta(new TipoCuenta(rs.getInt("tipo_cuenta"),rs.getString("b.Descripcion")));
+				cuenta.setCbu(rs.getString("Cbu"));
+				cuenta.setSaldo(rs.getFloat("Saldo"));
+			}
+			else cuenta = null;
+		} 
+		catch (SQLException e) 
+		{
+			e.printStackTrace();
+		}finally{
+		
+		}
+		return cuenta;
 	}
 
 }

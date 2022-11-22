@@ -65,17 +65,15 @@
 		      <div class="dropdown-menu">
 		      	<%  
 					ArrayList<Cuenta> lista = null;
-		      	System.out.println("BLABLABALBLAL");
 					if(session.getAttribute("CuentasEnCuenta")!=null)
 					{
 						lista = (ArrayList<Cuenta>) session.getAttribute("CuentasEnCuenta");
-						System.out.println(lista.toString());
 					}
 		    		if(lista!=null){
 		    			int nro = 0;
 						for(Cuenta c:lista) 
 						{ nro++;%>
-						<a class="dropdown-item" href="ServletRomanNO_TOCAR?cuenta=<%c.getNro_cuenta();%>">Cuenta <%=nro%></a>
+						<a class="dropdown-item" href="ServletRomanNO_TOCAR?RNcuenta=<%=c.getNro_cuenta()%>">Cuenta <%=nro%></a>
 					  <%}
 					 }%>
 		      </div>

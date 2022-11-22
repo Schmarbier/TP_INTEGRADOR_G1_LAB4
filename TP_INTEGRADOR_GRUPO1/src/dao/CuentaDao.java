@@ -23,4 +23,6 @@ public interface CuentaDao {
 	
 	public ArrayList<Cuenta> getCuentasXCliente(String numero);
 	
+	public Cuenta getCuentaXcbu(String cbu);
+	
 }
