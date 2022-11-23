@@ -61,4 +61,16 @@ public class CuentaNegocioImp implements CuentaNegocio{
 	public ArrayList<Cuenta> getCuentasXCliente(String nomCuenta) {
 		return cdao.getCuentasXCliente(nomCuenta);
 	}
+
+	@Override
+	public boolean ExisteNroCuenta(int numero) {
+		return cdao.ExisteNroCuenta(numero);
+	}
+
+	@Override
+	public int NroClienteSegunNombreCliente(String NombreClie) {
+		return cdao.NroClienteSegunNombreCliente(NombreClie);
+	}
+	
+	
 }

@@ -104,8 +104,8 @@ public class ServletLogin extends HttpServlet {
 		ArrayList<TipoCuenta> listTipoCuenta = (ArrayList<TipoCuenta>) tcneg.readAll();
 		session.setAttribute("TipoCuenta", listTipoCuenta);
 		
-		int maxId = cneg.obtenerProxId();
-		session.setAttribute("ncli", maxId);
+		int NroCliente = cuentaNeg.NroClienteSegunNombreCliente(request.getParameter("txtUsuario").toString());
+		session.setAttribute("Nrocliente", NroCliente);
 	    
 	    ArrayList<Genero> listGeneros = (ArrayList<Genero>) gneg.readAll();
 		session.setAttribute("generos", listGeneros);
