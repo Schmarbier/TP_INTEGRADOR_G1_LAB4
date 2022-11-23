@@ -65,18 +65,21 @@
 			    <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo" data-bs-parent="#accordionExample">
 			      <div class="accordion-body m-3">
 			      	<div class="input-group-sm mb-3">
-					  <input name="txtCbu" type="number" class="form-control" placeholder="CBU">
+					  <input name="txtCbu" type="number" class="form-control" placeholder="CBU" required>
 					</div>
 			        <div class="input-group input-group-sm mb-3">
 					  <div class="input-group-prepend">
 					    <span class="input-group-text">$</span>
 					  </div>
-					  <input name="txtImporte" type="number" class="form-control" placeholder="Importe">
+					  <input name="txtImporte" type="number" class="form-control" placeholder="Importe" required>
 					  <div class="input-group-append">
 					    <span class="input-group-text">.00</span>
 					  </div>
 					</div>
-					<input name="aceptarTransferencia" type="submit" class="form-control">
+					<button type="button" class="form-control" data-toggle="modal" data-target="#exampleModal">
+					  Aceptar
+					</button>
+					
 			      </div>
 			    </div>
 			  </div>
@@ -140,7 +143,33 @@
 		</div>
 	</div>
 </div>
+
+<!-- Modal / POPUP BOOSTRAP-->
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" 
+aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Atencion!</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        ¿Estas seguro de transferir?
+      </div>
+      <div class="modal-footer">
+        <input type="submit" class="btn btn-secondary" data-dismiss="modal" name="RechazarModificar" 
+        value="Rechazar">
+        <input name="aceptarTransferencia" type="submit" class="btn btn-primary" value="Aceptar">
+      </div>
+    </div>
+  </div>
+</div>
+	
 </form>
+
+
 <script>
 	$(document).ready( function () {
 		$('#mytable').DataTable({
