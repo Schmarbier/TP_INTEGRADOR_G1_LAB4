@@ -51,24 +51,37 @@ public class ServletRomanNO_TOCAR extends HttpServlet {
 		}
 		
 		if(request.getParameter("aceptarTransferencia")!=null) {
-			String cuentaOrigen = request.getParameter("txtNro_cuenta").toString();
-			String cbuDestino = request.getParameter("txtCbu").toString();
-			float importe = Integer.parseInt(request.getParameter("txtImporte").toString());
-
-			if(movNeg.ejecutarTransferencia(cuentaOrigen,cbuDestino,importe)) request.setAttribute("transferencia", true);
-			else request.setAttribute("transferencia", false);
-			
-			RequestDispatcher rd = request.getRequestDispatcher("ServletRomanNO_TOCAR?RNcuenta=" + request.getParameter("txtNro_cuenta").toString());   
+			try {
+				String cuentaOrigen = request.getParameter("txtNro_cuenta").toString();
+				String cbuDestino = request.getParameter("txtCbu").toString();
+				float importe = Integer.parseInt(request.getParameter("txtImporte").toString());
+				
+				if(movNeg.ejecutarTransferencia(cuentaOrigen,cbuDestino,importe)) request.setAttribute("transferencia", true);
+				else request.setAttribute("transferencia", false);
+				
+				Cuenta aux = new Cuenta();
+				aux.setNro_cuenta(Integer.parseInt(request.getParameter("txtNro_cuenta").toString()));
+				CuentaNegocioImp negc = new CuentaNegocioImp();
+				Cuenta c = negc.get(aux);
+				request.setAttribute("InfoCuenta", c);
+				
+				request.setAttribute("tablaMovimientos", movNeg.getMovCuenta(aux));
+				
+			}catch(Exception c) {
+				
+			}
+			RequestDispatcher rd = request.getRequestDispatcher("Cuenta1.jsp");   
 			rd.forward(request, response);   
 		}
 	}
+
 
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		doGet(request, response);
+
 	}
 
 }

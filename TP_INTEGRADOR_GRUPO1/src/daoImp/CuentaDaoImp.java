@@ -346,7 +346,7 @@ Connection conexion = Conexion.getConexion().getSQLConexion();
 		Connection conexion = Conexion.getConexion().getSQLConexion();
 		try 
 		{
-			statement = conexion.prepareStatement("SELECT * from vistaCuentasCBU Where Cbu = " + cbu);
+			statement = conexion.prepareStatement("SELECT * from vistaCuentasCBU Where Cbu = " + cbu + " AND Estado = 1");
 			
 			ResultSet rs = null;
 			
