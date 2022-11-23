@@ -18,16 +18,64 @@
 <div class="parteDer">
    <h3 class="titulo"> Solicitar prestamo </h3> 
 
-<form method="post" action="SimulacionPrestamo.jsp">
+<form method="get" action="ServletCliente">
 
-<b>Numero de Prestamo: </b> 1 <br>
-<b>Fecha : </b>3/11/2022 <br>
-<b>Importe Solicitado :</b> <input type="number" name="txtImporte"/> <br>
-<b>N° de Cuenta en donde depositar:</b> <input type="number" name="txtCuentaDepositar"/> <br>
-<b>Cantidad de cuotas : </b><select  name="ddlCuotas"></select> <br><br>
-<input type="submit" name="btnSimular" value="Simular Prestamo">
+
+     <% if(request.getAttribute("PrestamoEnviado")!=null){
+   		if(request.getAttribute("PrestamoEnviado").equals(true)){%>
+   			<p class="alert alert-success" role="alert">Prestamo Solicitado Correctamente!</p>
+   		<%} else {%>
+   		<p class="alert alert-danger" role="alert">El Prestamo no pudo ser solicitado, intente nuevamente!</p>
+   		<%}%>
+   <%}%>
+
+
+
+
+
+ <%
+       
+       String FechaActual ="";
+       
+       if(request.getAttribute("FechaActual")!=null){
+    	   FechaActual = request.getAttribute("FechaActual").toString(); 
+	    }
+       
+       int ProximoNroPrestamo =-1;
+       if(request.getAttribute("ProxNroPrestamo")!=null){
+    	   ProximoNroPrestamo = Integer.parseInt(request.getAttribute("ProxNroPrestamo").toString());
+       }
+       
+       %>
+   
+
+
+<b>Numero de Prestamo: </b> <%= ProximoNroPrestamo %> <input type="hidden" name="NroPrestamo" value="<%= ProximoNroPrestamo %>"> <br>
+<b>Fecha : </b> <%= FechaActual %> <br>
+<b>Importe Solicitado :</b> <input type="number" required name="txtImporte"/> <br>
+<b>N° de Cuenta en donde depositar:</b> <input type="number" required name="txtCuentaDepositar"/> <br>
+
+<b>Cantidad de cuotas : </b><select  name="ddlCuotas">
+                                   <option> 3 </option>
+                                   <option> 6 </option>
+                                   <option> 12 </option>
+                                   <option> 18 </option>
+                                   <option> 24 </option>
+                            </select>
+
+<br><br>
+<input type="submit" name="btnSimularPrestamo" value="Simular Prestamo">
+
+		   <%if(request.getAttribute("existe")!=null){
+   		if(request.getAttribute("existe").equals(false)){%>
+   			<p class="alert alert-danger" role="alert">El usuario es inexistente, intente nuevamente!</p>
+   		<%}} %>
 
 </form>
+
+
+
+
 
 </div>
 

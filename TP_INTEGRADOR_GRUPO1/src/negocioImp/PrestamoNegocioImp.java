@@ -42,4 +42,14 @@ public class PrestamoNegocioImp implements PrestamoNegocio{
 		return pdao.rechazarPrestamo(p);
 	}
 
+	@Override
+	public int ObtenerProxNro_Prestamo() {
+		return pdao.ObtenerProxNro_Prestamo();
+	}
+
+	@Override
+	public boolean insert(Prestamo prestamo) {
+		return pdao.insert(prestamo);
+	}
+
 }

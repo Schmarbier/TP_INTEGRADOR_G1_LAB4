@@ -22,4 +22,9 @@ public interface CuentaNegocio {
 	public int totalCuentasPorCliente(int nroCliente);
 	
 	public ArrayList<Cuenta> getCuentasXCliente(String NomUsuario);
+	
+	public boolean ExisteNroCuenta(int numero);
+	
+	public int NroClienteSegunNombreCliente(String NombreClie);
 }
+
