@@ -269,16 +269,21 @@ public class ServletAdmin extends HttpServlet {
 			{
 				alta = false;
 				request.setAttribute("errorContraseña", alta);
+				int maxId = cneg.obtenerProxId();
+	   		    request.setAttribute("nuevoNroCli", maxId);
 				RequestDispatcher rd = request.getRequestDispatcher("/AltaClientes.jsp");   
 			    rd.forward(request, response);
 			    return;
 			}
 			
+			u.setContrasenia(request.getParameter("contra").toString());
 			u.setUsuario(request.getParameter("usuario").toString());
 			
 			if(uneg.existeNombreUsuario(u)) {
 				alta = false;
 				request.setAttribute("usuarioExistente", alta);
+				int maxId = cneg.obtenerProxId();
+	   		    request.setAttribute("nuevoNroCli", maxId);
 				RequestDispatcher rd = request.getRequestDispatcher("/AltaClientes.jsp");   
 			    rd.forward(request, response);
 			    return;
@@ -307,6 +312,8 @@ public class ServletAdmin extends HttpServlet {
 			if(cneg.insert(c) == false) {
 				alta = false;
 				request.setAttribute("error", alta);
+				int maxId = cneg.obtenerProxId();
+	   		    request.setAttribute("nuevoNroCli", maxId);
 			}
 			
 			if(alta==true) {

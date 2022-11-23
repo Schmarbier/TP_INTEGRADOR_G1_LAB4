@@ -74,7 +74,7 @@ public class ServletLogin extends HttpServlet {
 				else {
 					session.setAttribute("usuarioAdmin", false);
 
-					RequestDispatcher rd = request.getRequestDispatcher("Cuenta1.jsp");   
+					RequestDispatcher rd = request.getRequestDispatcher("MisDatos.jsp");   
 					rd.forward(request, response); 
 				}
 			}
