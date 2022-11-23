@@ -197,6 +197,8 @@ public class ServletAdmin extends HttpServlet {
 		if(request.getParameter("btnFiltrarPres")!=null) {
 			ArrayList<Prestamo> ListaPrestamos = null;
 			if(request.getParameter("presIni").toString().equals("") && request.getParameter("presFin").toString().equals("") || request.getParameter("presIni").toString().length()>0 && request.getParameter("presFin").toString().length()>0) {
+				  String fechaIni[] = request.getParameter("presIni").toString().split("/");
+				  String fechaFin[] = request.getParameter("presFin").toString().split("/");
 			      ListaPrestamos = (ArrayList<Prestamo>) pneg.prestamoXfecha(request.getParameter("presIni").toString(), request.getParameter("presFin").toString(), request.getParameter("filtroPre").toString());
 			}
 			else {
@@ -216,6 +218,8 @@ public class ServletAdmin extends HttpServlet {
 		if(request.getParameter("btnFiltrarMov")!=null) {
 			ArrayList<Movimiento> ListaMovimientos = null;
 			if(request.getParameter("movIni").toString().equals("") && request.getParameter("movFin").toString().equals("") || request.getParameter("movIni").toString().length()>0 && request.getParameter("movFin").toString().length()>0) {
+				String fechaIni[] = request.getParameter("movIni").toString().split("/");
+				String fechaFin[] = request.getParameter("movFin").toString().split("/");
 			    ListaMovimientos = (ArrayList<Movimiento>) mneg.movimientoXfecha(request.getParameter("movIni").toString(), request.getParameter("movFin").toString(), request.getParameter("filtroMov").toString());
 			}
 			else {
