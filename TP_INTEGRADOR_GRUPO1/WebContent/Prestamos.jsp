@@ -31,7 +31,6 @@
     	<p>Filtrar por: </p>
     	<div class="input-group mb-3 w-50">
 		    	<select name="ddlFiltro" class="form-control">
-				  <option value="Todo">Todo</option>
 				  <option value="Nro_prestamo">Numero de prestamo</option>
 				  <option value="Nro_cliente">Numero de cliente</option>
 				  <option value="fecha_dmy">Fecha de solicitud</option>
