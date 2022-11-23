@@ -49,4 +49,9 @@ public class ClienteNegocioImp implements ClienteNegocio{
 		return cdao.CargarSegunCondicion(condicion, Codigo);
 	}
 
+	@Override
+	public Cliente getClientePorUsuario(Cliente c) {
+		return cdao.getClientePorUsuario(c);
+	}
+
 }

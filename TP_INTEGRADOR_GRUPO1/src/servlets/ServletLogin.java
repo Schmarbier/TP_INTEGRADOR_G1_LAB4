@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import entidades.Usuario;
+import entidades.Cliente;
 import entidades.Cuenta;
 import entidades.Genero;
 import entidades.Localidad;
@@ -42,8 +43,8 @@ public class ServletLogin extends HttpServlet {
 	NacionalidadNegocioImp nneg = new NacionalidadNegocioImp();
 	ProvinciaNegocioImp provneg = new ProvinciaNegocioImp();
 	LocalidadNegocioImp lneg = new LocalidadNegocioImp();
-    	ClienteNegocioImp cneg = new ClienteNegocioImp();
-    	CuentaNegocioImp cuentaNeg = new CuentaNegocioImp();
+	ClienteNegocioImp cneg = new ClienteNegocioImp();
+	CuentaNegocioImp cuentaNeg = new CuentaNegocioImp();
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
@@ -120,6 +121,13 @@ public class ServletLogin extends HttpServlet {
 		
 		ArrayList<Cuenta> listaCuentas = (ArrayList<Cuenta>) cuentaNeg.getCuentasXCliente(request.getParameter("txtUsuario").toString());
 		session.setAttribute("CuentasEnCuenta", listaCuentas);
+		
+		Cliente aux = new Cliente();
+		Usuario u = new Usuario();
+		u.setUsuario(request.getParameter("txtUsuario"));
+		aux.setUsuario(u);
+		Cliente c = cneg.getClientePorUsuario(aux);
+		session.setAttribute("datosCliente", c);
 	}	
 	
 }
