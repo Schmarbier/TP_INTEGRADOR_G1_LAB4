@@ -161,12 +161,12 @@ public class PrestamoDaoImp implements PrestamoDao{
 		String Query = "";
 		
 		if(filtro.toString()!= "Todo") {
-			if(fecha1.length() != 0 && fecha2.length() != 0) Query = readAll+" WHERE Est_prestamo = " + filtro + " AND fecha BETWEEN '"+ fecha1 +"' AND '"+ fecha2 +"'";
-			else Query = readAll+" WHERE Est_prestamo = " + filtro + "";
+			if(fecha1.equals("") && fecha2.equals("")) Query = readAll+" WHERE Est_prestamo = " + filtro + "";
+			else Query = readAll+" WHERE Est_prestamo = " + filtro + " AND fecha BETWEEN '"+ fecha1 +"' AND '"+ fecha2 +"'";
 		}
 		if(filtro.equals("Todo")) {
-			if(fecha1.length() != 0 && fecha2.length() != 0) Query = readAll+" WHERE fecha BETWEEN '"+ fecha1 +"' AND '"+ fecha2 +"'";
-			else Query = readAll;
+			if(fecha1.equals("") && fecha2.equals("")) Query = readAll;
+			else Query = readAll+" WHERE fecha BETWEEN '"+ fecha1 +"' AND '"+ fecha2 +"'";
 		}
 
 		try{

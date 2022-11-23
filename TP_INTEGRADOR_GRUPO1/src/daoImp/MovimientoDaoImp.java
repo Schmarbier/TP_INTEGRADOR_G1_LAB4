@@ -86,12 +86,12 @@ public class MovimientoDaoImp implements MovimientoDao{
 		String Query = "";
 		
 		if(filtro.toString()!= "Todo") {
-			if(fecha1.length() != 0 && fecha2.length() != 0) Query = readAll +" WHERE Tipo_mov = " + filtro + " AND fecha BETWEEN '"+ fecha1 +"' AND '"+ fecha2 +"'";
-			else Query = readAll +" WHERE Tipo_mov = " + filtro + "";
+			if(fecha1.equals("") && fecha2.equals("")) Query = readAll +" WHERE Tipo_mov = " + filtro + "";
+			else Query = readAll +" WHERE Tipo_mov = " + filtro + " AND fecha BETWEEN '"+ fecha1 +"' AND '"+ fecha2 +"'";
 		}
 		if(filtro.equals("Todo")){ 
-			if(fecha1.length() != 0 && fecha2.length() != 0) Query = readAll+" WHERE fecha BETWEEN '"+fecha1+"' AND '"+fecha2+"'";
-			else Query = readAll;
+			if(fecha1.equals("") && fecha2.equals("")) Query = readAll;
+			else Query = readAll+" WHERE fecha BETWEEN '"+fecha1+"' AND '"+fecha2+"'";
 		}
 
 		try{
