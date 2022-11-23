@@ -110,8 +110,8 @@ public class PrestamoDaoImp implements PrestamoDao{
 		ArrayList<Prestamo> lista = new ArrayList<Prestamo>();
 		String Query = "";
 		
-		if(filtro.length()!=0 && consulta.toString()!="Todo") Query = solicitudes+" WHERE " + consulta + " = '" + filtro + "'";
-		if(consulta.toString()=="Todo") Query = solicitudes; 
+		if(filtro.length()!=0) Query = solicitudes+" WHERE " + consulta + " = '" + filtro + "'";
+		else Query = solicitudes; 
 
 		try{
 			ResultSet rs = null;
