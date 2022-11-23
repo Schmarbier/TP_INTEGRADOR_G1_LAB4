@@ -196,10 +196,13 @@ public class ServletAdmin extends HttpServlet {
 		///FILTRA LOS PRESTAMOS EN REPORTES ADMIN
 		if(request.getParameter("btnFiltrarPres")!=null) {
 			ArrayList<Prestamo> ListaPrestamos = null;
-			if(request.getParameter("presIni").toString().equals("") && request.getParameter("presFin").toString().equals("") || request.getParameter("presIni").toString().length()>0 && request.getParameter("presFin").toString().length()>0) {
+			if(request.getParameter("presIni").toString().equals("") && request.getParameter("presFin").toString().equals("")) ListaPrestamos = (ArrayList<Prestamo>) pneg.prestamoXfecha("", "", request.getParameter("filtroPre").toString());
+			else if(request.getParameter("presIni").toString().length()>0 && request.getParameter("presFin").toString().length()>0) {
 				  String fechaIni[] = request.getParameter("presIni").toString().split("/");
+				  String fecha1 = fechaIni[2]+"/"+fechaIni[1]+"/"+fechaIni[0];
 				  String fechaFin[] = request.getParameter("presFin").toString().split("/");
-			      ListaPrestamos = (ArrayList<Prestamo>) pneg.prestamoXfecha(request.getParameter("presIni").toString(), request.getParameter("presFin").toString(), request.getParameter("filtroPre").toString());
+				  String fecha2 = fechaFin[2]+"/"+fechaFin[1]+"/"+fechaFin[0];
+			      ListaPrestamos = (ArrayList<Prestamo>) pneg.prestamoXfecha(fecha1, fecha2, request.getParameter("filtroPre").toString());
 			}
 			else {
 			    ListaPrestamos = (ArrayList<Prestamo>) pneg.readAll();
@@ -217,10 +220,13 @@ public class ServletAdmin extends HttpServlet {
 		///FILTRA LOS MOVIMIENTOS EN REPORTES ADMIN
 		if(request.getParameter("btnFiltrarMov")!=null) {
 			ArrayList<Movimiento> ListaMovimientos = null;
-			if(request.getParameter("movIni").toString().equals("") && request.getParameter("movFin").toString().equals("") || request.getParameter("movIni").toString().length()>0 && request.getParameter("movFin").toString().length()>0) {
+			if(request.getParameter("movIni").toString().equals("") && request.getParameter("movFin").toString().equals("")) ListaMovimientos = (ArrayList<Movimiento>) mneg.movimientoXfecha("", "", request.getParameter("filtroMov").toString());
+			else if(request.getParameter("movIni").toString().length()>0 && request.getParameter("movFin").toString().length()>0) {
 				String fechaIni[] = request.getParameter("movIni").toString().split("/");
+				String fecha1 = fechaIni[2]+"/"+fechaIni[1]+"/"+fechaIni[0];
 				String fechaFin[] = request.getParameter("movFin").toString().split("/");
-			    ListaMovimientos = (ArrayList<Movimiento>) mneg.movimientoXfecha(request.getParameter("movIni").toString(), request.getParameter("movFin").toString(), request.getParameter("filtroMov").toString());
+				String fecha2 = fechaFin[2]+"/"+fechaFin[1]+"/"+fechaFin[0];
+			    ListaMovimientos = (ArrayList<Movimiento>) mneg.movimientoXfecha(fecha1, fecha2, request.getParameter("filtroMov").toString());
 			}
 			else {
 			    ListaMovimientos = (ArrayList<Movimiento>) mneg.readAll();
