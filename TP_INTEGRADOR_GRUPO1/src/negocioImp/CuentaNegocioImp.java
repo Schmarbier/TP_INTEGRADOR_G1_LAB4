@@ -67,5 +67,15 @@ public class CuentaNegocioImp implements CuentaNegocio{
 		return cdao.NroClienteSegunNombreCliente(NombreClie);
 	}
 	
-	
+	public String CbuAleatorio() {
+		int[] numeros= new int [21];
+		String cbu="";
+		for (int x=0;x<21;x++) {
+			  numeros[x] = (int) (Math.random()*10)+1;
+	   }
+	    for (int x=0;x<numeros.length;x++) {
+		  cbu += numeros[x];
+	   }
+    return cbu;
+	}
 }

@@ -4,7 +4,6 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.ArrayList;
 
 import dao.ClienteDao;
@@ -18,7 +17,7 @@ import entidades.Cliente;
 public class ClienteDaoImp implements ClienteDao{
 
 	private static final String insert = "{CALL spAltaCliente(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)}";
-	private static final String delete = "UPDATE clientes SET Estado = 0  WHERE Dni = ?";
+	private static final String delete = "{CALL spBajaCliente(?)}";
 	
 	private static final String readAll = "SELECT clientes.Nro_Cliente, clientes.Nombre, clientes.Apellido, clientes.Dni,"
 			+ " clientes.Cuil, clientes.Direccion, clientes.Telefono, clientes.Fecha_nac AS Fecha_Nacimiento, "
@@ -86,24 +85,24 @@ public class ClienteDaoImp implements ClienteDao{
 	
 	@Override
 	public boolean delete(Cliente cli) {
-		PreparedStatement statement;
+		boolean elimino = false;
 		Connection conexion = Conexion.getConexion().getSQLConexion();
-		boolean isdeleteExitoso = false;
-		try 
+		try
 		{
-			statement = conexion.prepareStatement(delete);
+			PreparedStatement statement = conexion.prepareStatement(delete);
 			statement.setString(1, cli.getDni());
-			if(statement.executeUpdate() > 0)
-			{
-				conexion.commit();
-				isdeleteExitoso = true;
-			}
+			// En lugar de execute uso executeQuery para obtener el resulset que me devuelve en caso que falle
+			// statement.execute();
+			ResultSet rs1 = statement.executeQuery();
+		    while(rs1.next()) {
+		    	elimino = true;
+		    }			
 		} 
 		catch (SQLException e) 
 		{
 			e.printStackTrace();
 		}
-		return isdeleteExitoso;
+		return elimino;
 	}
 	
 	public int obtenerProxId() {
