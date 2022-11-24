@@ -143,7 +143,6 @@ public class MovimientoDaoImp implements MovimientoDao{
 		}finally{
 		
 		}
-		System.out.println(lista.toString());
 		return lista;
 	}
 

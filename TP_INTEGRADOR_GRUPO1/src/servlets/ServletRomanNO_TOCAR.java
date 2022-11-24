@@ -54,9 +54,11 @@ public class ServletRomanNO_TOCAR extends HttpServlet {
 			try {
 				String cuentaOrigen = request.getParameter("txtNro_cuenta").toString();
 				String cbuDestino = request.getParameter("txtCbu").toString();
-				float importe = Integer.parseInt(request.getParameter("txtImporte").toString());
+				float importe = Integer.parseInt(request.getParameter("txtImporte"));
 				
-				if(movNeg.ejecutarTransferencia(cuentaOrigen,cbuDestino,importe)) request.setAttribute("transferencia", true);
+				System.out.println(importe);
+				
+				if(movNeg.ejecutarTransferencia(cuentaOrigen,cbuDestino,importe) && importe > 0) request.setAttribute("transferencia", true);
 				else request.setAttribute("transferencia", false);
 				
 				Cuenta aux = new Cuenta();

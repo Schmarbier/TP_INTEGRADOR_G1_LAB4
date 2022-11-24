@@ -71,7 +71,7 @@
 					  <div class="input-group-prepend">
 					    <span class="input-group-text">$</span>
 					  </div>
-					  <input name="txtImporte" type="number" class="form-control" placeholder="Importe" required>
+					  <input name="txtImporte" type="number" min="0" class="form-control" placeholder="Importe" required>
 					  <div class="input-group-append">
 					    <span class="input-group-text">.00</span>
 					  </div>
