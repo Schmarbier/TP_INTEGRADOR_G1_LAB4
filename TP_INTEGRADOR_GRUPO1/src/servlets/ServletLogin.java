@@ -115,6 +115,13 @@ public class ServletLogin extends HttpServlet {
 		
 		int NroCliente = cuentaNeg.NroClienteSegunNombreCliente(request.getParameter("txtUsuario").toString());
 		session.setAttribute("Nrocliente", NroCliente);
+		
+		
+		String Nombre= request.getParameter("txtUsuario").toString(); 
+		session.setAttribute("NombreUsuario", Nombre);
+		
+		
+		
 	    
 	    ArrayList<Genero> listGeneros = (ArrayList<Genero>) gneg.readAll();
 		session.setAttribute("generos", listGeneros);
