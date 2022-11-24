@@ -1,6 +1,7 @@
 package negocio;
 
 import java.io.Console;
+import java.time.LocalDate;
 import java.util.ArrayList;
 
 import entidades.Cuenta;
@@ -85,10 +86,9 @@ public class mainPrueba {
 		
 
 		*/
-		
-		PrestamoDaoImp prestneg = new PrestamoDaoImp();
-		ArrayList<Prestamo> listaTs = (ArrayList<Prestamo>) prestneg.GetPorCliente(1);
-		for(Prestamo p:listaTs) { System.out.println( p.toString()); }
 
+		PrestamoDaoImp prestneg = new PrestamoDaoImp();
+		ArrayList<Prestamo> listaTs = (ArrayList<Prestamo>) prestneg.GetPorCliente(2);
+		for(Prestamo p:listaTs) { System.out.println( p.toString()); }
 	}
 }
