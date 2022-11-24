@@ -1,6 +1,7 @@
 package servlets;
 
 import java.io.IOException;
+import java.sql.SQLException;
 import java.util.ArrayList;
 
 import javax.servlet.RequestDispatcher;
@@ -31,6 +32,7 @@ import negocioImp.NacionalidadNegocioImp;
 import negocioImp.PrestamoNegocioImp;
 import negocioImp.ProvinciaNegocioImp;
 import negocioImp.UsuarioNegocioImp;
+import Excep.DniInvalidoException;
 
 
 @WebServlet("/ServletAdmin")
@@ -111,7 +113,11 @@ public class ServletAdmin extends HttpServlet {
  	        rd.forward(request, response);
  		} 
 		
-		//AL HACER CLICK EN 
+        
+      //------------LISANDRO-----------//
+        
+		//AL HACER CLICK EN EL ITEM "Listar Cliente" EN EL MENU DEL ENCABEZADO SE CARGAN TODOS LOS CLIENTES Y 
+        //REDIRIGE A LA VISTA DE LISTAR 
 		if(request.getParameter("ParamListarCLI")!=null) {
 	
 		    ArrayList<Cliente> ListaClientes = cneg.MostrarTodos();
@@ -122,6 +128,8 @@ public class ServletAdmin extends HttpServlet {
 			rd.forward(request, response);
 		}
 			
+		//AL HACER CLICK EN EL ITEM "Modificar Cliente" EN EL MENU DEL ENCABEZADO SE CARGAN TODOS LOS CLIENTES Y 
+        //REDIRIGE A LA VISTA DE MODIFICAR
 		if(request.getParameter("ParamModifCLI")!=null) {
 			
 			ArrayList<Cliente> ListaClientes = cneg.MostrarTodos();
@@ -129,9 +137,43 @@ public class ServletAdmin extends HttpServlet {
 			
 			RequestDispatcher rd = request.getRequestDispatcher("/ModifClientes.jsp");
 			rd.forward(request, response);
-			
 		}
-	       
+		
+		
+		// DEVUELVE UNA LISTA EN DONDE SE FILTRA A LOS CLIENTES POR GENERO
+		if(request.getParameter("Genero")!=null) {
+			int codigo = Integer.parseInt(request.getParameter("Genero"));
+			ArrayList<Cliente> ListGeneros = cneg.CargarSegunCondicion("Genero",codigo);
+			request.setAttribute("ListaLISTAR_CLIENTE", ListGeneros);
+			
+			RequestDispatcher rd = request.getRequestDispatcher("/ListarClientes.jsp");
+			rd.forward(request, response);
+		}
+		
+		// DEVUELVE UNA LISTA EN DONDE SE FILTRA A LOS CLIENTES POR NACIONALIDAD
+		if(request.getParameter("Nacionalidad")!=null) {
+			int codigo = Integer.parseInt(request.getParameter("Nacionalidad"));
+			ArrayList<Cliente> ListNacionalidad = cneg.CargarSegunCondicion("nacionalidad",codigo);
+			request.setAttribute("ListaLISTAR_CLIENTE", ListNacionalidad);
+			
+			RequestDispatcher rd = request.getRequestDispatcher("/ListarClientes.jsp");
+			rd.forward(request, response);
+		}
+		
+		
+		// DEVUELVE UNA LISTA EN DONDE SE FILTRA A LOS CLIENTES POR PROVINCIA
+		if(request.getParameter("Provincia")!=null) {
+			int codigo = Integer.parseInt(request.getParameter("Provincia"));
+			ArrayList<Cliente> ListProvincia = cneg.CargarSegunCondicion("provincia",codigo);
+			request.setAttribute("ListaLISTAR_CLIENTE", ListProvincia);
+			
+			RequestDispatcher rd = request.getRequestDispatcher("/ListarClientes.jsp");
+			rd.forward(request, response);
+		}
+//--------------------------------------------------------------------------------------------------------------//
+		
+		
+		
 	    if(request.getParameter("ParamLCU")!=null) {
 				
 	        request.setAttribute("cuentas", cuneg.obtenerCuentas());
@@ -157,36 +199,6 @@ public class ServletAdmin extends HttpServlet {
 	    	RequestDispatcher rd = request.getRequestDispatcher("/ModifCuenta.jsp");   
 	        rd.forward(request, response);
 	    } 	
-    	
-    	if(request.getParameter("Genero")!=null) {
-    		int codigo = Integer.parseInt(request.getParameter("Genero"));
-			ArrayList<Cliente> ListGeneros = cneg.CargarSegunCondicion("Genero",codigo);
-			request.setAttribute("ListaLISTAR_CLIENTE", ListGeneros);
-			
-			RequestDispatcher rd = request.getRequestDispatcher("/ListarClientes.jsp");
-			rd.forward(request, response);
-		}
-    	
-    	
-    	if(request.getParameter("Nacionalidad")!=null) {
-    		int codigo = Integer.parseInt(request.getParameter("Nacionalidad"));
-			ArrayList<Cliente> ListNacionalidad = cneg.CargarSegunCondicion("nacionalidad",codigo);
-			request.setAttribute("ListaLISTAR_CLIENTE", ListNacionalidad);
-			
-			RequestDispatcher rd = request.getRequestDispatcher("/ListarClientes.jsp");
-			rd.forward(request, response);
-		}
-    	
-    	
-    	
-    	if(request.getParameter("Provincia")!=null) {
-    		int codigo = Integer.parseInt(request.getParameter("Provincia"));
-			ArrayList<Cliente> ListProvincia = cneg.CargarSegunCondicion("provincia",codigo);
-			request.setAttribute("ListaLISTAR_CLIENTE", ListProvincia);
-			
-			RequestDispatcher rd = request.getRequestDispatcher("/ListarClientes.jsp");
-			rd.forward(request, response);
-		}
     	
     	
 	}
@@ -286,6 +298,25 @@ public class ServletAdmin extends HttpServlet {
 			    return;
 			}
 			
+			// Si el dni es invalido, genero una excepcion del tipo DniInvalidoException
+			if(request.getParameter("dni").toString()!=null) {
+				try {
+					if(!verificarDniInvalido(request.getParameter("dni").toString()))
+					{
+						c.setDni(request.getParameter("dni").toString());
+					}
+				}
+				catch (DniInvalidoException e) 
+				{
+		   		    request.setAttribute("errorDNI", e.getMessage());
+					RequestDispatcher rd = request.getRequestDispatcher("/AltaClientes.jsp");   
+				    rd.forward(request, response);
+				    return;
+				}
+				
+			}
+
+			
 			u.setContrasenia(request.getParameter("contra").toString());
 			u.setUsuario(request.getParameter("usuario").toString());
 			
@@ -306,7 +337,6 @@ public class ServletAdmin extends HttpServlet {
 				
 			c.setNombre(request.getParameter("nombre").toString());
 			c.setApellido(request.getParameter("apellido").toString());
-			c.setDni(request.getParameter("dni").toString());
 			c.setCuil(request.getParameter("cuil").toString());			
 			c.setCod_Genero(g);
 			c.setCod_nacionalidad(n);
@@ -353,6 +383,10 @@ public class ServletAdmin extends HttpServlet {
        
        
        
+       
+       //------------LISANDRO-----------//
+       
+       // SE CREA UNA LISTA QUE MUESTRA UN USUARIO EN ESPECIFICO
        if(request.getParameter("btnBuscarUser")!=null) {
 			
 			String User=request.getParameter("txtBuscarUsuario").toString();
@@ -377,6 +411,116 @@ public class ServletAdmin extends HttpServlet {
 			RequestDispatcher rd = request.getRequestDispatcher("/ListarCuenta.jsp");   
 	        rd.forward(request, response);
 		}
+       
+       
+       //CARGA LA LISTA CON EL USUARIO DESEADO
+       if(request.getParameter("btnBuscarUsuario")!=null) {
+    	   String User=request.getParameter("txtUsuarioModificar").toString();
+    	   ArrayList<Cliente> ClienteSegunUser = cneg.LeerSegunUsuario(User);
+    	   request.setAttribute("CLIENTE",ClienteSegunUser);
+    	   
+    	   RequestDispatcher rd = request.getRequestDispatcher("/ModifClientes.jsp");
+    	   rd.forward(request, response);
+       }
+       
+       
+       // CARGA UNA LISTA CON EL USUARIO SELECCIONADO PARA MODIFICAR
+       // TAMBIEN CARGA LAS LISTAS DE GENERO, NAC, PROV, LOC PARA MOSTARLAS EN LOS DDL
+       if(request.getParameter("btnModificarCliente")!=null) {
+    	   
+    	   String User1=request.getParameter("hiddenUsuario").toString();
+    	   ArrayList<Cliente> ClienteUser = cneg.LeerSegunUsuario(User1);
+    	   request.setAttribute("ClienteModificar",ClienteUser);
+    	   
+    	   GeneroNegocioImp gneg = new GeneroNegocioImp();
+    	   ArrayList<Genero> listGeneros = (ArrayList<Genero>) gneg.readAll();
+    	   request.setAttribute("generos", listGeneros);
+    	   
+    	   NacionalidadNegocioImp nneg = new NacionalidadNegocioImp();
+    	   ArrayList<Nacionalidad> listNacionalidades = (ArrayList<Nacionalidad>) nneg.readAll();
+    	   request.setAttribute("nacionalidades", listNacionalidades);
+    	   
+    	   ProvinciaNegocioImp pneg = new ProvinciaNegocioImp();
+    	   ArrayList<Provincia> listProvincias = (ArrayList<Provincia>) pneg.readAll();
+    	   request.setAttribute("provincias", listProvincias);
+    	   
+    	   LocalidadNegocioImp lneg = new LocalidadNegocioImp();
+    	   ArrayList<Localidad> listaLocalidad = (ArrayList<Localidad>) lneg.readAll();
+    	   request.setAttribute("localidades", listaLocalidad);
+    	   
+    	   RequestDispatcher rd = request.getRequestDispatcher("/ModifClientes.jsp");
+    	   rd.forward(request, response);
+       }
+       
+       
+       // SI SE CANCELA LA MODIFICACION O SI SE PRECIONA EL BOTON DE "Mostar todo" SE CARGA UNA LISTA CON TODOS LOS CLIENTES
+       if(request.getParameter("btnModificarCancelar")!=null || request.getParameter("btnMostrarTodo")!=null) {
+    	   ArrayList<Cliente> ListaClientes = cneg.MostrarTodos();
+    	   request.setAttribute("ListaClientes", ListaClientes);
+    	   
+    	   RequestDispatcher rd = request.getRequestDispatcher("/ModifClientes.jsp");
+    	   rd.forward(request, response);
+       }
+       
+       // SI SE ACEPTA MODIFICAR EL CLIENTE, SE OBTIENE TODOS LOS DATOS (LOS QUE SE MODIFICAN Y LOS QUE NO)
+       // SE LOS GUARDA EN UN OBJETO "Cliente" Y SE HACE UN UPDATE
+       if(request.getParameter("btnModificarAceptar")!=null) {
+    	   boolean ModCli = false;
+    	   boolean ModUs = false;
+    	   
+    	   Cliente cliente = new Cliente();
+    	   Usuario usuario = new Usuario();
+    	   Genero genero = new Genero();
+    	   Nacionalidad nac = new Nacionalidad();
+    	   Provincia prov = new Provincia();
+    	   Localidad loc = new Localidad();
+    	   
+    	   genero.setCod_genero(Integer.parseInt(request.getParameter("ddlGenero").toString()));
+    	   nac.setCod_nacionalidad(Integer.parseInt(request.getParameter("ddlNacionalidad").toString()));
+    	   prov.setCod_provincia(Integer.parseInt(request.getParameter("ddlProvincia").toString()));
+    	   loc.setCod_localidad(Integer.parseInt(request.getParameter("ddlLocalidad").toString()));
+    	   
+    	   usuario.setUsuario(request.getParameter("txtUsuario").toString());
+    	   
+    	   cliente.setNro_Cliente(Integer.parseInt(request.getParameter("txtNroCliente").toString()));
+    	   cliente.setNombre(request.getParameter("txtNombre").toString());
+    	   cliente.setApellido(request.getParameter("txtApellido").toString());
+    	   cliente.setDni(request.getParameter("txtDNI").toString());
+    	   cliente.setCuil(request.getParameter("txtCUIL").toString());			
+    	   cliente.setDireccion(request.getParameter("txtDireccion").toString());
+    	   cliente.setTelefono(request.getParameter("txtTelefono").toString());
+    	   cliente.setFecha_nac(request.getParameter("txtFechaNac").toString());
+    	   cliente.setCod_Genero(genero);
+    	   cliente.setCod_nacionalidad(nac);
+    	   cliente.setCod_provincia(prov);
+    	   cliente.setCod_localidad(loc);
+    	   cliente.setEmail(request.getParameter("txtEmail").toString());
+    	   cliente.setEstado(true);
+    	   cliente.setUsuario(usuario);
+    	   
+    	   ModCli = cneg.update(cliente);
+    	   
+    	   UsuarioNegocioImp NegUser = new UsuarioNegocioImp();
+    	   usuario.setContrasenia(request.getParameter("txtContraseña").toString());
+    	   
+    	   ModUs = NegUser.update(usuario);
+    	   
+    	   if(ModCli && ModUs) {
+    		   request.setAttribute("ModifTrue", true);
+    	   }
+    	   
+    	   ArrayList<Cliente> ListaClientes = cneg.MostrarTodos();
+    	   request.setAttribute("ListaClientes", ListaClientes);
+    	   
+    	   RequestDispatcher rd = request.getRequestDispatcher("/ModifClientes.jsp");
+    	   rd.forward(request, response);
+       }
+       
+       
+       
+//------------------------------------------------------------------------------------------------------------------------//
+       
+       
 	    
 	    if(request.getParameter("btnModBuscar")!=null) {
 			ArrayList<Cuenta> lista = (ArrayList<Cuenta>) neg.obtenerCuentaQueryCustom(request.getParameter("dllBusqueda").toString(), request.getParameter("txtFiltro").toString());
@@ -495,106 +639,7 @@ public class ServletAdmin extends HttpServlet {
        }
 
 
-       if(request.getParameter("btnBuscarUsuario")!=null) {
-			
-			String User=request.getParameter("txtUsuarioModificar").toString();
-			
-			ArrayList<Cliente> ClienteSegunUser = cneg.LeerSegunUsuario(User);
-			
-			request.setAttribute("CLIENTE",ClienteSegunUser);
-			
-			RequestDispatcher rd = request.getRequestDispatcher("/ModifClientes.jsp");
-			rd.forward(request, response);
-		}
 		
-		
-		if(request.getParameter("btnModificarCliente")!=null) {
-			
-           String User1=request.getParameter("hiddenUsuario").toString();
-		   ArrayList<Cliente> ClienteUser = cneg.LeerSegunUsuario(User1);
-		   request.setAttribute("ClienteModificar",ClienteUser);
-			
-			GeneroNegocioImp gneg = new GeneroNegocioImp();
-			ArrayList<Genero> listGeneros = (ArrayList<Genero>) gneg.readAll();
-			request.setAttribute("generos", listGeneros);
-			
-			NacionalidadNegocioImp nneg = new NacionalidadNegocioImp();
-			ArrayList<Nacionalidad> listNacionalidades = (ArrayList<Nacionalidad>) nneg.readAll();
-			request.setAttribute("nacionalidades", listNacionalidades);
-			
-			ProvinciaNegocioImp pneg = new ProvinciaNegocioImp();
-			ArrayList<Provincia> listProvincias = (ArrayList<Provincia>) pneg.readAll();
-			request.setAttribute("provincias", listProvincias);
-			
-			LocalidadNegocioImp lneg = new LocalidadNegocioImp();
-			ArrayList<Localidad> listaLocalidad = (ArrayList<Localidad>) lneg.readAll();
-			request.setAttribute("localidades", listaLocalidad);
-			
-			RequestDispatcher rd = request.getRequestDispatcher("/ModifClientes.jsp");
-			rd.forward(request, response);
-		}
-		
-		
-		
-		if(request.getParameter("btnModificarCancelar")!=null || request.getParameter("btnMostrarTodo")!=null) {
-			ArrayList<Cliente> ListaClientes = cneg.MostrarTodos();
-			request.setAttribute("ListaClientes", ListaClientes);
-			
-			RequestDispatcher rd = request.getRequestDispatcher("/ModifClientes.jsp");
-			rd.forward(request, response);
-		}
-		
-		if(request.getParameter("btnModificarAceptar")!=null) {
-			boolean ModCli = false;
-			boolean ModUs = false;
-			
-			Cliente cliente = new Cliente();
-			Usuario usuario = new Usuario();
-			Genero genero = new Genero();
-			Nacionalidad nac = new Nacionalidad();
-			Provincia prov = new Provincia();
-			Localidad loc = new Localidad();
-			
-			genero.setCod_genero(Integer.parseInt(request.getParameter("ddlGenero").toString()));
-			nac.setCod_nacionalidad(Integer.parseInt(request.getParameter("ddlNacionalidad").toString()));
-			prov.setCod_provincia(Integer.parseInt(request.getParameter("ddlProvincia").toString()));
-			loc.setCod_localidad(Integer.parseInt(request.getParameter("ddlLocalidad").toString()));
-			
-			usuario.setUsuario(request.getParameter("txtUsuario").toString());
-			
-			cliente.setNro_Cliente(Integer.parseInt(request.getParameter("txtNroCliente").toString()));
-			cliente.setNombre(request.getParameter("txtNombre").toString());
-			cliente.setApellido(request.getParameter("txtApellido").toString());
-			cliente.setDni(request.getParameter("txtDNI").toString());
-			cliente.setCuil(request.getParameter("txtCUIL").toString());			
-			cliente.setDireccion(request.getParameter("txtDireccion").toString());
-			cliente.setTelefono(request.getParameter("txtTelefono").toString());
-			cliente.setFecha_nac(request.getParameter("txtFechaNac").toString());
-			cliente.setCod_Genero(genero);
-			cliente.setCod_nacionalidad(nac);
-			cliente.setCod_provincia(prov);
-			cliente.setCod_localidad(loc);
-			cliente.setEmail(request.getParameter("txtEmail").toString());
-			cliente.setEstado(true);
-			cliente.setUsuario(usuario);
-			
-		    ModCli = cneg.update(cliente);
-			
-			UsuarioNegocioImp NegUser = new UsuarioNegocioImp();
-			usuario.setContrasenia(request.getParameter("txtContraseña").toString());
-			
-			ModUs = NegUser.update(usuario);
-			
-			if(ModCli && ModUs) {
-				request.setAttribute("ModifTrue", true);
-			}
-			
-            ArrayList<Cliente> ListaClientes = cneg.MostrarTodos();
-			request.setAttribute("ListaClientes", ListaClientes);
-			
-			RequestDispatcher rd = request.getRequestDispatcher("/ModifClientes.jsp");
-			rd.forward(request, response);
-		}
 		
 	    if(request.getParameter("btnBuscarCuenta")!=null) {
 
@@ -641,5 +686,22 @@ public class ServletAdmin extends HttpServlet {
     	   rd.forward(request, response);
 		}
 	}
+	
+	public static boolean verificarDniInvalido(String dni) throws DniInvalidoException 
+	{
+		Boolean DniInvalido = false;
+		
+		for(int i=0; i< dni.length() ; i++)
+		{
+		   if(!((dni.charAt(i) >= '0') && (dni.charAt(i) <= '9')))
+		   {
+			   DniInvalido=true;
+			   DniInvalidoException exc  = new DniInvalidoException();
+			   throw exc;			   
+		   }
+		}
 
+		return DniInvalido;
+	}
+	
 }

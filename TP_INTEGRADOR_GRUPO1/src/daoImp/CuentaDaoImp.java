@@ -372,24 +372,7 @@ Connection conexion = Conexion.getConexion().getSQLConexion();
 		return cuenta;
 	}
 
-	@Override
-	public boolean ExisteNroCuenta(int numero) {
-		PreparedStatement statement;
-		ResultSet resultSet;
-		Conexion conexion = Conexion.getConexion();
-		boolean ExisteNroCuenta = false;
-		
-		try {
-			statement = conexion.getSQLConexion().prepareStatement("SELECT * FROM cuentas WHERE Nro_cuenta = "+numero);
-			resultSet= statement.executeQuery();
-			if(resultSet.next()) ExisteNroCuenta = true;
-		}
-		catch(SQLException e) {
-			e.printStackTrace();
-		}
-		
-		return ExisteNroCuenta;
-	}
+	
 
 	@Override
 	public int NroClienteSegunNombreCliente(String NombreClie) {

@@ -1,3 +1,6 @@
+<%@page import="entidades.Cuenta"%>
+<%@page import="java.util.ArrayList"%>
+
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
@@ -15,25 +18,31 @@
 
  
 
-<div class="parteDer">
-   <h3 class="titulo"> Solicitar prestamo </h3> 
+<div class="container">
+<br>
+ <h3 class="titulo"> Solicitar prestamo </h3> 
+   <br>
 
 <form method="get" action="ServletCliente">
 
 
      <% if(request.getAttribute("PrestamoEnviado")!=null){
    		if(request.getAttribute("PrestamoEnviado").equals(true)){%>
-   			<p class="alert alert-success" role="alert">Prestamo Solicitado Correctamente!</p>
+   			<h5><center><p class="alert alert-success" role="alert">Prestamo Solicitado Correctamente!</p></center></h5>
    		<%} else {%>
-   		<p class="alert alert-danger" role="alert">El Prestamo no pudo ser solicitado, intente nuevamente!</p>
-   		<%}%>
-   <%}%>
+   		<h5><center><p class="alert alert-danger" role="alert">El Prestamo no pudo ser solicitado, intente nuevamente!</p></center></h5>
+   		<%}}
+     
+     
+     
+        if(request.getAttribute("SolicitudCancelada")!=null){
+   		if(request.getAttribute("SolicitudCancelada").equals(false)){%>
+   		<h5><center><p class="alert alert-danger" role="alert">Solicitud de prestamo Cancelada!</p></center></h5>
+   			
+   		<%} }
+   		
 
-
-
-
-
- <%
+ 
        
        String FechaActual ="";
        
@@ -52,8 +61,28 @@
 
 <b>Numero de Prestamo: </b> <%= ProximoNroPrestamo %> <input type="hidden" name="NroPrestamo" value="<%= ProximoNroPrestamo %>"> <br>
 <b>Fecha : </b> <%= FechaActual %> <br>
-<b>Importe Solicitado :</b> <input type="number" required name="txtImporte"/> <br>
-<b>N° de Cuenta en donde depositar:</b> <input type="number" required name="txtCuentaDepositar"/> <br>
+<b>Importe Solicitado :</b> <input min="1" type="number" step="0.01" required name="txtImporte"/> <br>
+
+
+
+<b>N° de Cuenta en donde depositar:</b> <select name="ddlCuentas">
+
+             <%
+		 ArrayList<Cuenta> ListaCuentas = null;
+		if(request.getAttribute("Cuentas")!=null){
+			ListaCuentas = (ArrayList<Cuenta>)request.getAttribute("Cuentas");
+		}
+		if(ListaCuentas!=null)
+			for(Cuenta C : ListaCuentas){%>
+				
+				<option> <%=C.getNro_cuenta()%> </option>
+			<%}%>
+
+                                       </select>
+
+
+
+<br>
 
 <b>Cantidad de cuotas : </b><select  name="ddlCuotas">
                                    <option> 3 </option>
@@ -64,18 +93,11 @@
                             </select>
 
 <br><br>
-<input type="submit" name="btnSimularPrestamo" value="Simular Prestamo">
+<input type="submit" class="btn btn-outline-primary" name="btnSimularPrestamo" value="Simular Prestamo">
 
-		   <%if(request.getAttribute("existe")!=null){
-   		if(request.getAttribute("existe").equals(false)){%>
-   			<p class="alert alert-danger" role="alert">El usuario es inexistente, intente nuevamente!</p>
-   		<%}} %>
+		   
 
 </form>
-
-
-
-
 
 </div>
 

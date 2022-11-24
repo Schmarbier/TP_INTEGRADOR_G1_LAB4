@@ -143,7 +143,6 @@ public class MovimientoDaoImp implements MovimientoDao{
 		}finally{
 		
 		}
-		System.out.println(lista.toString());
 		return lista;
 	}
 
@@ -166,7 +165,7 @@ public class MovimientoDaoImp implements MovimientoDao{
 
 			// Si devolvio algun mensaje de error entonces retorno falso
 		    while(rs1.next()) {
-		    	if(rs1.getInt("NRO") == -1) {
+		    	if(rs1.getInt("NRO") == -1 || rs1.getInt("NRO") ==  0) {
 		    		rt = false;
 		    	}
 		    }			
