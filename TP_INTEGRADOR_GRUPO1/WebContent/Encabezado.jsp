@@ -81,14 +81,14 @@
 		    <li class="nav-item dropdown">
 		      <a class="nav-link dropdown-toggle" href="#" id="navbardrop" data-toggle="dropdown">Prestamos</a>
 		      <div class="dropdown-menu">
-		        <a class="dropdown-item" href="SolicitarPrestamo.jsp">Solicitar prestamo</a>
+		        <a class="dropdown-item" href="ServletCliente?SolicitarPrestamo=1">Solicitar prestamo</a>
 		        <a class="dropdown-item" href="AbonarPrestamo.jsp">Abonar Prestamo</a>
 		        <a class="dropdown-item" href="PrestamosPendientes.jsp">Prestamos Pendientes</a>
 		        <a class="dropdown-item" href="PrestamosRechazados.jsp">Prestamos Rechazados</a>
 		      </div>
 		    </li>
 		    <li class="nav-item">
-		    	<a class="nav-link" href="../cliente/MisDatos.jsp">Datos personales</a>
+		    	<a class="nav-link" href="MisDatos.jsp">Datos personales</a>
 		    </li>
 		<% }
 		%>

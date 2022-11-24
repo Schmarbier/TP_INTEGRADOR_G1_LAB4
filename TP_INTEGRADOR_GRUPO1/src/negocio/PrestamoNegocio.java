@@ -13,5 +13,8 @@ public interface PrestamoNegocio {
 	public List<Prestamo> readAll();
 	public List<Prestamo> Solicitudes();
 	public ArrayList<Prestamo> obtenerPrestamosQueryCustom(String consulta, String filtro);
+	
+	public int ObtenerProxNro_Prestamo();
 
+	public boolean insert(Prestamo prestamo);
 }
