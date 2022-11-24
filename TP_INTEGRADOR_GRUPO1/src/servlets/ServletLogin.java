@@ -19,6 +19,7 @@ import entidades.Localidad;
 import entidades.Nacionalidad;
 import entidades.Provincia;
 import entidades.TipoCuenta;
+import entidades.Prestamo;
 import negocioImp.UsuarioNegocioImp;
 import negocioImp.ClienteNegocioImp;
 import negocioImp.CuentaNegocioImp;
@@ -27,6 +28,7 @@ import negocioImp.LocalidadNegocioImp;
 import negocioImp.NacionalidadNegocioImp;
 import negocioImp.ProvinciaNegocioImp;
 import negocioImp.TipoCuentaNegocioImp;
+import negocioImp.PrestamoNegocioImp;
 
 @WebServlet("/ServletLogin")
 public class ServletLogin extends HttpServlet {
@@ -45,6 +47,7 @@ public class ServletLogin extends HttpServlet {
 	LocalidadNegocioImp lneg = new LocalidadNegocioImp();
 	ClienteNegocioImp cneg = new ClienteNegocioImp();
 	CuentaNegocioImp cuentaNeg = new CuentaNegocioImp();
+	PrestamoNegocioImp presneg = new PrestamoNegocioImp();
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
@@ -72,9 +75,12 @@ public class ServletLogin extends HttpServlet {
 					RequestDispatcher rd = request.getRequestDispatcher("AltaClientes.jsp"); 
 					rd.forward(request, response);   
 				}
+				// Usuario tipo cliente
 				else {
 					session.setAttribute("usuarioAdmin", false);
 
+					cargarDatosCliente(request,response);
+					
 					RequestDispatcher rd = request.getRequestDispatcher("MisDatos.jsp");   
 					rd.forward(request, response); 
 				}
@@ -128,6 +134,23 @@ public class ServletLogin extends HttpServlet {
 		aux.setUsuario(u);
 		Cliente c = cneg.getClientePorUsuario(aux);
 		session.setAttribute("datosCliente", c);
+		
+	}	
+	
+	// Cargo en variables de tipo session las los datos para mostrar en las pantallas
+	public void cargarDatosCliente( HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException 
+	{
+		HttpSession session = request.getSession();
+	    
+		// Cargo mis prestamos
+		Cliente cli = new Cliente();
+		cli = (Cliente)session.getAttribute("datosCliente");
+        if(cli!=null)
+        {
+    		ArrayList<Prestamo> listaPrestamos = (ArrayList<Prestamo>) presneg.GetPorCliente(1);
+    		session.setAttribute("misprestamos", listaPrestamos);
+        }
+		
 	}	
 	
 }

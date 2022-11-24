@@ -19,8 +19,12 @@ public class PrestamoDaoImp implements PrestamoDao{
 	private static final String rechazar = "{CALL spRechazarPrestamo(?)}";
 	private static final String solicitudes = "SELECT Nro_prestamo, fecha_dmy as fecha, Imp_con_intereses, Imp_solicitado, Nro_cuenta_deposito, Plazo_pago_meses, Monto_pago_por_mes, Cant_cuotas, Descripcion, Est_prestamo,Nro_cliente FROM vistaSolicitudes";
 	private static final String readAll = "SELECT Nro_prestamo, fecha_dmy as fecha, Imp_con_intereses, Imp_solicitado, Nro_cuenta_deposito, Plazo_pago_meses, Monto_pago_por_mes, Cant_cuotas, Descripcion, Est_prestamo,Nro_cliente FROM vistaPrestamos"; 
-
 	private static final String insert = "{CALL spAltaPrestamo(?,?,?,?,?,?)}";
+	private static final String prestamosPorCliente = 
+			" SELECT Nro_prestamo, fecha, Imp_con_intereses, Imp_solicitado, Nro_cuenta_deposito, Plazo_pago_meses, Monto_pago_por_mes, Cant_cuotas, estadosPrestamos.Descripcion, estadosPrestamos.Est_prestamo,Nro_cliente, DATE_FORMAT(fecha,'%d/%m/%Y') AS fecha_dmy" + 
+			" FROM prestamos " + 
+			" INNER JOIN estadosPrestamos ON prestamos.Est_prestamo = estadosPrestamos.Est_prestamo " + 
+			" WHERE Nro_Cliente = ?";
 	
 	@Override
     public boolean aprobarPrestamo(Prestamo p) {
@@ -240,6 +244,30 @@ public class PrestamoDaoImp implements PrestamoDao{
 			e.printStackTrace();
 		}
 		return insertExitoso;
+	}
+
+	@Override
+	public ArrayList<Prestamo> GetPorCliente(int Nro_Cliente) {
+		ArrayList<Prestamo> lista = new ArrayList<Prestamo>();
+		PreparedStatement statement;
+		ResultSet rs;
+		Conexion conexion = Conexion.getConexion();
+		
+		try {
+			statement = conexion.getSQLConexion().prepareStatement(prestamosPorCliente);
+			statement.setInt(1,Nro_Cliente);
+			rs = statement.executeQuery();
+
+			// Cargo lista
+			while(rs.next()){
+				lista.add(get(rs));
+			}
+		}catch(Exception e){
+			e.printStackTrace();
+		}finally{
+		
+		}
+		return lista;
 	}
 
 }

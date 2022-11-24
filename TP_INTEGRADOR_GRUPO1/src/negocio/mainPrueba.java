@@ -7,12 +7,15 @@ import entidades.Cuenta;
 import entidades.TipoCuenta;
 import entidades.Usuario;
 import entidades.Cliente;
+import entidades.Prestamo;
 import negocioImp.CuentaNegocioImp;
+import negocioImp.PrestamoNegocioImp;
 import negocioImp.TipoCuentaNegocioImp;
 import negocioImp.ClienteNegocioImp;
 import daoImp.TipoCuentaDaoImp;
 import daoImp.CuentaDaoImp;
 import daoImp.ClienteDaoImp;
+import daoImp.PrestamoDaoImp;
 import negocioImp.UsuarioNegocioImp;
 
 public class mainPrueba {
@@ -71,11 +74,21 @@ public class mainPrueba {
 		int tot = cn.totalCuentasPorCliente(2);
 		System.out.print("total cuentas por cliente- "+tot);
 
-		*/
-
 		ClienteNegocioImp cn = new ClienteNegocioImp();
-		Cliente cli = cn.getClientePorUsuario("FerLoto");
+		Cliente c = new Cliente();
+		Usuario u = new Usuario();
+		u.setUsuario("MariSua");
+		c.setUsuario(u);
+		Cliente cli = cn.getClientePorUsuario(c);
 		if (cli!=null) System.out.print("cliente- "+cli.toString());
 		else System.out.print("cliente no existe ");
+		
+
+		*/
+		
+		PrestamoDaoImp prestneg = new PrestamoDaoImp();
+		ArrayList<Prestamo> listaTs = (ArrayList<Prestamo>) prestneg.GetPorCliente(1);
+		for(Prestamo p:listaTs) { System.out.println( p.toString()); }
+
 	}
 }
