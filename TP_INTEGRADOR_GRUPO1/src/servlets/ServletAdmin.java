@@ -1,7 +1,6 @@
 package servlets;
 
 import java.io.IOException;
-import java.sql.SQLException;
 import java.util.ArrayList;
 
 import javax.servlet.RequestDispatcher;
@@ -357,8 +356,16 @@ public class ServletAdmin extends HttpServlet {
 			}
 			
 			if(alta==true) {
-				request.setAttribute("exito", alta);
 				int maxId = cneg.obtenerProxId();
+				Cuenta cu = new Cuenta();
+		    	CuentaNegocioImp cn = new CuentaNegocioImp();
+		    	cu.setNro_cliente(maxId);
+		    	cu.setTipo_cuenta(new TipoCuenta(1,""));
+		        cu.setCbu(cn.CbuAleatorio());
+		        cu.setSaldo(10000);
+		    	cu.setEstado(true);
+		    	cn.insert(cu);
+				request.setAttribute("exito", alta);
 	   		    request.setAttribute("nuevoNroCli", maxId);
 			}
 			RequestDispatcher rd = request.getRequestDispatcher("/AltaClientes.jsp");   
@@ -685,6 +692,18 @@ public class ServletAdmin extends HttpServlet {
     	   RequestDispatcher rd = request.getRequestDispatcher("BajaCuenta.jsp");   
     	   rd.forward(request, response);
 		}
+	}
+	
+	public String CbuAleatorio() {
+		int[] numeros= new int [21];
+		String cbu="";
+		for (int x=0;x<21;x++) {
+			  numeros[x] = (int) (Math.random()*10)+1;
+	   }
+	    for (int x=0;x<numeros.length;x++) {
+		  cbu += numeros[x];
+	   }
+    return cbu;
 	}
 	
 	public static boolean verificarDniInvalido(String dni) throws DniInvalidoException 
