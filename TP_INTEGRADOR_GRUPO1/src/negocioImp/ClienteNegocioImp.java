@@ -50,8 +50,8 @@ public class ClienteNegocioImp implements ClienteNegocio{
 	}
 
 	@Override
-	public Cliente getClientePorUsuario(String usu) {
-		return cdao.getClientePorUsuario(usu);
+	public Cliente getClientePorUsuario(Cliente c) {
+		return cdao.getClientePorUsuario(c);
 	}
 
 }

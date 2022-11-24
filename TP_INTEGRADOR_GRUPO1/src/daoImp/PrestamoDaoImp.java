@@ -20,6 +20,8 @@ public class PrestamoDaoImp implements PrestamoDao{
 	private static final String solicitudes = "SELECT Nro_prestamo, fecha_dmy as fecha, Imp_con_intereses, Imp_solicitado, Nro_cuenta_deposito, Plazo_pago_meses, Monto_pago_por_mes, Cant_cuotas, Descripcion, Est_prestamo,Nro_cliente FROM vistaSolicitudes";
 	private static final String readAll = "SELECT Nro_prestamo, fecha_dmy as fecha, Imp_con_intereses, Imp_solicitado, Nro_cuenta_deposito, Plazo_pago_meses, Monto_pago_por_mes, Cant_cuotas, Descripcion, Est_prestamo,Nro_cliente FROM vistaPrestamos"; 
 
+	private static final String insert = "{CALL spAltaPrestamo(?,?,?,?,?,?)}";
+	
 	@Override
     public boolean aprobarPrestamo(Prestamo p) {
 			boolean aprobado = false;
@@ -110,8 +112,8 @@ public class PrestamoDaoImp implements PrestamoDao{
 		ArrayList<Prestamo> lista = new ArrayList<Prestamo>();
 		String Query = "";
 		
-		if(filtro.length()!=0 && consulta.toString()!="Todo") Query = solicitudes+" WHERE " + consulta + " = '" + filtro + "'";
-		if(consulta.toString()=="Todo") Query = solicitudes; 
+		if(filtro.length()!=0) Query = solicitudes+" WHERE " + consulta + " = '" + filtro + "'";
+		else Query = solicitudes; 
 
 		try{
 			ResultSet rs = null;
@@ -161,12 +163,12 @@ public class PrestamoDaoImp implements PrestamoDao{
 		String Query = "";
 		
 		if(filtro.toString()!= "Todo") {
-			if(fecha1.length() != 0 && fecha2.length() != 0) Query = readAll+" WHERE Est_prestamo = " + filtro + " AND fecha_dmy BETWEEN '"+ fecha1 +"' AND '"+ fecha2 +"'";
-			else Query = readAll+" WHERE Est_prestamo = " + filtro + "";
+			if(fecha1.equals("") && fecha2.equals("")) Query = readAll+" WHERE Est_prestamo = " + filtro + "";
+			else Query = readAll+" WHERE Est_prestamo = " + filtro + " AND fecha BETWEEN '"+ fecha1 +"' AND '"+ fecha2 +"'";
 		}
 		if(filtro.equals("Todo")) {
-			if(fecha1.length() != 0 && fecha2.length() != 0) Query = readAll+" WHERE fecha_dmy BETWEEN '"+ fecha1 +"' AND '"+ fecha2 +"'";
-			else Query = readAll;
+			if(fecha1.equals("") && fecha2.equals("")) Query = readAll;
+			else Query = readAll+" WHERE fecha BETWEEN '"+ fecha1 +"' AND '"+ fecha2 +"'";
 		}
 
 		try{
@@ -188,4 +190,77 @@ public class PrestamoDaoImp implements PrestamoDao{
 		return lista;
 	}
 
+	@Override
+	public int ObtenerProxNro_Prestamo() {
+		int MaxNroPrestamo = -1;
+		Connection conexion = Conexion.getConexion().getSQLConexion();
+		PreparedStatement statement;
+		
+		try {
+			statement = conexion.prepareStatement("SELECT MAX(Nro_prestamo) FROM prestamos");
+			ResultSet resultSet = statement.executeQuery();
+			resultSet.next();
+			MaxNroPrestamo = resultSet.getInt(1);
+		}
+		catch (SQLException e) 
+		{
+			e.printStackTrace();
+			try {
+				conexion.rollback();
+			} catch (SQLException e1) {
+				e1.printStackTrace();
+			}
+		}
+		return MaxNroPrestamo+1;
+	}
+
+	
+	@Override
+	public boolean insert(Prestamo prestamo) {
+		boolean insertExitoso = false;
+		Connection conexion = Conexion.getConexion().getSQLConexion();
+		
+		try {
+			PreparedStatement statement = conexion.prepareStatement(insert);
+			statement.setInt(1, prestamo.getNro_cliente().getNro_Cliente());
+			statement.setFloat(2, prestamo.getImp_solicitado());
+			statement.setFloat(3, prestamo.getImp_con_intereses());
+			statement.setInt(4,prestamo.getNro_cuenta_deposito());
+			statement.setInt(5, prestamo.getPlazo_pago_meses());
+			statement.setInt(6, prestamo.getCant_cuotas());
+			
+			ResultSet result = statement.executeQuery();
+			
+			while(result.next()) {
+				insertExitoso = true;
+			}
+			
+		}
+		catch(SQLException e) {
+			e.printStackTrace();
+		}
+		return insertExitoso;
+	}
+
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

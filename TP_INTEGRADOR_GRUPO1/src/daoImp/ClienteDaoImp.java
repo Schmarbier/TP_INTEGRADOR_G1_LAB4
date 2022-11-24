@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 
 import dao.ClienteDao;
@@ -32,17 +33,7 @@ public class ClienteDaoImp implements ClienteDao{
 	
 	private static final String update = "UPDATE clientes SET Nombre=?, Apellido=?, Dni=?, Cuil=?, Direccion=?, Telefono=?, Fecha_nac=?, Cod_Genero=?, Cod_nacionalidad=?, Cod_provincia=?, Cod_localidad=?, Email=? WHERE Nro_Cliente = ?";
 	
-	private static final String selectPorUsu = 
-			"SELECT clientes.Nro_Cliente, clientes.Nombre, clientes.Apellido, clientes.Dni, clientes.Cuil, " +
-			"clientes.Direccion, clientes.Telefono, clientes.Fecha_nac AS Fecha_Nacimiento, generos.Descripcion AS Genero, " +
-			"nacionalidad.Descripcion AS Nacionalidad, provincias.Descripcion AS Provincia, localidades.Descripcion AS Localidad, " +
-			"clientes.Email, usuarios.Usuario, usuarios.Contraseña FROM clientes " +
-			"INNER JOIN generos ON clientes.Cod_Genero = generos.Cod_genero " +
-			"INNER JOIN nacionalidad ON clientes.Cod_nacionalidad = nacionalidad.Cod_nacionalidad  " +
-			"INNER JOIN provincias ON clientes.Cod_provincia = provincias.Cod_provincia " +
-			"INNER JOIN localidades ON clientes.Cod_provincia = localidades.Cod_provincia AND clientes.Cod_localidad = localidades.Cod_localidad " +
-			"INNER JOIN usuarios ON clientes.Usuario = usuarios.Usuario " +
-			"WHERE clientes.Estado=1 AND usuarios.Usuario = ?";
+	
 	
 	@Override
 	public boolean insert(Cliente cli) {
@@ -371,16 +362,27 @@ public class ClienteDaoImp implements ClienteDao{
 	}
 
 	@Override
-	public Cliente getClientePorUsuario(String usu) {
+	public Cliente getClientePorUsuario(Cliente c) {
+		Cliente cliente = null;
+
 		PreparedStatement statement;
 		ResultSet resultSet;
 		Conexion conexion = Conexion.getConexion();
 		
 		try {
-			statement = conexion.getSQLConexion().prepareStatement(selectPorUsu);
-			statement.setString(1, usu);
+			statement = conexion.getSQLConexion().prepareStatement("SELECT clientes.Nro_Cliente, clientes.Nombre, clientes.Apellido, clientes.Dni,"
+					+ " clientes.Cuil, clientes.Direccion, clientes.Telefono, clientes.Fecha_nac AS Fecha_Nacimiento, "
+					+ "generos.Descripcion AS Genero, nacionalidad.Descripcion AS Nacionalidad, provincias.Descripcion "
+					+ "AS Provincia, localidades.Descripcion AS Localidad, clientes.Email, usuarios.Usuario, usuarios.Contraseña "
+					+ "FROM clientes INNER JOIN generos ON clientes.Cod_Genero = generos.Cod_genero INNER JOIN nacionalidad"
+					+ " ON clientes.Cod_nacionalidad = nacionalidad.Cod_nacionalidad INNER JOIN provincias ON "
+					+ "clientes.Cod_provincia = provincias.Cod_provincia INNER JOIN localidades "
+					+ "ON clientes.Cod_provincia = localidades.Cod_provincia AND clientes.Cod_localidad = localidades.Cod_localidad"
+					+ " INNER JOIN usuarios ON clientes.Usuario = usuarios.Usuario "
+					+ "WHERE clientes.Estado=1 AND clientes.Usuario = '" + c.getUsuario().getUsuario() + "'");
 			resultSet = statement.executeQuery();
-			if(resultSet.next()) {
+			
+			while(resultSet.next()) {
 				Genero G = new Genero();
 				Nacionalidad Nac = new Nacionalidad();
 				Provincia Prov = new Provincia();
@@ -403,15 +405,14 @@ public class ClienteDaoImp implements ClienteDao{
 				User.setUsuario(resultSet.getString(14));
 				User.setContrasenia(resultSet.getString(15));
 				
-				Cliente cliente = new Cliente(Nro_Cliente,Dni,Cuil,Nombre,Apellido,G,Nac,FechaNac,Direccion,Loc,Prov,Mail,Telefono,User,true);
-				return cliente;
+				cliente = new Cliente(Nro_Cliente,Dni,Cuil,Nombre,Apellido,G,Nac,FechaNac,Direccion,Loc,Prov,Mail,Telefono,User,true);
 			}
-			else return null;
+			
+		}catch(SQLException e){
+			
 		}
-		catch(Exception e) {
-			e.printStackTrace();
-			return null;
-		}
+		
+		return cliente;
 	}
 }
 	

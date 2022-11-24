@@ -43,8 +43,8 @@ public class ServletLogin extends HttpServlet {
 	NacionalidadNegocioImp nneg = new NacionalidadNegocioImp();
 	ProvinciaNegocioImp provneg = new ProvinciaNegocioImp();
 	LocalidadNegocioImp lneg = new LocalidadNegocioImp();
-    	ClienteNegocioImp cneg = new ClienteNegocioImp();
-    	CuentaNegocioImp cuentaNeg = new CuentaNegocioImp();
+	ClienteNegocioImp cneg = new ClienteNegocioImp();
+	CuentaNegocioImp cuentaNeg = new CuentaNegocioImp();
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
@@ -53,8 +53,6 @@ public class ServletLogin extends HttpServlet {
 			String contrasena = request.getParameter("txtPassword");
 			
 			HttpSession session = request.getSession();
-			
-			session.setAttribute("cliente",null);
 
 			Usuario usu = new Usuario();
 			usu.setUsuario(usuario);
@@ -68,40 +66,17 @@ public class ServletLogin extends HttpServlet {
 				
 				// guardo el usuario y su tipo, y establezco su pagina por defecto 
 				session.setAttribute("nombreUsurio", usu.getUsuario());
-				
-				// Usuario administrador
 				if(neg.esAdmin(usu)) {
 					session.setAttribute("usuarioAdmin", true);
 
 					RequestDispatcher rd = request.getRequestDispatcher("AltaClientes.jsp"); 
 					rd.forward(request, response);   
 				}
-				// usuario cliente
 				else {
 					session.setAttribute("usuarioAdmin", false);
-					
-					Cliente cli = new Cliente();
-					ClienteNegocioImp cn = new ClienteNegocioImp();
-					cli = cn.getClientePorUsuario(usu.getUsuario());
-					
-					if (cli!=null) {
-						
-						//Verifico si el cliente esta activo
-						if(cli.getEstado()==true) {
-							
-							// Gardo cliente en una variable session
-							session.setAttribute("cliente",cli);
-							
-							// Ingreso a la aplicación
-							RequestDispatcher rd = request.getRequestDispatcher("Cuenta1.jsp");   
-							rd.forward(request, response); 
-							
-						}
-						else request.setAttribute("usuarioInactivo", true);
-						
-					}
-					//  cliente no existe
-					else request.setAttribute("error", true);
+
+					RequestDispatcher rd = request.getRequestDispatcher("MisDatos.jsp");   
+					rd.forward(request, response); 
 				}
 			}
 			else {
@@ -129,8 +104,8 @@ public class ServletLogin extends HttpServlet {
 		ArrayList<TipoCuenta> listTipoCuenta = (ArrayList<TipoCuenta>) tcneg.readAll();
 		session.setAttribute("TipoCuenta", listTipoCuenta);
 		
-		int maxId = cneg.obtenerProxId();
-		session.setAttribute("ncli", maxId);
+		int NroCliente = cuentaNeg.NroClienteSegunNombreCliente(request.getParameter("txtUsuario").toString());
+		session.setAttribute("Nrocliente", NroCliente);
 	    
 	    ArrayList<Genero> listGeneros = (ArrayList<Genero>) gneg.readAll();
 		session.setAttribute("generos", listGeneros);
@@ -146,6 +121,13 @@ public class ServletLogin extends HttpServlet {
 		
 		ArrayList<Cuenta> listaCuentas = (ArrayList<Cuenta>) cuentaNeg.getCuentasXCliente(request.getParameter("txtUsuario").toString());
 		session.setAttribute("CuentasEnCuenta", listaCuentas);
+		
+		Cliente aux = new Cliente();
+		Usuario u = new Usuario();
+		u.setUsuario(request.getParameter("txtUsuario"));
+		aux.setUsuario(u);
+		Cliente c = cneg.getClientePorUsuario(aux);
+		session.setAttribute("datosCliente", c);
 	}	
 	
 }

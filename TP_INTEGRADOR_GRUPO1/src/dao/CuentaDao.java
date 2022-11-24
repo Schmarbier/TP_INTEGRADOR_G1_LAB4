@@ -25,4 +25,7 @@ public interface CuentaDao {
 	
 	public Cuenta getCuentaXcbu(String cbu);
 	
+	public boolean ExisteNroCuenta(int numero);
+	
+	public int NroClienteSegunNombreCliente(String NombreClie);
 }
