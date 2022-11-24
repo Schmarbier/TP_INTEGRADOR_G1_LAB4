@@ -23,8 +23,6 @@ public interface CuentaNegocio {
 	
 	public ArrayList<Cuenta> getCuentasXCliente(String NomUsuario);
 	
-	public boolean ExisteNroCuenta(int numero);
-	
 	public int NroClienteSegunNombreCliente(String NombreClie);
 }
 

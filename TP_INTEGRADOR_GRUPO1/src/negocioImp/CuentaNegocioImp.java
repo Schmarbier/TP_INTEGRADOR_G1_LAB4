@@ -63,11 +63,6 @@ public class CuentaNegocioImp implements CuentaNegocio{
 	}
 
 	@Override
-	public boolean ExisteNroCuenta(int numero) {
-		return cdao.ExisteNroCuenta(numero);
-	}
-
-	@Override
 	public int NroClienteSegunNombreCliente(String NombreClie) {
 		return cdao.NroClienteSegunNombreCliente(NombreClie);
 	}

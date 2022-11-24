@@ -82,7 +82,7 @@
 		      <a class="nav-link dropdown-toggle" href="#" id="navbardrop" data-toggle="dropdown">Prestamos</a>
 		      <div class="dropdown-menu">
 		        <a class="dropdown-item" href="ServletCliente?SolicitarPrestamo=1">Solicitar prestamo</a>
-		        <a class="dropdown-item" href="AbonarPrestamo.jsp">Abonar Prestamo</a>
+		        <a class="dropdown-item" href="ServletCliente?jspAbonarPrestamo=1">Abonar Prestamo</a>
 		        <a class="dropdown-item" href="MisPrestamos.jsp">Mis Prestamos</a>
 		      </div>
 		    </li>
