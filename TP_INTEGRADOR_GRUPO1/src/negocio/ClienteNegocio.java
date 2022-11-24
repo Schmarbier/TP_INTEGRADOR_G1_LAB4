@@ -17,4 +17,5 @@ public interface ClienteNegocio {
     
 
 	public ArrayList<Cliente> CargarSegunCondicion(String condicion, int Codigo);
+	public Cliente getClientePorUsuario(String usu);
 }
