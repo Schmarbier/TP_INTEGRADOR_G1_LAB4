@@ -126,6 +126,7 @@
 	<%  if(request.getAttribute("error")!=null) {%> <p class="alert alert-danger" role="alert">No se pudo agregar el cliente. Cliente ya existente</p> <%}%>
 	<%  if(request.getAttribute("errorContraseña")!=null) {%> <p class="alert alert-danger" role="alert">Error. Las contraseñas no coinciden</p> <%}%>
 	<%  if(request.getAttribute("usuarioExistente")!=null) {%> <p class="alert alert-danger" role="alert">Error. El usuario ingresado ya existe</p> <%}%>
+	<%  if(request.getAttribute("errorDNI")!=null) {%> <p class="alert alert-danger" role="alert">Error DNI</p> <%}%>
 
 </div>
 

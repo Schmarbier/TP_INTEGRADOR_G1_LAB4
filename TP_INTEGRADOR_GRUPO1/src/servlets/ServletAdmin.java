@@ -1,6 +1,7 @@
 package servlets;
 
 import java.io.IOException;
+import java.sql.SQLException;
 import java.util.ArrayList;
 
 import javax.servlet.RequestDispatcher;
@@ -31,6 +32,7 @@ import negocioImp.NacionalidadNegocioImp;
 import negocioImp.PrestamoNegocioImp;
 import negocioImp.ProvinciaNegocioImp;
 import negocioImp.UsuarioNegocioImp;
+import Excep.DniInvalidoException;
 
 
 @WebServlet("/ServletAdmin")
@@ -286,6 +288,25 @@ public class ServletAdmin extends HttpServlet {
 			    return;
 			}
 			
+			// Si el dni es invalido, genero una excepcion del tipo DniInvalidoException
+			if(request.getParameter("dni").toString()!=null) {
+				try {
+					if(!verificarDniInvalido(request.getParameter("dni").toString()))
+					{
+						c.setDni(request.getParameter("dni").toString());
+					}
+				}
+				catch (DniInvalidoException e) 
+				{
+		   		    request.setAttribute("errorDNI", e.getMessage());
+					RequestDispatcher rd = request.getRequestDispatcher("/AltaClientes.jsp");   
+				    rd.forward(request, response);
+				    return;
+				}
+				
+			}
+
+			
 			u.setContrasenia(request.getParameter("contra").toString());
 			u.setUsuario(request.getParameter("usuario").toString());
 			
@@ -306,7 +327,6 @@ public class ServletAdmin extends HttpServlet {
 				
 			c.setNombre(request.getParameter("nombre").toString());
 			c.setApellido(request.getParameter("apellido").toString());
-			c.setDni(request.getParameter("dni").toString());
 			c.setCuil(request.getParameter("cuil").toString());			
 			c.setCod_Genero(g);
 			c.setCod_nacionalidad(n);
@@ -641,5 +661,22 @@ public class ServletAdmin extends HttpServlet {
     	   rd.forward(request, response);
 		}
 	}
+	
+	public static boolean verificarDniInvalido(String dni) throws DniInvalidoException 
+	{
+		Boolean DniInvalido = false;
+		
+		for(int i=0; i< dni.length() ; i++)
+		{
+		   if(!((dni.charAt(i) >= '0') && (dni.charAt(i) <= '9')))
+		   {
+			   DniInvalido=true;
+			   DniInvalidoException exc  = new DniInvalidoException();
+			   throw exc;			   
+		   }
+		}
 
+		return DniInvalido;
+	}
+	
 }
