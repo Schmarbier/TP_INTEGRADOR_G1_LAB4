@@ -1,6 +1,7 @@
 package servlets;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 
@@ -10,6 +11,8 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+
 import entidades.Cliente;
 import entidades.Prestamo;
 import negocioImp.CuentaNegocioImp;
@@ -101,6 +104,43 @@ public class ServletCliente extends HttpServlet {
 			CargarFechayProxPrestamo(request, response);
 			
 			RequestDispatcher rd = request.getRequestDispatcher("/SolicitarPrestamo.jsp");   
+	        rd.forward(request, response);
+			
+		}
+		
+		if(request.getParameter("jspAbonarPrestamo")!=null) {
+			HttpSession session = request.getSession();
+			Cliente cli = new Cliente();
+			
+			cli = (Cliente)session.getAttribute("datosCliente");
+			
+    		ArrayList<Prestamo> listaPrestamos = (ArrayList<Prestamo>) Pneg.GetListaPagarCuotas(cli.getNro_Cliente());
+    		request.setAttribute("listaPrestamosPagar", listaPrestamos);
+    		
+    		RequestDispatcher rd = request.getRequestDispatcher("AbonarPrestamo.jsp");   
+	        rd.forward(request, response);
+		}
+		
+		if(request.getParameter("btnPagarPrestamo")!=null) {
+			
+			int resultado = Pneg.pagarPrestamoCuota(Integer.parseInt(request.getParameter("nroPrestamo").toString()),Integer.parseInt(request.getParameter("cantCuota").toString()));
+			
+			System.out.println(resultado + " - " + Integer.parseInt(request.getParameter("nroPrestamo").toString()) + " " + Integer.parseInt(request.getParameter("cantCuota").toString()));
+			if( resultado == 1) {
+				request.setAttribute("cuotaPagada", true);
+			}else {
+				request.setAttribute("cuotaPagada", false);
+			}
+			
+			HttpSession session = request.getSession();
+			Cliente cli = new Cliente();
+			
+			cli = (Cliente)session.getAttribute("datosCliente");
+			
+    		ArrayList<Prestamo> listaPrestamos = (ArrayList<Prestamo>) Pneg.GetListaPagarCuotas(cli.getNro_Cliente());
+    		request.setAttribute("listaPrestamosPagar", listaPrestamos);
+
+			RequestDispatcher rd = request.getRequestDispatcher("AbonarPrestamo.jsp");   
 	        rd.forward(request, response);
 			
 		}

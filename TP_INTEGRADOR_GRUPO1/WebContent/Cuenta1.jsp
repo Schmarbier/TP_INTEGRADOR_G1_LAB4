@@ -40,7 +40,7 @@
 			  <div class="input-group-prepend">
 			    <span class="input-group-text" id="basic-addon1">Saldo</span>
 			  </div>
-			  <input readonly type="text" class="form-control" value="<%=c.getSaldo() %>" aria-label="Username" aria-describedby="basic-addon1">
+			  <input readonly type="number" name="saldoActual" class="form-control" value="<%=c.getSaldo() %>" aria-label="Username" aria-describedby="basic-addon1">
 			</div>
 			<div class="input-group mb-3">
 			  <div class="input-group-prepend">

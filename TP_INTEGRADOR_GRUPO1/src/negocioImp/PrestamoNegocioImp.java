@@ -57,4 +57,14 @@ public class PrestamoNegocioImp implements PrestamoNegocio{
 		return pdao.GetPorCliente(Nro_Cliente);
 	}
 
+	@Override
+	public int pagarPrestamoCuota(int Nro_cliente, int Nro_prestamo) {
+		return pdao.pagarPrestamoCuota(Nro_cliente, Nro_prestamo);
+	}
+
+	@Override
+	public ArrayList<Prestamo> GetListaPagarCuotas(int Nro_Cliente) {
+		return pdao.GetListaPagarCuotas(Nro_Cliente);
+	}
+
 }

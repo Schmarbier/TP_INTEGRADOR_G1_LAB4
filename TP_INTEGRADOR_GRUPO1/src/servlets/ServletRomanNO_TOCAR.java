@@ -51,6 +51,7 @@ public class ServletRomanNO_TOCAR extends HttpServlet {
 		}
 		
 		if(request.getParameter("aceptarTransferencia")!=null) {
+
 			try {
 				String cuentaOrigen = request.getParameter("txtNro_cuenta").toString();
 				String cbuDestino = request.getParameter("txtCbu").toString();
@@ -72,6 +73,7 @@ public class ServletRomanNO_TOCAR extends HttpServlet {
 			}catch(Exception c) {
 				
 			}
+
 			RequestDispatcher rd = request.getRequestDispatcher("Cuenta1.jsp");   
 			rd.forward(request, response);   
 		}
