@@ -83,8 +83,7 @@
 		      <div class="dropdown-menu">
 		        <a class="dropdown-item" href="ServletCliente?SolicitarPrestamo=1">Solicitar prestamo</a>
 		        <a class="dropdown-item" href="AbonarPrestamo.jsp">Abonar Prestamo</a>
-		        <a class="dropdown-item" href="PrestamosPendientes.jsp">Prestamos Pendientes</a>
-		        <a class="dropdown-item" href="PrestamosRechazados.jsp">Prestamos Rechazados</a>
+		        <a class="dropdown-item" href="MisPrestamos.jsp">Mis Prestamos</a>
 		      </div>
 		    </li>
 		    <li class="nav-item">

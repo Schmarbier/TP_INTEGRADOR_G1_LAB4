@@ -52,4 +52,9 @@ public class PrestamoNegocioImp implements PrestamoNegocio{
 		return pdao.insert(prestamo);
 	}
 
+	@Override
+	public ArrayList<Prestamo> GetPorCliente(int Nro_Cliente) {
+		return pdao.GetPorCliente(Nro_Cliente);
+	}
+
 }

@@ -18,5 +18,4 @@ public interface ClienteDao {
 	public Cliente getClientePorUsuario(Cliente c);
 
 	public ArrayList<Cliente> CargarSegunCondicion(String condicion, int Codigo);
-	
 }
