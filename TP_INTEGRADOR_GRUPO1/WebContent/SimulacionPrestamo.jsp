@@ -16,6 +16,7 @@
  
 
 <div class="container">
+<br>
    <h3 class="titulo"> Simulacion de prestamo </h3> 
 
 <form method="get" action="ServletCliente">
@@ -66,6 +67,7 @@
 	       <tr>
 	            <th class="th">Nro Prestamo </th>
                 <th class="th">Nro Cliente</th>
+                <th class="th">Usuario</th>
 	            <th class="th">Cuenta Destino</th>
 	            <th class="th">Importe Solicitado</th>
 	            <th class="th">Interes</th>
@@ -80,6 +82,7 @@
     <tr class="tr">  
 	     <td class="td" ><%=NroPrestamo %> </td>    
 	     <td class="td" ><%=session.getAttribute("Nrocliente") %> <input type="hidden" name="NroCliente" value="<%=session.getAttribute("Nrocliente")%>"> </td>
+	     <td class="td" ><%=session.getAttribute("NombreUsuario") %> <input type="hidden" name="NombreUsuario" value="<%=session.getAttribute("NombreUsuario")%>"> </td>
 	     <td class="td" ><%=CuentaDestino %> <input type="hidden" name="CuentaDestino" value="<%=CuentaDestino %>"> </td> 
 	     <td class="td" > <b>$</b> <%=ImporteSolicitado%> <input type="hidden" name="ImporteSolicitado" value="<%=ImporteSolicitado%>"> </td> 
 	     <td class="td" > <b>$</b> <%=InteresTotal %> </td> 
@@ -121,12 +124,7 @@
 	
     
 </form>
-
-
-
-
-
-   
+ 
 </div>
 
 </body>
