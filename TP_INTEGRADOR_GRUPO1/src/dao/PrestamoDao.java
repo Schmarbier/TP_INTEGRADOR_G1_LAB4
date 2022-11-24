@@ -17,4 +17,7 @@ public interface PrestamoDao {
 	public int ObtenerProxNro_Prestamo();
 	public boolean insert(Prestamo prestamo);
 	public ArrayList<Prestamo> GetPorCliente(int Nro_Cliente);
+	
+	public int pagarPrestamoCuota(int Nro_cliente,int Nro_prestamo);
+	ArrayList<Prestamo> GetListaPagarCuotas(int Nro_Cliente);
 }

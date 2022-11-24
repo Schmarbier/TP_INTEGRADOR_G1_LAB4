@@ -106,7 +106,10 @@ public class ServletLogin extends HttpServlet {
 	public void cargarDatos( HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException 
 	{
 		HttpSession session = request.getSession();
-	    
+
+		int maxId = cneg.obtenerProxId();
+		session.setAttribute("ncli", maxId);
+		
 		ArrayList<TipoCuenta> listTipoCuenta = (ArrayList<TipoCuenta>) tcneg.readAll();
 		session.setAttribute("TipoCuenta", listTipoCuenta);
 		
@@ -154,8 +157,11 @@ public class ServletLogin extends HttpServlet {
 		cli = (Cliente)session.getAttribute("datosCliente");
         if(cli!=null)
         {
-    		ArrayList<Prestamo> listaPrestamos = (ArrayList<Prestamo>) presneg.GetPorCliente(1);
+    		ArrayList<Prestamo> listaPrestamos = (ArrayList<Prestamo>) presneg.GetPorCliente(cli.getNro_Cliente());
     		session.setAttribute("misprestamos", listaPrestamos);
+    		
+    		System.out.println(listaPrestamos.toString());
+    		
         }
 		
 	}	

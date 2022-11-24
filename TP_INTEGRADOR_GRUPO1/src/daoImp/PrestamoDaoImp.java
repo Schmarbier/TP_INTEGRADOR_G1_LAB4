@@ -25,6 +25,12 @@ public class PrestamoDaoImp implements PrestamoDao{
 			" FROM prestamos " + 
 			" INNER JOIN estadosPrestamos ON prestamos.Est_prestamo = estadosPrestamos.Est_prestamo " + 
 			" WHERE Nro_Cliente = ?";
+	private static final String listaAbonarPrestamos = 
+					" SELECT Nro_prestamo, fecha, Imp_con_intereses, Imp_solicitado, Nro_cuenta_deposito, Plazo_pago_meses, Monto_pago_por_mes, Cant_cuotas, estadosPrestamos.Descripcion, estadosPrestamos.Est_prestamo,Nro_cliente, DATE_FORMAT(fecha,'%d/%m/%Y') AS fecha_dmy" + 
+					" FROM prestamos " + 
+					" INNER JOIN estadosPrestamos ON prestamos.Est_prestamo = estadosPrestamos.Est_prestamo " + 
+					" WHERE Nro_Cliente = ? AND prestamos.Est_prestamo = 1 AND Cant_cuotas > 0";
+	private static final String pagarPrestamo = "{call spPagarCuotaPrestamo(?,?)}";
 	
 	@Override
     public boolean aprobarPrestamo(Prestamo p) {
@@ -268,6 +274,52 @@ public class PrestamoDaoImp implements PrestamoDao{
 		
 		}
 		return lista;
+	}
+	
+	@Override
+	public ArrayList<Prestamo> GetListaPagarCuotas(int Nro_Cliente) {
+		ArrayList<Prestamo> lista = new ArrayList<Prestamo>();
+		PreparedStatement statement;
+		ResultSet rs;
+		Conexion conexion = Conexion.getConexion();
+		
+		try {
+			statement = conexion.getSQLConexion().prepareStatement(listaAbonarPrestamos);
+			statement.setInt(1,Nro_Cliente);
+			rs = statement.executeQuery();
+
+			// Cargo lista
+			while(rs.next()){
+				lista.add(get(rs));
+			}
+		}catch(Exception e){
+			e.printStackTrace();
+		}finally{
+		
+		}
+		return lista;
+	}
+
+	@Override
+	public int pagarPrestamoCuota(int Nro_cliente, int Nro_prestamo) {
+		int NRO = -1;
+		Connection conexion = Conexion.getConexion().getSQLConexion();
+		try
+		{
+			PreparedStatement statement = conexion.prepareStatement(pagarPrestamo);
+			statement.setInt(1, Nro_cliente);
+			statement.setInt(2, Nro_prestamo);
+
+			ResultSet rs1 = statement.executeQuery();
+		    while(rs1.next()) {
+		    	rs1.getInt("NRO");
+		    }			
+		} 
+		catch (SQLException e) 
+		{
+			e.printStackTrace();
+		}
+		return NRO;
 	}
 
 }

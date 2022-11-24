@@ -40,7 +40,7 @@
 			  <div class="input-group-prepend">
 			    <span class="input-group-text" id="basic-addon1">Saldo</span>
 			  </div>
-			  <input readonly type="text" class="form-control" value="<%=c.getSaldo() %>" aria-label="Username" aria-describedby="basic-addon1">
+			  <input readonly type="number" name="saldoActual" class="form-control" value="<%=c.getSaldo() %>" aria-label="Username" aria-describedby="basic-addon1">
 			</div>
 			<div class="input-group mb-3">
 			  <div class="input-group-prepend">
@@ -71,7 +71,7 @@
 					  <div class="input-group-prepend">
 					    <span class="input-group-text">$</span>
 					  </div>
-					  <input name="txtImporte" type="number" class="form-control" placeholder="Importe" required>
+					  <input name="txtImporte" type="number" min="0" class="form-control" placeholder="Importe" required>
 					  <div class="input-group-append">
 					    <span class="input-group-text">.00</span>
 					  </div>
