@@ -391,7 +391,7 @@ public class ServletAdmin extends HttpServlet {
        
        
        
-       //------------LISANDRO-----------//
+       //------------LISANDRO LINDO-----------//
        
        // SE CREA UNA LISTA QUE MUESTRA UN USUARIO EN ESPECIFICO
        if(request.getParameter("btnBuscarUser")!=null) {
